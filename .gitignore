@@ -1,0 +1,5 @@
+_build_/
+.dev.vars
+.wrangler/
+node_modules/
+playground/

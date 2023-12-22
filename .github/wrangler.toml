@@ -1,0 +1,7 @@
+name = "declarative_ban_bot"
+main = "_build_/main.js"
+compatibility_date = "2023-10-30"
+
+[build]
+command = "~/Projects/language/clj2js/_build/default/bin/main.exe ../src/main.clj > _build_/main.js"
+watch_dir = ["../src"]
