@@ -1,0 +1,9 @@
+"use strict";
+const fetch_ = (url, decoder, props) => { return (world) => { return world.perform("fetch", { "url": url, "decoder": decoder, "props": props }) } }
+const pure = (x) => { return (_) => { return x } }
+const parse_command_url = () => { return "https://youtu.be/P-beFdX0s2I?si=5_IzuZWwTwxjpwrB" }
+const parse_command_preview_url = () => { return "https://www.youtube.com/watch?v=Mxoog-mI9IU" }
+const handle = (json) => { return (function () { const chat_id = json?.message?.chat?.id; return (chat_id) ? ((function () { const text = json?.message?.text; return (text) ? ((function () { const url = parse_command_url(text); return (url) ? ((function () { const preview_url = parse_command_preview_url(text); return (preview_url) ? (fetch_("https://api.telegram.org/bot~TG_TOKEN~/sendMessage", "json", { "method": "POST", "headers": { "Content-Type": "application/json" }, "body": JSON.stringify({ "chat_id": chat_id, "link_preview_options": { "url": preview_url }, "text": url }) })) : (pure(null)) })()) : (pure(null)) })()) : (pure(null)) })()) : (pure(null)) })() }
+const runtime_create_world = () => { return { "perform": (name, args) => { return console.error("Effect not handled:", ("" + "[" + name + "]"), args) } } }
+const runtime_attach_effect_handler = (world, keyf, f) => { return { ...world, perform: (key, args) => { return (key == keyf) ? (f(globalThis, args)) : (world.perform(key, args)) } } }
+export default { "fetch": (request, env, world) => { return request.json().then((json) => { return (function () { const effect = handle(json); return effect({ ...runtime_attach_effect_handler(runtime_create_world(), "fetch", (js, args) => { return js.fetch(args.url.replace("~TG_TOKEN~", env.TG_TOKEN), args.props).then((x) => { return ("json" == args.decoder) ? (x.json()) : (x.text()) }) }), ...world }) })() }).catch(console.error).then(() => { return new Response("OK") }) } }

@@ -35,11 +35,11 @@
             "date": 1704388913,
             "text": "foo"
         },
-        "text": "/bar",
+        "text": "/report",
         "entities": [
             {
                 "offset": 0,
-                "length": 4,
+                "length": 7,
                 "type": "bot_command"
             }
         ]
