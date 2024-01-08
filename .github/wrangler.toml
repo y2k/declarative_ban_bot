@@ -6,3 +6,8 @@ node_compat = true
 [build]
 command = "make build"
 watch_dir = ["../src"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "ANROID_DECLARATIVE_BAN_BOT_DB"
+database_id = "4d9e9001-1d5d-4114-aebc-7a223da327a8"
