@@ -2,11 +2,13 @@
 
 (defn is_spam [message_in]
   (let [message (-> message_in
+                    (.toLowerCase)
                     (.replaceAll "o" "о")
                     (.replaceAll "x" "х"))]
     (or
      (.includes message "доход")
-     (.includes message "оплата"))))
+     (.includes message "оплата")
+     (.includes message "заработок"))))
 
 (defn handle_message [json]
   (if-let [reply_text json?.message?.reply_to_message?.text
@@ -36,6 +38,7 @@
      (.json request)
      (.then
       (fn [json]
+        ;; (console/log "MESSAGE" json)
         (->
          (p/create_world)
          (p/attach_effect_handler

@@ -17,7 +17,7 @@ test:
 	node --env-file=.dev.vars _build_/test.js
 
 db:
-	wrangler d1 execute ANROID_DECLARATIVE_BAN_BOT_DB --local --file=test_db.sql
+	wrangler d1 execute ANROID_DECLARATIVE_BAN_BOT_DB --local --file=test_db.sql > _build_/db_result.json
 
 migrate:
 	wrangler d1 execute ANROID_DECLARATIVE_BAN_BOT_DB --local --file=schema.sql
