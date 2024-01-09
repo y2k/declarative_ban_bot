@@ -26,9 +26,10 @@
                     (JSON/parse))
            log (Array.)]
        (->
-        {:json (fn [] (Promise/resolve message))}
+        {:headers {:get (fn [] "TG_SECRET_TOKEN")}
+         :json (fn [] (Promise/resolve message))}
         (app/fetch
-         {}
+         {:TG_SECRET_TOKEN "TG_SECRET_TOKEN"}
          (->
           (p/create_world)
           (p/attach_effect_handler :batch (fn [_ args w] (.map args.children (fn [f] (f w)))))

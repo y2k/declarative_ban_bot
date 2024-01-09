@@ -61,6 +61,9 @@
      (.json request)
      (.then
       (fn [json]
+        (if (not= (.get request.headers "x-telegram-bot-api-secret-token") env.TG_SECRET_TOKEN)
+          (throw (Error. "Telegram secret token not valid"))
+          null)
         (->
          (p/create_world)
          (p/attach_effect_handler
