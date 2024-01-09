@@ -1,0 +1,67 @@
+[
+  {
+    "type": "database",
+    "args": {
+      "sql": "INSERT INTO log (content) VALUES (?)",
+      "args": [
+        "{\"from\":{\"id\":241854720,\"is_bot\":false,\"first_name\":\"Igor\",\"username\":\"angmarr\",\"language_code\":\"en\"},\"text\":\"8J+UpPCflKTwn5Sk8J+UpPCflKTwn5SkCtCY0YnRgyDQu9GO0LTQtdC5INC00LvRjyDRgdC+0YLRgNGD0LTQvdC40YfQtdGB0YLQstCwINCyINGB0YTQtdGA0LUg0YbQuNGE0YDQvtCy0YvRhSDQsNC60YLQuNCy0L7QsvCfkrUgCtCg0LDQsdC+0YLQsCDQt9Cw0L3QuNC80LDQtdGCIDEtMiDRh9Cw0YHQsCDQsiDQtNC10L3RjCEK0JTQvtGF0L7QtCDQvtGCIDEwMDAkLNC90L4g0LfQvdCw0YfQuNGC0LXQu9GM0L3Rg9GOINGA0L7Qu9GMINC40LPRgNCw0LXRgiDQstCw0YjQtSDQttC10LvQsNC90LjQtSDRgNCw0LHQvtGC0LDRgtGM8J+SuArQoNCw0LHQvtGC0LDRjiDQt9CwICUg0L7RgiDQv9GA0LjQsdGL0LvQuOKdl++4jwrQltC10LvQsNGO0YnQuNGFINC/0L7Qv9GA0L7QsdC+0LLQsNGC0Ywg0LbQtNGDINCyINCb0KHwn5Ks\"}"
+      ]
+    }
+  },
+  {
+    "type": "fetch",
+    "args": {
+      "url": "https://api.telegram.org/bot~TG_TOKEN~/deleteMessage",
+      "decoder": "json",
+      "props": {
+        "method": "POST",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"chat_id\":-1002110559199,\"message_id\":485}"
+      }
+    }
+  },
+  {
+    "type": "fetch",
+    "args": {
+      "url": "https://api.telegram.org/bot~TG_TOKEN~/sendMessage",
+      "decoder": "json",
+      "props": {
+        "method": "POST",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"chat_id\":241854720,\"text\":\"Бот вызван https://t.me/xofftop/484\"}"
+      }
+    }
+  },
+  {
+    "type": "fetch",
+    "args": {
+      "url": "https://api.telegram.org/bot~TG_TOKEN~/deleteMessage",
+      "decoder": "json",
+      "props": {
+        "method": "POST",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"chat_id\":-1002110559199,\"message_id\":484}"
+      }
+    }
+  },
+  {
+    "type": "fetch",
+    "args": {
+      "url": "https://api.telegram.org/bot~TG_TOKEN~/restrictChatMember",
+      "decoder": "json",
+      "props": {
+        "method": "POST",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"chat_id\":-1002110559199,\"user_id\":241854720,\"permissions\":{}}"
+      }
+    }
+  }
+]

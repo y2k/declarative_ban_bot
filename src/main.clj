@@ -1,35 +1,58 @@
 (__unsafe_insert_js "import p from './prelude.js';")
 
-(defn is_spam [message_in]
+(def LIMIT_SPAM_OLD_SEC 300)
+
+(defn is_spam [message_in message_date]
   (let [message (-> message_in
                     (.toLowerCase)
                     (.replaceAll "o" "о")
                     (.replaceAll "x" "х"))]
-    (or
-     (.includes message "доход")
-     (.includes message "оплата")
-     (.includes message "заработок"))))
+    (and
+     (< (- (/ (Date/now) 1000) message_date) LIMIT_SPAM_OLD_SEC)
+     (or
+      (.includes message "доход")
+      (.includes message "оплата")
+      (.includes message "заработок")))))
 
 (defn handle_message [json]
   (if-let [reply_text json?.message?.reply_to_message?.text
+           message_id json?.message?.message_id
            from json?.message?.from
            chat_id json?.message?.chat?.id
+           chat_name json?.message?.chat?.username
+           reply_from_id json?.message?.reply_to_message?.from?.id
            reply_message_id json?.message?.reply_to_message?.message_id
+           message_date json?.message?.reply_to_message?.date
            _report (= "/report" json?.message?.text)]
     (p/batch
      (concat
       [(p/database
         "INSERT INTO log (content) VALUES (?)"
-        [(JSON/stringify {:from from :text (p/string_to_hex reply_text)})])]
-      (if (is_spam reply_text)
-        [(p/fetch
-          "https://api.telegram.org/bot~TG_TOKEN~/deleteMessage"
-          :json
-          {:method "POST"
-           :headers {"Content-Type" "application/json"}
-           :body (JSON/stringify {:chat_id chat_id :message_id reply_message_id})})]
-        [])))
+        [(JSON/stringify {:from from :text (p/string_to_hex reply_text)})])
+       (execute_bot "deleteMessage"
+                    {:chat_id chat_id :message_id message_id})
+       (execute_bot "sendMessage"
+                    {:chat_id 241854720
+                     :text (str "Бот вызван https://t.me/" chat_name "/" reply_message_id)})]
+      (if (is_spam reply_text message_date)
+        [(execute_bot "deleteMessage"
+                      {:chat_id chat_id :message_id reply_message_id})
+         (execute_bot "restrictChatMember"
+                      {:chat_id chat_id :user_id reply_from_id :permissions {}})]
+        [(execute_bot "sendMessage"
+                      {:chat_id chat_id
+                       :text (str "Сообщение не определено как спам или старее " LIMIT_SPAM_OLD_SEC " сек. Админ оповещен.")})])))
     (p/pure)))
+
+;; Infrastructure
+
+(defn execute_bot [cmd args]
+  (p/fetch
+   (str "https://api.telegram.org/bot~TG_TOKEN~/" cmd)
+   :json
+   {:method "POST"
+    :headers {"Content-Type" "application/json"}
+    :body (JSON/stringify args)}))
 
 (export-default
  {:fetch
@@ -38,7 +61,6 @@
      (.json request)
      (.then
       (fn [json]
-        ;; (console/log "MESSAGE" json)
         (->
          (p/create_world)
          (p/attach_effect_handler

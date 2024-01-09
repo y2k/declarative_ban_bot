@@ -14,6 +14,7 @@ test:
 	~/Projects/language/clj2js/_build/default/bin/main.exe ../src/main.clj > _build_/main.js && \
 	clear && \
 	~/Projects/language/clj2js/_build/default/bin/main.exe ../test/test.clj > _build_/test.js && \
+	clear && \
 	node --env-file=.dev.vars _build_/test.js
 
 db:
