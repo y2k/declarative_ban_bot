@@ -15,8 +15,7 @@
      (or
       (.includes message "криптовалют")
       (.includes message "доход")
-      (.includes message "оплата")
-      (.includes message "заработок")))))
+      (.includes message "оплата")))))
 
 (defn handle_message [json]
   (if-let [reply_text json?.message?.reply_to_message?.text
