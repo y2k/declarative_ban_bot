@@ -41,7 +41,7 @@
                       {:chat_id chat_id :user_id reply_from_id :permissions {}})]
         [(execute_bot "sendMessage"
                       {:chat_id chat_id
-                       :text (str "Сообщение не определено как спам или старее " LIMIT_SPAM_OLD_SEC " сек. Админ оповещен.")})])))
+                       :text (str "Сообщение не определено как спам и уже старше " LIMIT_SPAM_OLD_SEC " секунд. Администратор уведомлен.")})])))
     (p/pure)))
 
 ;; Infrastructure
