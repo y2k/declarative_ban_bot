@@ -5,11 +5,15 @@
 (defn is_spam [message_in message_date]
   (let [message (-> message_in
                     (.toLowerCase)
+                    (.replaceAll "a" "а")
+                    (.replaceAll "u" "и")
+                    (.replaceAll "p" "р")
                     (.replaceAll "o" "о")
                     (.replaceAll "x" "х"))]
     (and
      (< (- (/ (Date/now) 1000) message_date) LIMIT_SPAM_OLD_SEC)
      (or
+      (.includes message "криптовалют")
       (.includes message "доход")
       (.includes message "оплата")
       (.includes message "заработок")))))

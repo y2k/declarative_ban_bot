@@ -20,6 +20,9 @@ test:
 db:
 	wrangler d1 execute ANROID_DECLARATIVE_BAN_BOT_DB --local --file=test_db.sql > _build_/db_result.json
 
+prod_db:
+	wrangler d1 execute ANROID_DECLARATIVE_BAN_BOT_DB --file=test_db.sql > _build_/db_result.json
+
 migrate:
 	wrangler d1 execute ANROID_DECLARATIVE_BAN_BOT_DB --local --file=schema.sql
 
@@ -29,4 +32,4 @@ hook:
 	source .dev.vars ; \
 	curl "https://api.telegram.org/bot$$TG_TOKEN/setWebhook?max_connections=1&drop_pending_updates=true&secret_token=$$TG_SECRET_TOKEN&url=$$NGROK_URL"
 
-.PHONY: run build test db migrate hook
+.PHONY: run build test db migrate hook prod_db
