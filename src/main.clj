@@ -17,16 +17,16 @@
       (.includes message "доход")
       (.includes message "оплата")))))
 
-(defn handle_message [json]
-  (if-let [reply_text json?.message?.reply_to_message?.text
-           message_id json?.message?.message_id
-           from json?.message?.from
-           chat_id json?.message?.chat?.id
-           chat_name json?.message?.chat?.username
-           reply_from_id json?.message?.reply_to_message?.from?.id
-           reply_message_id json?.message?.reply_to_message?.message_id
-           message_date json?.message?.reply_to_message?.date
-           _report (= "/report" json?.message?.text)]
+(defn handle_message [update]
+  (if-let [reply_text update?.message?.reply_to_message?.text
+           message_id update?.message?.message_id
+           from update?.message?.from
+           chat_id update?.message?.chat?.id
+           chat_name update?.message?.chat?.username
+           reply_from_id update?.message?.reply_to_message?.from?.id
+           reply_message_id update?.message?.reply_to_message?.message_id
+           message_date update?.message?.reply_to_message?.date
+           _report (= "/report" update?.message?.text)]
     (p/batch
      (concat
       [(p/database
