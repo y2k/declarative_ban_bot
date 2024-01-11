@@ -1,8 +1,8 @@
-(__unsafe_insert_js "import p from './prelude.js';")
+(__unsafe_insert_js "import * as p from './prelude.js';")
 
 (def LIMIT_SPAM_OLD_SEC 300)
 
-(defn is_spam [message_in message_date]
+(defn- is_spam [message_in message_date]
   (let [message (-> message_in
                     (.toLowerCase)
                     (.replaceAll "a" "а")
@@ -17,7 +17,7 @@
       (.includes message "доход")
       (.includes message "оплата")))))
 
-(defn handle_message [update]
+(defn- handle_message [update]
   (if-let [reply_text update?.message?.reply_to_message?.text
            message_id update?.message?.message_id
            from update?.message?.from
@@ -49,7 +49,7 @@
 
 ;; Infrastructure
 
-(defn execute_bot [cmd args]
+(defn- execute_bot [cmd args]
   (p/fetch
    (str "https://api.telegram.org/bot~TG_TOKEN~/" cmd)
    :json

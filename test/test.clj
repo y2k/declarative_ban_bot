@@ -1,8 +1,8 @@
 (__unsafe_insert_js "import { promises as fs } from 'fs';")
-(__unsafe_insert_js "import p from './prelude.js';")
+(__unsafe_insert_js "import * as p from './prelude.js';")
 (__unsafe_insert_js "import app from './main.js';")
 
-(defn get_sha256_hash [str]
+(defn- get_sha256_hash [str]
   (let [encoder (TextEncoder.)
         data (.encode encoder str)
         hash_promise (.digest crypto.subtle "SHA-256" data)]
@@ -14,7 +14,7 @@
         (.map (fn [b] (-> b (.toString 16) (.padStart 2 "0"))))
         (.join ""))))))
 
-(defn test_item [template ban_text]
+(defn- test_item [template ban_text]
   (.then
    (get_sha256_hash ban_text)
    (fn [hash]
