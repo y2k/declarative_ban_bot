@@ -5,6 +5,7 @@
 (defn- is_spam [message_in message_date]
   (let [message (-> message_in
                     (.toLowerCase)
+                    (.replaceAll "c" "с")
                     (.replaceAll "a" "а")
                     (.replaceAll "u" "и")
                     (.replaceAll "p" "р")
