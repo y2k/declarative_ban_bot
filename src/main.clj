@@ -13,6 +13,7 @@
     (and
      (< (- (/ (Date/now) 1000) message_date) LIMIT_SPAM_OLD_SEC)
      (or
+      (.includes message "бесплатно")
       (.includes message "криптовалют")
       (.includes message "доход")
       (.includes message "оплата")))))

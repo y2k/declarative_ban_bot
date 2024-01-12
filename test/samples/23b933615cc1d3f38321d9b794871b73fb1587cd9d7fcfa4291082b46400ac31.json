@@ -1,0 +1,67 @@
+[
+  {
+    "type": "database",
+    "args": {
+      "sql": "INSERT INTO log (content) VALUES (?)",
+      "args": [
+        "{\"from\":{\"id\":241854720,\"is_bot\":false,\"first_name\":\"Igor\",\"username\":\"angmarr\",\"language_code\":\"en\"},\"text\":\"0J/QsNGA0L3QuCDQuCDQtNC10LLRg9GI0LrQuCwg0LXRgdGC0Ywg0LDQutGC0YPQsNC70YzQvdCw0Y8g0YLQtdC80LAg0LTQu9GPINC30LDRgNCw0LHQvtGC0LrQsCwg0L7QsdGD0YfQtdC90LjQtSDQkdCV0KHQn9Cb0JDQotCd0J4uCtC+0YIgMTgg0LvQtdGCLCDQv9C+0L/RgNC+0LHRg9C5INCwINC00LDQu9GM0YjQtSDRgNC10YjQsNC5INCy0LXQtNGMINGN0YLQviDQkdCV0KHQn9Cb0JDQotCd0J4hISEK0J/QuNGI0Lgg0LIgQERpYW5hX3AyICs=\"}"
+      ]
+    }
+  },
+  {
+    "type": "fetch",
+    "args": {
+      "url": "https://api.telegram.org/bot~TG_TOKEN~/deleteMessage",
+      "decoder": "json",
+      "props": {
+        "method": "POST",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"chat_id\":-1002110559199,\"message_id\":485}"
+      }
+    }
+  },
+  {
+    "type": "fetch",
+    "args": {
+      "url": "https://api.telegram.org/bot~TG_TOKEN~/sendMessage",
+      "decoder": "json",
+      "props": {
+        "method": "POST",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"chat_id\":241854720,\"text\":\"Бот вызван https://t.me/xofftop/484\"}"
+      }
+    }
+  },
+  {
+    "type": "fetch",
+    "args": {
+      "url": "https://api.telegram.org/bot~TG_TOKEN~/deleteMessage",
+      "decoder": "json",
+      "props": {
+        "method": "POST",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"chat_id\":-1002110559199,\"message_id\":484}"
+      }
+    }
+  },
+  {
+    "type": "fetch",
+    "args": {
+      "url": "https://api.telegram.org/bot~TG_TOKEN~/restrictChatMember",
+      "decoder": "json",
+      "props": {
+        "method": "POST",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"chat_id\":-1002110559199,\"user_id\":241854720,\"permissions\":{}}"
+      }
+    }
+  }
+]
