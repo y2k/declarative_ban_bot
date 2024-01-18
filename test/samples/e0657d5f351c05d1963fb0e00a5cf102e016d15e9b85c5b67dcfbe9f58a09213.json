@@ -1,0 +1,67 @@
+[
+  {
+    "type": "database",
+    "args": {
+      "sql": "INSERT INTO log (content) VALUES (?)",
+      "args": [
+        "{\"from\":{\"id\":241854720,\"is_bot\":false,\"first_name\":\"Igor\",\"username\":\"angmarr\",\"language_code\":\"en\"},\"text\":\"0JjRidC10YLQtSDRgNCw0LFv0YLRgyDQvtC90LvQsNC50L0/INCf0YDQuNCz0LvQsNGI0LDQtdC8INC6INC90LDQvCDQsiDQutC+0LzQsNC90LTRgyDQntC/0YvRgiDQvdC1INCy0LDQttC10L0sINGBIDIwLdGC0Lgg0LvQtdGCIDEtMiDRh9Cw0YHQsCDQsiDQtNC10L3RjCwg0YLQtdC70LXRhNC+0L0g0Lgg0LTQvtGB0YLRg9C/INC6INCY0L3RgtC10YDQvdC10YIg0JzQtdGB0YLQsCDQvtCz0YDQsNC90LjRh9C10L3RiyDwn5aN0J/QuNGI0LggKyDQsiDQu9GB\"}"
+      ]
+    }
+  },
+  {
+    "type": "fetch",
+    "args": {
+      "url": "https://api.telegram.org/bot~TG_TOKEN~/deleteMessage",
+      "decoder": "json",
+      "props": {
+        "method": "POST",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"chat_id\":-1002110559199,\"message_id\":485}"
+      }
+    }
+  },
+  {
+    "type": "fetch",
+    "args": {
+      "url": "https://api.telegram.org/bot~TG_TOKEN~/sendMessage",
+      "decoder": "json",
+      "props": {
+        "method": "POST",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"chat_id\":241854720,\"text\":\"Бот вызван https://t.me/xofftop/484\"}"
+      }
+    }
+  },
+  {
+    "type": "fetch",
+    "args": {
+      "url": "https://api.telegram.org/bot~TG_TOKEN~/deleteMessage",
+      "decoder": "json",
+      "props": {
+        "method": "POST",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"chat_id\":-1002110559199,\"message_id\":484}"
+      }
+    }
+  },
+  {
+    "type": "fetch",
+    "args": {
+      "url": "https://api.telegram.org/bot~TG_TOKEN~/restrictChatMember",
+      "decoder": "json",
+      "props": {
+        "method": "POST",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"chat_id\":-1002110559199,\"user_id\":241854720,\"permissions\":{}}"
+      }
+    }
+  }
+]
