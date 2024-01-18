@@ -1,4 +1,4 @@
-(__unsafe_insert_js "import * as p from './prelude.js';")
+(require [prelude :as p])
 
 (def LIMIT_SPAM_OLD_SEC 300)
 

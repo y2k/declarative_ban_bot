@@ -1,5 +1,5 @@
-(__unsafe_insert_js "import { promises as fs } from 'fs';")
-(__unsafe_insert_js "import * as p from './prelude.js';")
+(import [fs.promises :as fs])
+(require [prelude :as p])
 (__unsafe_insert_js "import app from './main.js';")
 
 (defn- get_sha256_hash [str]
