@@ -20,6 +20,7 @@
       (.includes message "бесплатно")
       (.includes message "криптовалют")
       (.includes message "доход")
+      (.includes message "прибыл")
       (.includes message "оплата")))))
 
 (defn- handle_message [update]
