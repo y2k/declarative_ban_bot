@@ -2,6 +2,8 @@
 
 (def LIMIT_SPAM_OLD_SEC 300)
 
+;; Кoгo иntepecyеt pабóта на yдaлёнкe, пишитe «+» в личныe☺️
+
 (defn- is_spam [message_in message_date]
   (let [message (-> message_in
                     (.toLowerCase)
@@ -15,6 +17,7 @@
     (and
      (< (- (/ (Date/now) 1000) message_date) LIMIT_SPAM_OLD_SEC)
      (or
+      (.test (RegExp "[^\\wа-яа-щ\\s\\.,;:\\-?\\x22\\x27()]") message)
       (.includes message "заработ")
       (.includes message "онлайн")
       (.includes message "бесплатно")
@@ -32,7 +35,7 @@
            reply_from_id update?.message?.reply_to_message?.from?.id
            reply_message_id update?.message?.reply_to_message?.message_id
            message_date update?.message?.reply_to_message?.date
-           _report (= "/report" update?.message?.text)]
+           _ (or (= "/spam" update?.message?.text) (= "/report" update?.message?.text))]
     (p/batch
      (concat
       [(p/database

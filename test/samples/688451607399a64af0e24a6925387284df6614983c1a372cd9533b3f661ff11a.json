@@ -1,0 +1,53 @@
+[
+  {
+    "type": "database",
+    "args": {
+      "sql": "INSERT INTO log (content) VALUES (?)",
+      "args": [
+        "{\"from\":{\"id\":241854720,\"is_bot\":false,\"first_name\":\"Igor\",\"username\":\"angmarr\",\"language_code\":\"en\"},\"text\":\"ItCvINC40YHQv9C+0LvRjNC30L7QstCw0Lsg0YTRg9C90LrRhtC40Y4gJ3N3aXBlIHRvIGRlbGV0ZScg0LIgTGF6eUNvbHVtbi4g0JrQvtCz0LTQsCDRjyDQv9GA0L7QutGA0YPRh9C40LLQsNGOIExhenlDb2x1bW4sINC40L3QvtCz0LTQsCDRjdC70LXQvNC10L3RgtGLINGB0LvRg9GH0LDQudC90L4g0YHQstCw0LnQv9Cw0Y7RgtGB0Y8uINCn0YLQviDQvNC+0LbQvdC+INGB0LTQtdC70LDRgtGMLCDRh9GC0L7QsdGLINGN0YLQviDQuNGB0L/RgNCw0LLQuNGC0Yw/INCh0LTQtdC70LDRgtGMINGB0LLQsNC50L8g0LHQvtC70LXQtSDRgdC70L7QttC90YvQvCDQuNC70Lgg0YfRgtC+LdGC0L4g0LIg0Y3RgtC+0Lwg0YDQvtC00LU/INCYINC60LDQuiDRjdGC0L4g0YHQtNC10LvQsNGC0Yw/Ig==\"}"
+      ]
+    }
+  },
+  {
+    "type": "fetch",
+    "args": {
+      "url": "https://api.telegram.org/bot~TG_TOKEN~/deleteMessage",
+      "decoder": "json",
+      "props": {
+        "method": "POST",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"chat_id\":-1002110559199,\"message_id\":485}"
+      }
+    }
+  },
+  {
+    "type": "fetch",
+    "args": {
+      "url": "https://api.telegram.org/bot~TG_TOKEN~/sendMessage",
+      "decoder": "json",
+      "props": {
+        "method": "POST",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"chat_id\":241854720,\"text\":\"Бот вызван https://t.me/xofftop/484\"}"
+      }
+    }
+  },
+  {
+    "type": "fetch",
+    "args": {
+      "url": "https://api.telegram.org/bot~TG_TOKEN~/sendMessage",
+      "decoder": "json",
+      "props": {
+        "method": "POST",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"chat_id\":-1002110559199,\"text\":\"Сообщение не определено как спам или старше 300 секунд. Администратор уведомлен.\"}"
+      }
+    }
+  }
+]
