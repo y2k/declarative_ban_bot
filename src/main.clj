@@ -18,6 +18,7 @@
      (< (- (/ (Date/now) 1000) message_date) LIMIT_SPAM_OLD_SEC)
      (or
       (.test (RegExp "[^\\wа-яа-щ\\s\\.,;:\\-?\\x22\\x27()]") message)
+      (.includes message "арбитраж")
       (.includes message "заработ")
       (.includes message "онлайн")
       (.includes message "бесплатно")
