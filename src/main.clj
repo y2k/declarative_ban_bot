@@ -55,7 +55,7 @@
         [(execute_bot "sendMessage"
                       {:chat_id chat_id
                        :text (str "Сообщение не определено как спам или старше " LIMIT_SPAM_OLD_SEC " секунд. Администратор уведомлен.")})])))
-    (p/pure)))
+    (p/pure null)))
 
 ;; Infrastructure
 

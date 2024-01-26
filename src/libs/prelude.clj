@@ -24,7 +24,7 @@
 (defn string_to_hex [str]
   (-> (TextEncoder.) (.encode str) Buffer/from (.toString "base64")))
 
-(defn attach_log_handler [world keyf f]
+(defn attach_log_handler [world]
   (assoc world :perform (fn [key args w2]
                           (console/info "[LOG]" key args)
                           (.perform world key args w2))))
