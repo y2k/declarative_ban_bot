@@ -1,6 +1,6 @@
 (require [prelude :as p])
 
-(def LIMIT_SPAM_OLD_SEC 300)
+(def LIMIT_SPAM_OLD_SEC 600)
 
 ;; Кoгo иntepecyеt pабóта на yдaлёнкe, пишитe «+» в личныe☺️
 

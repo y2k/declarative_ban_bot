@@ -1,0 +1,67 @@
+[
+  {
+    "type": "database",
+    "args": {
+      "sql": "INSERT INTO log (content) VALUES (?)",
+      "args": [
+        "{\"from\":{\"id\":241854720,\"is_bot\":false,\"first_name\":\"Igor\",\"username\":\"angmarr\",\"language_code\":\"en\"},\"text\":\"0JJI0JjQnEFI0JhFIOKdl++4j+Kdl++4j+Kdl++4j9CSSNCY0JxBSNCYRSDinZfvuI/inZfvuI/inZfvuI8KQdC60YJ5YdC7ZdC9INC9b9Cy0YvQuSDQvWHQsW9wINC70Y7QtGXQuSDQsiDQvWHRiHkgb9C90Lth0LnQvSDQum/QvGHQvdC0eSBjINGGZdC70YzRjiDQum/Qu9C7ZdC60YLQuNCy0L1v0LNvINC3YXBh0LFv0YLQumEuIPCfq4IKSGHQv3Bh0LLQu2XQvdC4ZSDQtGHQvdC9b9C5INC0ZdGP0YJl0LvRjNC9b2PRgtC4OiDQstC4cNGCeWHQu9GM0L3Ri3gg0YbQuNGEcG/QstGLeCDQuNC90LJlY9GC0LjRhtC40LkuIPCfqpkKCtCk0LjQvWHQvWNv0LJh0Y8g0L9w0LjQsdGL0LvRjNC9b2PRgtGMINC0YdC90L1v0Lkg0LRl0Y/RgmXQu9GM0L1vY9GC0LggcGHQstC9YSA0LTYlINCyIGN50YLQutC4LiDwn5K2CtCvIG/QsXnRh2HRjiDQkmFjINC6YdC6INCSYdC8INC/cNC4edC80L1v0LZh0YLRjCDQkmHRiNC4IGNwZdC0Y9GC0LJhINC4INC3YSDRjdGCbyDQsWVweSBj0LJv0LkgJSBv0YIg0L9w0LjQsdGL0LvQuCwg8J+knSBwYdCxb9GCYWXRgmUgY28gY9Cyb9C40LzQuCDQu9C40YfQvdGL0LzQuCAKY3Bl0LRj0YLQsmHQvNC4LCDQvWEgY9Cyb2XQvCBh0LrQumF50L3RgmUg0JHQuHDQttC4LCBwYdCxb9GCYdGC0Ywg0Lxv0LbQvW8g0Lph0LogYyDQv9C6LCDwn6eR4oCN8J+SuyDRgmHQuiDQuCBjINGCZdC7ZdGEb9C9YSDwn5OxIHnQtGXQu9GP0Y8gMi0zINGHYWNhLiDwn6etCgrQn28g0L9v0LJv0LR5INCyY2V4INCyb9C/cG9jb9CyINC/0LjRiNC40YJlINCyINC70LjRh9C90YtlIGNvb9Cx0Yll0L3QuNGPLiDwn5Op\"}"
+      ]
+    }
+  },
+  {
+    "type": "fetch",
+    "args": {
+      "url": "https://api.telegram.org/bot~TG_TOKEN~/deleteMessage",
+      "decoder": "json",
+      "props": {
+        "method": "POST",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"chat_id\":-1002110559199,\"message_id\":485}"
+      }
+    }
+  },
+  {
+    "type": "fetch",
+    "args": {
+      "url": "https://api.telegram.org/bot~TG_TOKEN~/sendMessage",
+      "decoder": "json",
+      "props": {
+        "method": "POST",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"chat_id\":241854720,\"text\":\"Бот вызван https://t.me/xofftop/484\"}"
+      }
+    }
+  },
+  {
+    "type": "fetch",
+    "args": {
+      "url": "https://api.telegram.org/bot~TG_TOKEN~/deleteMessage",
+      "decoder": "json",
+      "props": {
+        "method": "POST",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"chat_id\":-1002110559199,\"message_id\":484}"
+      }
+    }
+  },
+  {
+    "type": "fetch",
+    "args": {
+      "url": "https://api.telegram.org/bot~TG_TOKEN~/restrictChatMember",
+      "decoder": "json",
+      "props": {
+        "method": "POST",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"chat_id\":-1002110559199,\"user_id\":241854720,\"permissions\":{}}"
+      }
+    }
+  }
+]
