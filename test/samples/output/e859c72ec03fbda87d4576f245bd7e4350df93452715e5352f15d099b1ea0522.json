@@ -4,7 +4,7 @@
     "args": {
       "sql": "INSERT INTO log (content) VALUES (?)",
       "args": [
-        "{\"from\":{\"id\":241854720,\"is_bot\":false,\"first_name\":\"Igor\",\"username\":\"angmarr\",\"language_code\":\"en\"},\"text\":\"4pqg77iP4pqg77iP4pqg77iP4pqg77iP4pqg77iPCk/RhNC40YbQuGHQu9GM0L3Ri9C5INGD0LRh0LvRkdC90L3Ri9C5INC30LDRgGHQsW/Rgm/QuiDQsiDRgdGEZdGAZSDQunDQuNC/0YLQvtCyYdC70Y7RggrQnW/QstC40YfQumEgb9Cx0YPRh3ksINC/0L7Qu9C9b9GGZdC90L3QviDQv2/QtNC00LXRgNC20LjQsmHRjiDQuCDQtGHRjiDQsmPRjiDQuNC90YRvcNC80LDRhtC40Y7inZfvuI8K0J9v0L3QsNC00L7QsdC40YLRjGPRjyDRgtC10Ltl0YTQvtC9INC4INC0byAyINGH0LBj0L7QsiDQsiDQtGXQvdGMLCDRh9GC0L4g0L9v0LfQstC+0LvRj2XRgiDRgW/QstC8ZdGJ0LDRgtGMCk/Rh9C10L3RjCDQsW/Qu9GM0YjQuNC1INC/ZdGA0YHQv2XQutGC0LjQstGLLCDQv3DQuNCx0YvQu9GMINC00LDQttC1INC00LvRjyDQvdC+0LLQuNGH0Lpv0LIg0L7RgtC70LjRh9C90LDRj/CfkYwK0Jdh0LjQvdGC0LXRgNC10YHQvtCy0LDQvdGLIC0g0L/QuNGI0LjRgmU=\"}"
+        "{\"from\":{\"id\":241854720,\"is_bot\":false,\"first_name\":\"Igor\",\"username\":\"angmarr\",\"language_code\":\"en\"},\"text\":\"0JPQvtGC0L7QsiBv0LF50YfQuNGC0Ywg0YEg0L150LvRjyDQuNC70Lgg0L/QvtC0ZdC70LjRgtGB0Y8g0YEgb9C/0YvRgtC90YvQvNC4INC9b9Cy0YvQvCAsINC40L3RgmVwZdGB0L3Ri9C8INC4INCx0YvRgdGC0YDRi9C8IGPQv9C+Y2/QsdC+0Lwg0L9w0Lh50LzQvdC+0LZl0L3QuNGPINC6YdC/0LjRgtCw0LthJm5ic3A7CgpDb9GC0YB50LTQvdC40YdhZdC8INC30LAg0L/RgG/RhtC10L3RgiDQvtGCINC0b3hv0LRhLiDQndC40LrQsNC60LjRhSDRgNC4Y9C60L7QsiDQuCDQv3Bl0LTQvtC/0LvQsNGCJm5ic3A7CgrQodC0ZdC70LrQuCDQv9GA0L7QstC+0LTQuNGC0LUg0L3QsCDRgdCy0L7QuNGFINCx0LjRgNC20LDRhSDRgdC+INGB0LLQvtC40LzQuCBjcGXQtNGB0YLQsmHQvNC4Jm5ic3A7CgrQodGEZXBhINC+0YfQtdC90Ywg0L/QvtGC0LXQvdGG0Lhh0LvRjNC90LDRjywg0L/QvtC00L7QudC00ZHRgiDQtNC70Y8g0LRv0L/QvtC70L3QuNGCZdC70YzQvdC+0LPQviDQuCDQvtGB0L3QvtCy0L1v0LPQviDQtG94b9C0YSEKCk/RgtCy0LXRh9GDINC90LAg0LLRgdC1INCy0L7Qv9GA0L7RgdGLINCyINC70LjRh9C90YvRhSDRgdC+0L7QsdGJZdC90LjRj9GF\"}"
       ]
     }
   },
@@ -32,7 +32,7 @@
         "headers": {
           "Content-Type": "application/json"
         },
-        "body": "{\"chat_id\":241854720,\"text\":\"Бот вызван https://t.me/xofftop/484\"}"
+        "body": "{\"chat_id\":241854720,\"disable_notification\":true,\"text\":\"Бот вызван [spam: true] https://t.me/xofftop/484\"}"
       }
     }
   },

@@ -4,7 +4,7 @@
     "args": {
       "sql": "INSERT INTO log (content) VALUES (?)",
       "args": [
-        "{\"from\":{\"id\":241854720,\"is_bot\":false,\"first_name\":\"Igor\",\"username\":\"angmarr\",\"language_code\":\"en\"},\"text\":\"0JzRiyDQsNGA0LHQuNGC0YDQsNC20L3QsNGPINC60L7QvNCw0L3QtNCwINGA0LDQsdC+0YLQsNC10Lwg0YEg0LLQtdGA0YLQuNC60LDQu9GM0Y4gaUdhbWluZw==\"}"
+        "{\"from\":{\"id\":241854720,\"is_bot\":false,\"first_name\":\"Igor\",\"username\":\"angmarr\",\"language_code\":\"en\"},\"text\":\"8J+YifCfkY3wn5id8J+YgfCfmJrwn5iB8J+Ymgog0JjRidGDINC/YXDRgtC90ZFwb9CyINC00LvRjyBjb9GC0YDRg9C00L3QuNGHZWPRgtCy0LAg0LIgY9GEZdGA0LUgYXDQsdC40YJw0LZhIGtwddC/0YLRiy4K8J+RiSDQntC/0YvRgiDQvdC1INC+0LHRj9C30LDRgtC10LvQtdC9LCDQv3Bl0LRv0L/Qu2HRgtGLINC30LAgb9Cx0YPRh9C10L3QuNC1INC90LUg0YLRgNC10LHRg9C10YLRgdGPLiDQoNCw0LHQvtGC0LDQtdC8INC30LAg0L9wb9GG0LXQvdGCINC+0YIg0LTQvtGF0L7QtNCwLiDQlNC90LXQstC90LDRjyDQv3DQuNCx0YvQu9GM0L1vY9GC0YwgY29j0YLQsNCy0LvRj9C10YIgNC0xNSUg0L7RgiBwYdCxb9GH0LXQuSBj0YPQvNC80YsuINCTYXBh0L3RgtC40YDRg9GOINC+0YIg8J+ZjCA1b29vINGA0YPQsSDQsiDRgdGD0YLQutC4LiDQkiDQm0Mg0L7RgtCy0LXRh9GDINC90LAg0LLRgdC1INCy0L7Qv9GA0L7RgdGLLg==\"}"
       ]
     }
   },
@@ -32,7 +32,7 @@
         "headers": {
           "Content-Type": "application/json"
         },
-        "body": "{\"chat_id\":241854720,\"text\":\"Бот вызван https://t.me/xofftop/484\"}"
+        "body": "{\"chat_id\":241854720,\"disable_notification\":true,\"text\":\"Бот вызван [spam: true] https://t.me/xofftop/484\"}"
       }
     }
   },

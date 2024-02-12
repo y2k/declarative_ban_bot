@@ -1,6 +1,7 @@
-(import [fs.promises :as fs])
-(require [prelude :as p])
-(__unsafe_insert_js "import app from './main.js';")
+(ns test
+  (:require [effects :as p]
+            [main :as app])
+  (:import [fs.promises :as fs]))
 
 (defn- get_sha256_hash [str]
   (let [encoder (TextEncoder.)
@@ -18,7 +19,7 @@
   (.then
    (get_sha256_hash ban_text)
    (fn [hash]
-     (let [expected_path (str "../test/samples/" hash ".json")
+     (let [expected_path (str "../test/samples/output/" hash ".json")
            message (->
                     template
                     (.replace "1704388913" (/ (Date/now) 1000))
@@ -28,7 +29,7 @@
        (->
         {:headers {:get (fn [] "TG_SECRET_TOKEN")}
          :json (fn [] (Promise/resolve message))}
-        (app/fetch
+        (app.default/fetch
          {:TG_SECRET_TOKEN "TG_SECRET_TOKEN"}
          (->
           (p/create_world)
@@ -58,6 +59,5 @@
          (.split ban_texts "\n")
          (.reduce
           (fn [promise ban_text]
-            ;; (console/info "=== [LOG] ===\n" (.replace template "1234567890" (JSON/stringify (p/base64_to_string ban_text))))
             (.then promise (test_item template ban_text)))
           (Promise/resolve null)))))))))

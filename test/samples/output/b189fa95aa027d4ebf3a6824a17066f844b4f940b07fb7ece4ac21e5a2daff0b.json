@@ -4,7 +4,7 @@
     "args": {
       "sql": "INSERT INTO log (content) VALUES (?)",
       "args": [
-        "{\"from\":{\"id\":241854720,\"is_bot\":false,\"first_name\":\"Igor\",\"username\":\"angmarr\",\"language_code\":\"en\"},\"text\":\"8J+UpPCflKTwn5Sk8J+UpPCflKTwn5SkCtCY0YnRgyDQu9GO0LTQtdC5INC00LvRjyDRgdC+0YLRgNGD0LTQvdC40YfQtdGB0YLQstCwINCyINGB0YTQtdGA0LUg0YbQuNGE0YDQvtCy0YvRhSDQsNC60YLQuNCy0L7QsvCfkrUgCtCg0LDQsdC+0YLQsCDQt9Cw0L3QuNC80LDQtdGCIDEtMiDRh9Cw0YHQsCDQsiDQtNC10L3RjCEK0JTQvtGF0L7QtCDQvtGCIDEwMDAkLNC90L4g0LfQvdCw0YfQuNGC0LXQu9GM0L3Rg9GOINGA0L7Qu9GMINC40LPRgNCw0LXRgiDQstCw0YjQtSDQttC10LvQsNC90LjQtSDRgNCw0LHQvtGC0LDRgtGM8J+SuArQoNCw0LHQvtGC0LDRjiDQt9CwICUg0L7RgiDQv9GA0LjQsdGL0LvQuOKdl++4jwrQltC10LvQsNGO0YnQuNGFINC/0L7Qv9GA0L7QsdC+0LLQsNGC0Ywg0LbQtNGDINCyINCb0KHwn5Ks\"}"
+        "{\"from\":{\"id\":241854720,\"is_bot\":false,\"first_name\":\"Igor\",\"username\":\"angmarr\",\"language_code\":\"en\"},\"text\":\"4pqg77iP4pqg77iP4pqg77iP4pqg77iP4pqg77iPCk/RhNC40YbQuGHQu9GM0L3Ri9C5INGD0LRh0LvRkdC90L3Ri9C5INC30LDRgGHQsW/Rgm/QuiDQsiDRgdGEZdGAZSDQunDQuNC/0YLQvtCyYdC70Y7RggrQnW/QstC40YfQumEgb9Cx0YPRh3ksINC/0L7Qu9C9b9GGZdC90L3QviDQv2/QtNC00LXRgNC20LjQsmHRjiDQuCDQtGHRjiDQsmPRjiDQuNC90YRvcNC80LDRhtC40Y7inZfvuI8K0J9v0L3QsNC00L7QsdC40YLRjGPRjyDRgtC10Ltl0YTQvtC9INC4INC0byAyINGH0LBj0L7QsiDQsiDQtGXQvdGMLCDRh9GC0L4g0L9v0LfQstC+0LvRj2XRgiDRgW/QstC8ZdGJ0LDRgtGMCk/Rh9C10L3RjCDQsW/Qu9GM0YjQuNC1INC/ZdGA0YHQv2XQutGC0LjQstGLLCDQv3DQuNCx0YvQu9GMINC00LDQttC1INC00LvRjyDQvdC+0LLQuNGH0Lpv0LIg0L7RgtC70LjRh9C90LDRj/CfkYwK0Jdh0LjQvdGC0LXRgNC10YHQvtCy0LDQvdGLIC0g0L/QuNGI0LjRgmU=\"}"
       ]
     }
   },
@@ -32,7 +32,7 @@
         "headers": {
           "Content-Type": "application/json"
         },
-        "body": "{\"chat_id\":241854720,\"text\":\"Бот вызван https://t.me/xofftop/484\"}"
+        "body": "{\"chat_id\":241854720,\"disable_notification\":true,\"text\":\"Бот вызван [spam: true] https://t.me/xofftop/484\"}"
       }
     }
   },

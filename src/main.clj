@@ -1,10 +1,8 @@
-(require [prelude :as p])
+(ns app (:require [effects :as p]))
 
 (def LIMIT_SPAM_OLD_SEC 600)
 
-;; Кoгo иntepecyеt pабóта на yдaлёнкe, пишитe «+» в личныe☺️
-
-(defn- is_spam [message_in message_date]
+(defn- check_is_spam [message_in message_date]
   (let [message (-> message_in
                     (.toLowerCase)
                     (.replaceAll "k" "к")
@@ -37,24 +35,26 @@
            reply_message_id update?.message?.reply_to_message?.message_id
            message_date update?.message?.reply_to_message?.date
            _ (or (= "/spam" update?.message?.text) (= "/report" update?.message?.text))]
-    (p/batch
-     (concat
-      [(p/database
-        "INSERT INTO log (content) VALUES (?)"
-        [(JSON/stringify {:from from :text (p/string_to_hex reply_text)})])
-       (execute_bot "deleteMessage"
-                    {:chat_id chat_id :message_id message_id})
-       (execute_bot "sendMessage"
-                    {:chat_id 241854720
-                     :text (str "Бот вызван https://t.me/" chat_name "/" reply_message_id)})]
-      (if (is_spam reply_text message_date)
-        [(execute_bot "deleteMessage"
-                      {:chat_id chat_id :message_id reply_message_id})
-         (execute_bot "restrictChatMember"
-                      {:chat_id chat_id :user_id reply_from_id :permissions {}})]
-        [(execute_bot "sendMessage"
-                      {:chat_id chat_id
-                       :text (str "Сообщение не определено как спам или старше " LIMIT_SPAM_OLD_SEC " секунд. Администратор уведомлен.")})])))
+    (let [is_spam (check_is_spam reply_text message_date)]
+      (p/batch
+       (concat
+        [(p/database
+          "INSERT INTO log (content) VALUES (?)"
+          [(JSON/stringify {:from from :text (p/string_to_hex reply_text)})])
+         (execute_bot "deleteMessage"
+                      {:chat_id chat_id :message_id message_id})
+         (execute_bot "sendMessage"
+                      {:chat_id 241854720
+                       :disable_notification is_spam
+                       :text (str "Бот вызван [spam: " is_spam "] https://t.me/" chat_name "/" reply_message_id)})]
+        (if is_spam
+          [(execute_bot "deleteMessage"
+                        {:chat_id chat_id :message_id reply_message_id})
+           (execute_bot "restrictChatMember"
+                        {:chat_id chat_id :user_id reply_from_id :permissions {}})]
+          [(execute_bot "sendMessage"
+                        {:chat_id chat_id
+                         :text (str "Сообщение не определено как спам или старше " LIMIT_SPAM_OLD_SEC " секунд. Администратор уведомлен.")})]))))
     (p/pure null)))
 
 ;; Infrastructure
