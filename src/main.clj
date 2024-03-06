@@ -2,7 +2,10 @@
 
 (def LIMIT_SPAM_OLD_SEC 600)
 
-(defn- check_is_spam [message_in message_date]
+(defn- is_too_old [now message_date]
+  (> (- (/ now 1000) message_date) LIMIT_SPAM_OLD_SEC))
+
+(defn- check_is_spam [message_in]
   (let [message (-> message_in
                     (.toLowerCase)
                     (.replaceAll "k" "к")
@@ -12,18 +15,16 @@
                     (.replaceAll "p" "р")
                     (.replaceAll "o" "о")
                     (.replaceAll "x" "х"))]
-    (and
-     (< (- (/ (Date/now) 1000) message_date) LIMIT_SPAM_OLD_SEC)
-     (or
-      (.test (RegExp "[^\\wа-яа-щ\\s\\.,;:\\-?\\x22\\x27()]") message)
-      (.includes message "арбитраж")
-      (.includes message "заработ")
-      (.includes message "онлайн")
-      (.includes message "бесплатно")
-      (.includes message "криптовалют")
-      (.includes message "доход")
-      (.includes message "прибыл")
-      (.includes message "оплата")))))
+    (or
+     (.test (RegExp "[^\\wа-яа-щ\\s\\.,;:\\-?\\x22\\x27()]") message)
+     (.includes message "арбитраж")
+     (.includes message "заработ")
+     (.includes message "онлайн")
+     (.includes message "бесплатно")
+     (.includes message "криптовалют")
+     (.includes message "доход")
+     (.includes message "прибыл")
+     (.includes message "оплата"))))
 
 (defn- handle_message [update]
   (if-let [reply_text update?.message?.reply_to_message?.text
@@ -35,7 +36,7 @@
            reply_message_id update?.message?.reply_to_message?.message_id
            message_date update?.message?.reply_to_message?.date
            _ (or (= "/spam" update?.message?.text) (= "/report" update?.message?.text))]
-    (let [is_spam (check_is_spam reply_text message_date)]
+    (let [is_spam (check_is_spam reply_text)]
       (p/batch
        (concat
         [(p/database
@@ -47,14 +48,19 @@
                       {:chat_id 241854720
                        :disable_notification is_spam
                        :text (str "Бот вызван [spam: " is_spam "] https://t.me/" chat_name "/" reply_message_id)})]
-        (if is_spam
-          [(execute_bot "deleteMessage"
-                        {:chat_id chat_id :message_id reply_message_id})
-           (execute_bot "restrictChatMember"
-                        {:chat_id chat_id :user_id reply_from_id :permissions {}})]
+        (cond
+          (is_too_old (Date/now) message_date)
           [(execute_bot "sendMessage"
                         {:chat_id chat_id
-                         :text (str "Сообщение не определено как спам или старше " LIMIT_SPAM_OLD_SEC " секунд. Администратор уведомлен.")})]))))
+                         :text (str "Сообщение старше " LIMIT_SPAM_OLD_SEC " секунд. Администратор уведомлен.")})]
+
+          is_spam
+          [(execute_bot "deleteMessage" {:chat_id chat_id :message_id reply_message_id})
+           (execute_bot "restrictChatMember" {:chat_id chat_id :user_id reply_from_id :permissions {}})]
+
+          :else [(execute_bot "sendMessage"
+                              {:chat_id chat_id
+                               :text (str "Сообщение не определено как спам. Администратор уведомлен.")})]))))
     (p/pure null)))
 
 ;; Infrastructure

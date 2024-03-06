@@ -48,16 +48,13 @@
                       (fs/writeFile expected_path actual)))))))))))
 
 (->
- (fs/readFile "../test/samples/sample.template.json" "utf-8")
- (.then
-  (fn [template]
-    (->
-     (fs/readFile "../test/samples/sample_texts.txt" "utf-8")
-     (.then
-      (fn [ban_texts]
-        (->
-         (.split ban_texts "\n")
-         (.reduce
-          (fn [promise ban_text]
-            (.then promise (test_item template ban_text)))
-          (Promise/resolve null)))))))))
+ (Promise/all
+  [(fs/readFile "../test/samples/sample.template.json" "utf-8")
+   (fs/readFile "../test/samples/sample_texts.txt" "utf-8")])
+ (.then (fn [[template ban_texts]]
+          (->
+           (.split ban_texts "\n")
+           (.reduce
+            (fn [promise ban_text]
+              (.then promise (test_item template ban_text)))
+            (Promise/resolve null))))))
