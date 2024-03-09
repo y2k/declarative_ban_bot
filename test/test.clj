@@ -1,7 +1,7 @@
 (ns test
   (:require [effects :as p]
-            [main :as app])
-  (:import [fs.promises :as fs]))
+            [main :as app]
+            [js.fs.promises :as fs]))
 
 (defn- get_sha256_hash [str]
   (let [encoder (TextEncoder.)

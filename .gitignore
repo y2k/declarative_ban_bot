@@ -3,3 +3,4 @@ _build_/
 .wrangler/
 node_modules/
 playground/
+.vscode/

@@ -73,35 +73,35 @@
     :headers {"Content-Type" "application/json"}
     :body (JSON/stringify args)}))
 
-(export-default
- {:fetch
-  (fn [request env world]
-    (->
-     (.json request)
-     (.then
-      (fn [json]
-        (if (not= (.get request.headers "x-telegram-bot-api-secret-token") env.TG_SECRET_TOKEN)
-          (throw (Error. "Telegram secret token not valid"))
-          null)
-        (->
-         (p/create_world)
-         (p/attach_effect_handler
-          :batch (fn [_ args w]
-                   (-> (.map args.children (fn [f] (f w))) (Promise/all))))
-         (p/attach_effect_handler
-          :fetch (fn [js args]
-                   (->
-                    (.replace args.url "~TG_TOKEN~" env.TG_TOKEN)
-                    (js/fetch args.props)
-                    (.then (fn [x] (if (= "json" args.decoder) (.json x) (.text x)))))))
-         (p/attach_effect_handler
-          :database (fn [_ args]
-                      (->
-                       (.prepare env.DB args.sql)
-                       (.bind (spread args.args))
-                       (.run))))
-         (p/attach_log_handler)
-         (merge world)
-         (p/run_io (handle_message json)))))
-     (.catch console.error)
-     (.then (fn [] (Response. "OK")))))})
+(defn- fetch_export [request env world]
+  (->
+   (.json request)
+   (.then
+    (fn [json]
+      (if (not= (.get request.headers "x-telegram-bot-api-secret-token") env.TG_SECRET_TOKEN)
+        (throw (Error. "Telegram secret token not valid"))
+        null)
+      (->
+       (p/create_world)
+       (p/attach_effect_handler
+        :batch (fn [_ args w]
+                 (-> (.map args.children (fn [f] (f w))) (Promise/all))))
+       (p/attach_effect_handler
+        :fetch (fn [js args]
+                 (->
+                  (.replace args.url "~TG_TOKEN~" env.TG_TOKEN)
+                  (js/fetch args.props)
+                  (.then (fn [x] (if (= "json" args.decoder) (.json x) (.text x)))))))
+       (p/attach_effect_handler
+        :database (fn [_ args]
+                    (->
+                     (.prepare env.DB args.sql)
+                     (.bind (spread args.args))
+                     (.run))))
+       (p/attach_log_handler)
+       (merge world)
+       (p/run_io (handle_message json)))))
+   (.catch console.error)
+   (.then (fn [] (Response. "OK")))))
+
+(export-default {:fetch fetch_export})

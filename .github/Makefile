@@ -2,13 +2,13 @@ run: hook
 	wrangler dev
 
 test: build
-	clear && clj2js ../test/test.clj > _build_/test.js && \
+	clear && clj2js js ../test/test.clj > _build_/test.js && \
 	clear && node --env-file=.dev.vars _build_/test.js
 
 build:
-	clear && clj2js prelude > _build_/prelude.js && \
-	clear && clj2js ../src/libs/effects.clj > _build_/effects.js && \
-	clear && clj2js ../src/main.clj > _build_/main.js
+	clear && clj2js js prelude > _build_/prelude.js && \
+	clear && clj2js js ../src/libs/effects.clj > _build_/effects.js && \
+	clear && clj2js js ../src/main.clj > _build_/main.js
 
 db:
 	wrangler d1 execute ANROID_DECLARATIVE_BAN_BOT_DB --local --file=test_db.sql > _build_/db_result.json
