@@ -1,0 +1,3 @@
+[submodule "vendor/effects"]
+	path = vendor/effects
+	url = git@github.com:y2k/effects.git

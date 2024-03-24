@@ -1,5 +1,8 @@
 (ns app (:require [effects :as e]))
 
+(defn string_to_hex [str]
+  (-> (TextEncoder.) (.encode str) Buffer/from (.toString "base64")))
+
 (def LIMIT_SPAM_OLD_SEC 600)
 
 (defn- is_too_old [now message_date]
@@ -42,7 +45,7 @@
        (concat
         [(e/database
           "INSERT INTO log (content) VALUES (?)"
-          [(JSON/stringify {:from from :reply_from reply_from :text (e/string_to_hex reply_text)})])
+          [(JSON/stringify {:from from :reply_from reply_from :text (string_to_hex reply_text)})])
          (execute_bot "deleteMessage"
                       {:chat_id chat_id :message_id message_id})
          (execute_bot "sendMessage"
@@ -91,7 +94,7 @@
        (.join "\n/find_ban debug3bot")))}))
 
 (defn handle_event [key data]
-  (println (JSON/stringify {:key key :data data} null 2))
+  ;; (println (JSON/stringify {:key key :data data} null 2))
   (case key
     :telegram (handle_message data)
     :find_user_completed (handle_find_result (spread data))
@@ -118,27 +121,27 @@
         null)
 
       (let [w (->
-               (e/create_world)
-               (e/attach_effect_handler
+               (e/attach_empty_effect_handler {})
+               (e/attach_eff
                 :next (fn [_ [fx f] w]
                         (.then (fx w)
                                (fn [r] ((f r) w)))))
-               (e/attach_effect_handler
+               (e/attach_eff
                 :batch (fn [_ args w]
                          (-> (.map args.children (fn [f] (f w))) (Promise/all))))
-               (e/attach_effect_handler
+               (e/attach_eff
                 :fetch (fn [js args]
                          (->
                           (.replace args.url "~TG_TOKEN~" env.TG_TOKEN)
                           (js/fetch args.props)
                           (.then (fn [x] (if (= "json" args.decoder) (.json x) (.text x)))))))
-               (e/attach_effect_handler
+               (e/attach_eff
                 :database (fn [_ args]
                             (->
                              (.prepare env.DB args.sql)
                              (.bind (spread args.args))
                              (.run))))
-               (e/attach_effect_handler
+               (e/attach_eff
                 :dispatch
                 (fn [_ [key data]]
                   (e/run_effect (handle_event key data) w)))
