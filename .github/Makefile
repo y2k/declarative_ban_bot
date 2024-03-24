@@ -1,3 +1,6 @@
+deploy:
+	wrangler deploy
+
 run: hook
 	wrangler dev
 
