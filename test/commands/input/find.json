@@ -1,0 +1,31 @@
+{
+    "key": "telegram",
+    "data": {
+      "update_id": 569126541,
+      "message": {
+        "message_id": 6326,
+        "from": {
+          "id": 241854720,
+          "is_bot": false,
+          "first_name": "Igor",
+          "username": "angmarr",
+          "language_code": "en"
+        },
+        "chat": {
+          "id": 241854720,
+          "first_name": "Igor",
+          "username": "angmarr",
+          "type": "private"
+        },
+        "date": 1711298065,
+        "text": "/find_ban debug3bot",
+        "entities": [
+          {
+            "offset": 0,
+            "length": 9,
+            "type": "bot_command"
+          }
+        ]
+      }
+    }
+  }

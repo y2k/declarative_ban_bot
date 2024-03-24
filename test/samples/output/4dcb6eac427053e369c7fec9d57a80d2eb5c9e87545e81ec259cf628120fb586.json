@@ -4,7 +4,7 @@
     "args": {
       "sql": "INSERT INTO log (content) VALUES (?)",
       "args": [
-        "{\"from\":{\"id\":241854720,\"is_bot\":false,\"first_name\":\"Igor\",\"username\":\"angmarr\",\"language_code\":\"en\"},\"text\":\"0J/RgNC40LLQtdGCLCDQvdGD0LbQvdGLINC70Y7QtNC4LCDQvtC/0LvQsNGC0LAg0LTQvtGB0YLQvtC50L3QsNGPLCDQsdC10YDQtdC8INCx0LXQtyDQvtC/0YvRgtCwLCDQv9C+0LTRgNC+0LHQvdC+0YHRgtC4INCyINC70YE=\"}"
+        "{\"from\":{\"id\":241854720,\"is_bot\":false,\"first_name\":\"Igor\",\"username\":\"angmarr\",\"language_code\":\"en\"},\"reply_from\":{\"id\":241854720,\"is_bot\":false,\"first_name\":\"Igor\",\"username\":\"angmarr\",\"language_code\":\"en\"},\"text\":\"0J/RgNC40LLQtdGCLCDQvdGD0LbQvdGLINC70Y7QtNC4LCDQvtC/0LvQsNGC0LAg0LTQvtGB0YLQvtC50L3QsNGPLCDQsdC10YDQtdC8INCx0LXQtyDQvtC/0YvRgtCwLCDQv9C+0LTRgNC+0LHQvdC+0YHRgtC4INCyINC70YE=\"}"
       ]
     }
   },

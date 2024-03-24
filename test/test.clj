@@ -1,60 +1,57 @@
-(ns test
-  (:require [effects :as p]
-            [main :as app]
-            [js.fs.promises :as fs]))
+(ns _ (:require [effects :as e]
+                [main :as app]
+                [js.fs.promises :as fs]))
 
-(defn- get_sha256_hash [str]
-  (let [encoder (TextEncoder.)
-        data (.encode encoder str)
-        hash_promise (.digest crypto.subtle "SHA-256" data)]
-    (.then
-     hash_promise
-     (fn [hash]
-       (->
-        (Array/from (Uint8Array. hash))
-        (.map (fn [b] (-> b (.toString 16) (.padStart 2 "0"))))
-        (.join ""))))))
+(defn- rec_parse [x]
+  (cond
+    (= null x) x
+    (Array/isArray x) (.map x rec_parse)
+    (= (typeof x) "object") (and x (-> (Object/entries x)
+                                       (.reduce (fn [a x] (assoc a (get x 0) (rec_parse (get x 1)))) {})))
+    (= (typeof x) "string") (if (.startsWith x "{") (rec_parse (JSON/parse x)) x)
+    :else x))
 
-(defn- test_item [template ban_text]
-  (.then
-   (get_sha256_hash ban_text)
-   (fn [hash]
-     (let [expected_path (str "../test/samples/output/" hash ".json")
-           message (->
-                    template
-                    (.replace "1704388913" (/ (Date/now) 1000))
-                    (.replace "1234567890" (JSON/stringify (p/base64_to_string ban_text)))
-                    (JSON/parse))
-           log (Array.)]
-       (->
-        {:headers {:get (fn [] "TG_SECRET_TOKEN")}
-         :json (fn [] (Promise/resolve message))}
-        (app.default/fetch
-         {:TG_SECRET_TOKEN "TG_SECRET_TOKEN"}
-         (->
-          (p/create_world)
-          (p/attach_effect_handler :batch (fn [_ args w] (.map args.children (fn [f] (f w)))))
-          (p/attach_effect_handler :database (fn [_ args] (.push log {:type :database :args args})))
-          (p/attach_effect_handler :fetch (fn [_ args] (.push log {:type :fetch :args args})))))
-        (.then (fn []
-                 (let [actual (JSON/stringify log null 2)]
-                   (.then
-                    (fs/readFile expected_path "utf-8")
-                    (fn [expected]
-                      (if (not= actual expected)
-                        (throw (Error. (str "Actual <> Expected: " expected_path)))
-                        null))
-                    (fn [e]
-                      (fs/writeFile expected_path actual)))))))))))
+(defn- assert [path]
+  (->
+   (fs/readFile (.replace path "/input/" "/output/") "utf-8")
+   (.catch (fn [] null))
+   (.then
+    (fn [log_json]
+      (->
+       (fs/readFile path "utf-8")
+       (.then
+        (fn [event_json]
+          (let [event (JSON/parse event_json)
+                fx_log []
+                log (.reverse (JSON/parse (or log_json "[]")))]
+            (defn- test_eff_handler [name args]
+              (if (= :fork name)
+                (args {:perform test_eff_handler})
+                (if (> log.length 0)
+                  (let [x (.pop log)
+                        expected (JSON/stringify [x.key x.data])
+                        actual (JSON/stringify (rec_parse [name args]))]
+                    (if (= expected actual)
+                      (Promise/resolve [name args])
+                      (FIXME "Log: " (.replace path "/input/" "/output/") "\n" expected "\n<>\n" actual "\n")))
+                  (do
+                    (.push fx_log {:key name :data args})
+                    (Promise/resolve [name args])))))
+            (->
+             (app/handle_event event.key event.data)
+             (e/run_effect {:perform test_eff_handler})
+             (.then (fn []
+                      (if (= log_json null)
+                        (fs/writeFile (.replace path "/input/" "/output/") (JSON/stringify (rec_parse fx_log) null 4))
+                        (if (= log.length 0) null
+                            (FIXME "Log not consumed: " path "\n" (JSON/stringify (.toReversed log) null 2)))))))))))))))
 
-(->
- (Promise/all
-  [(fs/readFile "../test/samples/sample.template.json" "utf-8")
-   (fs/readFile "../test/samples/sample_texts.txt" "utf-8")])
- (.then (fn [[template ban_texts]]
-          (->
-           (.split ban_texts "\n")
-           (.reduce
-            (fn [promise ban_text]
-              (.then promise (test_item template ban_text)))
-            (Promise/resolve null))))))
+(let [path "../test/commands/input/"]
+  (->
+   (fs/readdir path)
+   (.then
+    (fn [files]
+      (->
+       files
+       (.filter (fn [name] (.test (RegExp. "\\.json$") name)))
+       (.map (fn [name] (assert (str path name)))))))))

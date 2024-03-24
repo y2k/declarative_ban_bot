@@ -1,0 +1,18 @@
+{
+    "key": "find_user_completed",
+    "data": [
+      241854720,
+      {
+        "success": true,
+        "meta": {
+          "served_by": "miniflare.db",
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": 0,
+          "changed_db": false,
+          "size_after": 40960
+        },
+        "results": []
+      }
+    ]
+  }

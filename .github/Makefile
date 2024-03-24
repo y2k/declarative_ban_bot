@@ -5,8 +5,11 @@ run: hook
 	wrangler dev
 
 test: build
-	clear && clj2js js ../test/test.clj > _build_/test.js && \
-	clear && node --env-file=.dev.vars _build_/test.js
+	@ clear && clj2js js ../src/libs/effects.clj > _build_/effects.js
+	@ clear && clj2js js ../test/test_spam.clj > _build_/test_spam.js
+	@ clear && node --env-file=.dev.vars _build_/test_spam.js
+	@ clear && clj2js js ../test/test.clj > _build_/test.js
+	@ clear && node --env-file=.dev.vars _build_/test.js
 
 build:
 	clear && clj2js js prelude > _build_/prelude.js && \

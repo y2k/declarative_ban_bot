@@ -1,0 +1,20 @@
+[
+    {
+        "key": "fetch",
+        "data": {
+            "url": "https://api.telegram.org/bot~TG_TOKEN~/sendMessage",
+            "decoder": "json",
+            "props": {
+                "method": "POST",
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "body": {
+                    "parse_mode": "MarkdownV2",
+                    "chat_id": 241854720,
+                    "text": "Can't find ban records for this user"
+                }
+            }
+        }
+    }
+]

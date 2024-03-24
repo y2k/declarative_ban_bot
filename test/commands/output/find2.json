@@ -1,0 +1,20 @@
+[
+    {
+        "key": "fetch",
+        "data": {
+            "url": "https://api.telegram.org/bot~TG_TOKEN~/sendMessage",
+            "decoder": "json",
+            "props": {
+                "method": "POST",
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "body": {
+                    "parse_mode": "MarkdownV2",
+                    "chat_id": 241854720,
+                    "text": "```json\n{\n  \"banned user\": \"{\\\"id\\\":300777612,\\\"is_bot\\\":true,\\\"first_name\\\":\\\"DebugY2k\\\",\\\"username\\\":\\\"debug3bot\\\"}\",\n  \"reporter\": \"{\\\"id\\\":241854720,\\\"is_bot\\\":false,\\\"first_name\\\":\\\"Igor\\\",\\\"username\\\":\\\"angmarr\\\",\\\"language_code\\\":\\\"en\\\"}\",\n  \"base64 msg\": \"Qm90IGlzIHdvcmtpbmc=\"\n}```"
+                }
+            }
+        }
+    }
+]
