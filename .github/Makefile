@@ -17,6 +17,7 @@ build:
 	@ clear && clj2js js prelude > _build_/prelude.js
 	@ clear && clj2js js ../vendor/packages/effects/effects.clj > _build_/effects.js
 	@ clear && clj2js js ../src/main.clj > _build_/main.js
+	@ clear && clj2js js ../src/moderator.clj > _build_/moderator.js
 
 db:
 	@ wrangler d1 execute ANROID_DECLARATIVE_BAN_BOT_DB --local --file=test_db.sql > _build_/db_result.json
