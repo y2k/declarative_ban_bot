@@ -72,12 +72,11 @@
                text update?.message?.text
                _ (= "/find_ban" (get (.split text " ") 0))
                find_user (get (.split text " ") 1)]
-        (e/broadcast
-         :find_user_completed
+        (->
          (e/database
           "SELECT content->>'reply_from' AS 'banned user', content->>'from' AS 'reporter', content->>'text' AS 'base64 msg' FROM log WHERE json_extract(content, '$.reply_from.username') = ? ORDER BY id DESC LIMIT 2;"
           [find_user])
-         (fn [r] [chat_id r]))
+         (e/next :find_user_completed (fn [r] [chat_id r])))
         (e/pure null)))))
 
 (defn- handle_find_result [chat_id r]
@@ -122,28 +121,28 @@
 
       (let [w (->
                (e/attach_empty_effect_handler {})
+              ;;  (e/attach_eff
+              ;;   :next (fn [[fx f] w]
+              ;;           (.then (fx w)
+              ;;                  (fn [r] ((f r) w)))))
                (e/attach_eff
-                :next (fn [_ [fx f] w]
-                        (.then (fx w)
-                               (fn [r] ((f r) w)))))
-               (e/attach_eff
-                :batch (fn [_ args w]
+                :batch (fn [args w]
                          (-> (.map args.children (fn [f] (f w))) (Promise/all))))
                (e/attach_eff
-                :fetch (fn [js args]
+                :fetch (fn [args]
                          (->
                           (.replace args.url "~TG_TOKEN~" env.TG_TOKEN)
-                          (js/fetch args.props)
+                          (fetch args.props)
                           (.then (fn [x] (if (= "json" args.decoder) (.json x) (.text x)))))))
                (e/attach_eff
-                :database (fn [_ args]
+                :database (fn [args]
                             (->
                              (.prepare env.DB args.sql)
                              (.bind (spread args.args))
                              (.run))))
                (e/attach_eff
                 :dispatch
-                (fn [_ [key data]]
+                (fn [[key data]]
                   (e/run_effect (handle_event key data) w)))
               ;;  (e/attach_log_handler)
                (merge world))]
