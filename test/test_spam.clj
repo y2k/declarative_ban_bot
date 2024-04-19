@@ -25,15 +25,15 @@
      (let [expected_path (str "../test/samples/output/" hash ".json")
            message (->
                     template
-                    (.replace "1704388913" (/ (Date/now) 1000))
                     (.replace "1234567890" (JSON/stringify (base64_to_string ban_text)))
                     (JSON/parse))
            log (Array.)]
        (->
-        {:headers {:get (fn [] "TG_SECRET_TOKEN")}
-         :json (fn [] (Promise/resolve message))}
         (app.default/fetch
-         {:TG_SECRET_TOKEN "TG_SECRET_TOKEN"}
+         {:headers {:get (fn [] "TG_SECRET_TOKEN")}
+          :json (fn [] (Promise/resolve message))}
+         {:TG_SECRET_TOKEN "TG_SECRET_TOKEN"
+          :cofx {:now 1704388914000}}
          (->
           (p/attach_empty_effect_handler {})
           (p/attach_eff :batch (fn [args w] (.map args.children (fn [f] (f w)))))

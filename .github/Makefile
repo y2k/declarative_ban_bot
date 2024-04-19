@@ -2,7 +2,7 @@ deploy: test
 	@ wrangler deploy
 
 run: hook
-	@ wrangler dev
+	@ wrangler dev --port 8787
 
 test: build
 	@ clear && clj2js js ../vendor/packages/effects/effects.clj ../vendor/prelude/js/src/prelude.clj > _build_/effects.js

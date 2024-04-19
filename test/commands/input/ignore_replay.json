@@ -1,12 +1,12 @@
 {
     "cofx": {
-        "now": 1722079837000
+        "now": 1713534333298
     },
     "key": "telegram",
     "data": {
-        "update_id": 569126571,
+        "update_id": 569126645,
         "message": {
-            "message_id": 1108,
+            "message_id": 1206,
             "from": {
                 "id": 241854720,
                 "is_bot": false,
@@ -20,10 +20,10 @@
                 "username": "xofftop",
                 "type": "supergroup"
             },
-            "date": 1712081846,
-            "message_thread_id": 1079,
+            "date": 1713534333,
+            "message_thread_id": 1205,
             "reply_to_message": {
-                "message_id": 1079,
+                "message_id": 1205,
                 "from": {
                     "id": 241854720,
                     "is_bot": false,
@@ -37,17 +37,10 @@
                     "username": "xofftop",
                     "type": "supergroup"
                 },
-                "date": 1712079837,
-                "text": "xxx"
+                "date": 1713534327,
+                "text": "foo"
             },
-            "text": "/report",
-            "entities": [
-                {
-                    "offset": 0,
-                    "length": 7,
-                    "type": "bot_command"
-                }
-            ]
+            "text": "bar"
         }
     }
 }

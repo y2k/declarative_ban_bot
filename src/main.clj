@@ -4,61 +4,63 @@
 (defn- string_to_hex [str]
   (-> (TextEncoder.) (.encode str) Buffer/from (.toString "base64")))
 
-(defn- handle_message [update]
-  (if-let [reply_text (or update?.message?.reply_to_message?.text update?.message?.reply_to_message?.caption)
-           message_id update?.message?.message_id
-           from update?.message?.from
-           chat_id update?.message?.chat?.id
-           chat_name update?.message?.chat?.username
-           reply_from update?.message?.reply_to_message?.from
-           reply_from_id reply_from?.id
-           reply_message_id update?.message?.reply_to_message?.message_id
-           message_date update?.message?.reply_to_message?.date
-           _ (or (= "/spam" update?.message?.text) (= "/report" update?.message?.text))]
-    (let [is_spam (m/check_is_spam reply_text)]
-      (e/batch
-       (concat
-        [(e/database
-          "INSERT INTO log (content) VALUES (?)"
-          [(JSON/stringify {:from from :reply_from reply_from :text (string_to_hex reply_text)})])
-         (send_message "deleteMessage"
-                       {:chat_id chat_id :message_id message_id})
-         (send_message "sendMessage"
-                       {:chat_id 241854720
-                        :disable_notification is_spam
-                        :text (str "Бот вызван [spam: " is_spam "] https://t.me/" chat_name "/" reply_message_id)})]
-        (cond
-          (m/is_too_old (Date/now) message_date)
-          [(send_message "sendMessage"
-                         {:chat_id chat_id
-                          :text (str "Сообщение старше " m/LIMIT_SPAM_OLD_SEC " секунд. Администратор уведомлен.")})]
+(defn- handle_message [cofx update]
+  (if-let [_ (.startsWith (or update?.message?.text "") "/")]
+    (if-let [reply_text (or update?.message?.reply_to_message?.text update?.message?.reply_to_message?.caption)
+             message_id update?.message?.message_id
+             from update?.message?.from
+             chat_id update?.message?.chat?.id
+             chat_name update?.message?.chat?.username
+             reply_from update?.message?.reply_to_message?.from
+             reply_from_id reply_from?.id
+             reply_message_id update?.message?.reply_to_message?.message_id
+             message_date update?.message?.reply_to_message?.date
+             _ (or (= "/spam" update?.message?.text) (= "/report" update?.message?.text))]
+      (let [is_spam (m/check_is_spam reply_text)]
+        (e/batch
+         (concat
+          [(e/database
+            "INSERT INTO log (content) VALUES (?)"
+            [(JSON/stringify {:from from :reply_from reply_from :text (string_to_hex reply_text)})])
+           (send_message "deleteMessage"
+                         {:chat_id chat_id :message_id message_id})
+           (send_message "sendMessage"
+                         {:chat_id 241854720
+                          :disable_notification is_spam
+                          :text (str "Бот вызван [spam: " is_spam "] https://t.me/" chat_name "/" reply_message_id)})]
+          (cond
+            (m/is_too_old cofx.now message_date)
+            [(send_message "sendMessage"
+                           {:chat_id chat_id
+                            :text (str "Сообщение старше " m/LIMIT_SPAM_OLD_SEC " секунд. Администратор уведомлен.")})]
 
-          is_spam
-          [(send_message "deleteMessage" {:chat_id chat_id :message_id reply_message_id})
-           (send_message "restrictChatMember" {:chat_id chat_id :user_id reply_from_id :permissions {}})]
+            is_spam
+            [(send_message "deleteMessage" {:chat_id chat_id :message_id reply_message_id})
+             (send_message "restrictChatMember" {:chat_id chat_id :user_id reply_from_id :permissions {}})]
 
-          :else [(send_message "sendMessage"
-                               {:chat_id chat_id
-                                :text (str "Сообщение не определено как спам. Администратор уведомлен.")})]))))
-    (if-let [chat_id update?.message?.chat?.id
-             _ (= "/healthcheck" update?.message?.text)]
-      (send_message "sendMessage" {:chat_id chat_id :text "Bot is working"})
+            :else [(send_message "sendMessage"
+                                 {:chat_id chat_id
+                                  :text (str "Сообщение не определено как спам. Администратор уведомлен.")})]))))
       (if-let [chat_id update?.message?.chat?.id
-               text update?.message?.text
-               _ (= "/find_ban" (get (.split text " ") 0))
-               find_user (get (.split text " ") 1)]
-        (->
-         (e/database
-          "SELECT content->>'reply_from' AS 'banned user', content->>'from' AS 'reporter', content->>'text' AS 'base64 msg' FROM log WHERE json_extract(content, '$.reply_from.username') = ? ORDER BY id DESC LIMIT 2;"
-          [find_user])
-         (e/next :find_user_completed (fn [r] [chat_id r])))
-        (if-let [message_id update?.message?.reply_to_message?.message_id
-                 chat_name (or update?.message?.chat?.username "_")]
-          (send_message "sendMessage"
-                        {:chat_id 241854720
-                         :disable_notification true
-                         :text (str "Неизвестный формат сообщения https://t.me/" chat_name "/" message_id)})
-          (e/pure null))))))
+               _ (= "/healthcheck" update?.message?.text)]
+        (send_message "sendMessage" {:chat_id chat_id :text "Bot is working"})
+        (if-let [chat_id update?.message?.chat?.id
+                 text update?.message?.text
+                 _ (= "/find_ban" (get (.split text " ") 0))
+                 find_user (get (.split text " ") 1)]
+          (->
+           (e/database
+            "SELECT content->>'reply_from' AS 'banned user', content->>'from' AS 'reporter', content->>'text' AS 'base64 msg' FROM log WHERE json_extract(content, '$.reply_from.username') = ? ORDER BY id DESC LIMIT 2;"
+            [find_user])
+           (e/next :find_user_completed (fn [r] [chat_id r])))
+          (if-let [reply_message_id update?.message?.reply_to_message?.message_id
+                   chat_name (or update?.message?.chat?.username "_")]
+            (send_message "sendMessage"
+                          {:chat_id 241854720
+                           :disable_notification true
+                           :text (str "Неизвестный формат сообщения https://t.me/" chat_name "/" reply_message_id)})
+            (e/pure null)))))
+    (e/pure null)))
 
 (defn- handle_find_result [chat_id r]
   (send_message
@@ -73,10 +75,10 @@
        (.map (fn [x] (str "```json\n" (JSON/stringify x null 2) "```")))
        (.join "\n/find_ban debug3bot")))}))
 
-(defn handle_event [key data]
-  ;; (println (JSON/stringify {:key key :data data} null 2))
+(defn handle_event [cofx key data]
+  ;; (println (JSON/stringify {:cofx cofx :key key :data data} null 2))
   (case key
-    :telegram (handle_message data)
+    :telegram (handle_message cofx data)
     :find_user_completed (handle_find_result (spread data))
     (e/pure null)))
 
@@ -99,7 +101,8 @@
         (throw (Error. "Telegram secret token is not valid"))
         null)
 
-      (let [w (->
+      (let [cofx (or env.cofx {:now (Date/now)})
+            w (->
                (e/attach_empty_effect_handler {})
               ;;  (e/attach_eff
               ;;   :next (fn [[fx f] w]x
@@ -123,10 +126,10 @@
                (e/attach_eff
                 :dispatch
                 (fn [[key data]]
-                  (e/run_effect (handle_event key data) w)))
+                  (e/run_effect (handle_event cofx key data) w)))
               ;;  (e/attach_log_handler)
                (merge world))]
-        (e/run_io w (handle_event :telegram json)))))
+        (e/run_io w (handle_event cofx :telegram json)))))
 
    (.catch console.error)
    (.then (fn [] (Response. "OK")))))
