@@ -74,7 +74,7 @@
        (.join "\n/find_ban debug3bot")))}))
 
 (defn handle_event [key data]
-  (println (JSON/stringify {:key key :data data} null 2))
+  ;; (println (JSON/stringify {:key key :data data} null 2))
   (case key
     :telegram (handle_message data)
     :find_user_completed (handle_find_result (spread data))

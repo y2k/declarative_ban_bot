@@ -1,4 +1,4 @@
-deploy:
+deploy: test
 	@ wrangler deploy
 
 run: hook
