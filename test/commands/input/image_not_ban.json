@@ -1,0 +1,80 @@
+{
+    "key": "telegram",
+    "data": {
+      "update_id": 569126625,
+      "message": {
+        "message_id": 1183,
+        "from": {
+          "id": 241854720,
+          "is_bot": false,
+          "first_name": "Igor",
+          "username": "angmarr",
+          "language_code": "en"
+        },
+        "chat": {
+          "id": -1002110559199,
+          "title": "Declarative offtop",
+          "username": "xofftop",
+          "type": "supergroup"
+        },
+        "date": 1713511145,
+        "message_thread_id": 1182,
+        "reply_to_message": {
+          "message_id": 1182,
+          "from": {
+            "id": 241854720,
+            "is_bot": false,
+            "first_name": "Igor",
+            "username": "angmarr",
+            "language_code": "en"
+          },
+          "chat": {
+            "id": -1002110559199,
+            "title": "Declarative offtop",
+            "username": "xofftop",
+            "type": "supergroup"
+          },
+          "date": 1713511132,
+          "photo": [
+            {
+              "file_id": "AgACAgIAAx0CfcyT3wACBJ5mIhrcBQ2v_JA5gzrJFnb4DVyqPgAC7NcxG9LzEEkPSwiTF4twcQEAAwIAA3MAAzQE",
+              "file_unique_id": "AQAD7NcxG9LzEEl4",
+              "file_size": 779,
+              "width": 90,
+              "height": 44
+            },
+            {
+              "file_id": "AgACAgIAAx0CfcyT3wACBJ5mIhrcBQ2v_JA5gzrJFnb4DVyqPgAC7NcxG9LzEEkPSwiTF4twcQEAAwIAA20AAzQE",
+              "file_unique_id": "AQAD7NcxG9LzEEly",
+              "file_size": 12047,
+              "width": 320,
+              "height": 155
+            },
+            {
+              "file_id": "AgACAgIAAx0CfcyT3wACBJ5mIhrcBQ2v_JA5gzrJFnb4DVyqPgAC7NcxG9LzEEkPSwiTF4twcQEAAwIAA3kAAzQE",
+              "file_unique_id": "AQAD7NcxG9LzEEl-",
+              "file_size": 41284,
+              "width": 932,
+              "height": 452
+            },
+            {
+              "file_id": "AgACAgIAAx0CfcyT3wACBJ5mIhrcBQ2v_JA5gzrJFnb4DVyqPgAC7NcxG9LzEEkPSwiTF4twcQEAAwIAA3gAAzQE",
+              "file_unique_id": "AQAD7NcxG9LzEEl9",
+              "file_size": 48992,
+              "width": 800,
+              "height": 388
+            }
+          ],
+          "caption": "просто текст"
+        },
+        "text": "/report",
+        "entities": [
+          {
+            "offset": 0,
+            "length": 7,
+            "type": "bot_command"
+          }
+        ]
+      }
+    }
+  }

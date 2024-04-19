@@ -5,7 +5,7 @@
   (-> (TextEncoder.) (.encode str) Buffer/from (.toString "base64")))
 
 (defn- handle_message [update]
-  (if-let [reply_text update?.message?.reply_to_message?.text
+  (if-let [reply_text (or update?.message?.reply_to_message?.text update?.message?.reply_to_message?.caption)
            message_id update?.message?.message_id
            from update?.message?.from
            chat_id update?.message?.chat?.id
@@ -52,7 +52,13 @@
           "SELECT content->>'reply_from' AS 'banned user', content->>'from' AS 'reporter', content->>'text' AS 'base64 msg' FROM log WHERE json_extract(content, '$.reply_from.username') = ? ORDER BY id DESC LIMIT 2;"
           [find_user])
          (e/next :find_user_completed (fn [r] [chat_id r])))
-        (e/pure null)))))
+        (if-let [message_id update?.message?.reply_to_message?.message_id
+                 chat_name (or update?.message?.chat?.username "_")]
+          (send_message "sendMessage"
+                        {:chat_id 241854720
+                         :disable_notification true
+                         :text (str "Неизвестный формат сообщения https://t.me/" chat_name "/" message_id)})
+          (e/pure null))))))
 
 (defn- handle_find_result [chat_id r]
   (send_message
