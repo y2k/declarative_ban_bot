@@ -67,13 +67,12 @@
    "sendMessage"
    {:parse_mode :MarkdownV2
     :chat_id chat_id
-    :text
-    (if (= 0 r.results.length)
-      "Can't find ban records for this user"
-      (->
-       r.results
-       (.map (fn [x] (str "```json\n" (JSON/stringify x null 2) "```")))
-       (.join "\n/find_ban debug3bot")))}))
+    :text (if (= 0 r.results.length)
+            "Can't find ban records for this user"
+            (->
+             r.results
+             (.map (fn [x] (str "```json\n" (JSON/stringify x null 2) "```")))
+             (.join "\n/find_ban debug3bot")))}))
 
 (defn handle_event [cofx key data]
   ;; (println (JSON/stringify {:cofx cofx :key key :data data} null 2))

@@ -1,0 +1,67 @@
+[
+  {
+    "type": "database",
+    "args": {
+      "sql": "INSERT INTO log (content) VALUES (?)",
+      "args": [
+        "{\"from\":{\"id\":241854720,\"is_bot\":false,\"first_name\":\"Igor\",\"username\":\"angmarr\",\"language_code\":\"en\"},\"reply_from\":{\"id\":241854720,\"is_bot\":false,\"first_name\":\"Igor\",\"username\":\"angmarr\",\"language_code\":\"en\"},\"text\":\"0KRh0LvRjNGI0LjQstGL0LUg0YDRg9Cx0LvQuCwg0LHQtdC3INC6YdC60LjRhSDQu9C40LHQviDQvtGC0LvQuNGH0LjQuSDQvtGCINC9YdGB0YLQvtGP0YnQuNGFIAoK0J/RgNC+0YXQvtC00Y/RgiDQsiDQu9GO0LHQvtC5INCxYdC90LrQvtC8YdGCINC4INC+0LHQvNC10L3QutGDCgrQm9GD0YfRiNC10LUg0Lph0YfQtdGB0YLQstC+INC9YSDRgNGL0L3QutC1CgrQntGC0L/RgGHQstC6YSDQv9C+INCy0YHQtdC5INCg0L7RgdGB0LjQuCAKCtCU0LvRjyDQt2HQumHQt2Eg0Lgg0LHQvtC70LXQtSDQtNC10YJh0LvRjNC90L7QuSDQuNC90YTQvtGA0Lxh0YbQuNC4OiDQnWHQv9C40YjQuCDQsiDQv9C+0LjRgdC6INGC0LXQu9C10LPRgGHQvGE6IEdHUlM0MA==\"}"
+      ]
+    }
+  },
+  {
+    "type": "fetch",
+    "args": {
+      "url": "https://api.telegram.org/bot~TG_TOKEN~/deleteMessage",
+      "decoder": "json",
+      "props": {
+        "method": "POST",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"chat_id\":-1002110559199,\"message_id\":485}"
+      }
+    }
+  },
+  {
+    "type": "fetch",
+    "args": {
+      "url": "https://api.telegram.org/bot~TG_TOKEN~/sendMessage",
+      "decoder": "json",
+      "props": {
+        "method": "POST",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"chat_id\":241854720,\"disable_notification\":true,\"text\":\"Бот вызван [spam: true] https://t.me/xofftop/484\"}"
+      }
+    }
+  },
+  {
+    "type": "fetch",
+    "args": {
+      "url": "https://api.telegram.org/bot~TG_TOKEN~/deleteMessage",
+      "decoder": "json",
+      "props": {
+        "method": "POST",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"chat_id\":-1002110559199,\"message_id\":484}"
+      }
+    }
+  },
+  {
+    "type": "fetch",
+    "args": {
+      "url": "https://api.telegram.org/bot~TG_TOKEN~/restrictChatMember",
+      "decoder": "json",
+      "props": {
+        "method": "POST",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"chat_id\":-1002110559199,\"user_id\":241854720,\"permissions\":{}}"
+      }
+    }
+  }
+]
