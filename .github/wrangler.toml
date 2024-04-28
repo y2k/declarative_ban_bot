@@ -1,5 +1,5 @@
 name = "declarativebanbot"
-main = "_build_/main.js"
+main = "bin/src/main.js"
 compatibility_date = "2023-10-30"
 node_compat = true
 

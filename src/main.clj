@@ -1,8 +1,20 @@
-(ns app (:require [effects :as e]
+(ns app (:require ["../vendor/packages/effects/effects" :as e]
                   [moderator :as m]))
 
+;; BEGIN - Infrastructure
+
+(defn- send_message [cmd args]
+  (e/fetch
+   (str "https://api.telegram.org/bot~TG_TOKEN~/" cmd)
+   :json
+   {:method "POST"
+    :headers {"Content-Type" "application/json"}
+    :body (JSON.stringify args)}))
+
+;; END - Infrastructure
+
 (defn- string_to_hex [str]
-  (-> (TextEncoder.) (.encode str) Buffer/from (.toString "base64")))
+  (-> (TextEncoder.) (.encode str) Buffer.from (.toString "base64")))
 
 (defn- handle_message [cofx update]
   (if-let [_ (.startsWith (or update?.message?.text "") "/")]
@@ -21,7 +33,7 @@
          (concat
           [(e/database
             "INSERT INTO log (content) VALUES (?)"
-            [(JSON/stringify {:from from :reply_from reply_from :text (string_to_hex reply_text)})])
+            [(JSON.stringify {:from from :reply_from reply_from :text (string_to_hex reply_text)})])
            (send_message "deleteMessage"
                          {:chat_id chat_id :message_id message_id})
            (send_message "sendMessage"
@@ -71,25 +83,17 @@
             "Can't find ban records for this user"
             (->
              r.results
-             (.map (fn [x] (str "```json\n" (JSON/stringify x null 2) "```")))
+             (.map (fn [x] (str "```json\n" (JSON.stringify x null 2) "```")))
              (.join "\n/find_ban debug3bot")))}))
 
 (defn handle_event [cofx key data]
-  ;; (println (JSON/stringify {:cofx cofx :key key :data data} null 2))
+  ;; (println (JSON.stringify {:cofx cofx :key key :data data} null 2))
   (case key
     :telegram (handle_message cofx data)
     :find_user_completed (handle_find_result (spread data))
     (e/pure null)))
 
 ;; Infrastructure
-
-(defn- send_message [cmd args]
-  (e/fetch
-   (str "https://api.telegram.org/bot~TG_TOKEN~/" cmd)
-   :json
-   {:method "POST"
-    :headers {"Content-Type" "application/json"}
-    :body (JSON/stringify args)}))
 
 (defn- fetch_export [request env world]
   (->
@@ -100,7 +104,7 @@
         (throw (Error. "Telegram secret token is not valid"))
         null)
 
-      (let [cofx (or env.cofx {:now (Date/now)})
+      (let [cofx (or env.cofx {:now (Date.now)})
             w (->
                (e/attach_empty_effect_handler {})
               ;;  (e/attach_eff
@@ -109,7 +113,7 @@
               ;;                  (fn [r] ((f r) w)))))
                (e/attach_eff
                 :batch (fn [args w]
-                         (-> (.map args.children (fn [f] (f w))) (Promise/all))))
+                         (-> (.map args.children (fn [f] (f w))) (Promise.all))))
                (e/attach_eff
                 :fetch (fn [{url :url decoder :decoder props :props}]
                          (->

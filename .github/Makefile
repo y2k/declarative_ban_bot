@@ -1,3 +1,5 @@
+PRELUDE_PATH := $(shell realpath ../vendor/prelude/js/src/prelude.clj)
+
 deploy: test
 	@ wrangler deploy
 
@@ -5,31 +7,29 @@ run: hook
 	@ wrangler dev --port 8787
 
 test: build
-	@ clear && clj2js js ../vendor/packages/effects/effects.clj ../vendor/prelude/js/src/prelude.clj > _build_/effects.js
-	@ clear && clj2js js ../test/test_spam.clj ../vendor/prelude/js/src/prelude.clj > _build_/test_spam.js
-	@ clear && node --env-file=.dev.vars _build_/test_spam.js
-	@ clear && clj2js js ../test/test.clj ../vendor/prelude/js/src/prelude.clj > _build_/test.js
-	@ clear && node --env-file=.dev.vars _build_/test.js
+	@ clear && OCAMLRUNPARAM=b clj2js js ../test/test_spam.clj $(PRELUDE_PATH) > bin/test/test_spam.js
+	@ clear && OCAMLRUNPARAM=b clj2js js ../test/test.clj $(PRELUDE_PATH) > bin/test/test.js
+	@ clear && node --env-file=.dev.vars bin/test/test_spam.js
+	@ clear && node --env-file=.dev.vars bin/test/test.js
 
 build:
-	@ mkdir -p _build_
-	@ echo '{"type": "module"}' > _build_/package.json
-	@ clear && clj2js js prelude > _build_/prelude.js
-	@ clear && clj2js js ../vendor/packages/effects/effects.clj > _build_/effects.js
-	@ clear && clj2js js ../src/main.clj > _build_/main.js
-	@ clear && clj2js js ../src/moderator.clj > _build_/moderator.js
+	@ mkdir -p bin/src && mkdir -p bin/test && mkdir -p bin/vendor/packages/effects && mkdir -p bin/vendor/prelude/js/src
+	@ echo '{"type": "module"}' > bin/package.json
+	@ clear && echo "effects.clj"   && OCAMLRUNPARAM=b clj2js js ../vendor/packages/effects/effects.clj $(PRELUDE_PATH) > bin/vendor/packages/effects/effects.js
+	@ clear && echo "moderator.clj" && OCAMLRUNPARAM=b clj2js js ../src/moderator.clj $(PRELUDE_PATH) > bin/src/moderator.js
+	@ clear && echo "main.clj"      && OCAMLRUNPARAM=b clj2js js ../src/main.clj $(PRELUDE_PATH) > bin/src/main.js
 
 db:
-	@ wrangler d1 execute ANROID_DECLARATIVE_BAN_BOT_DB --local --file=test_db.sql > _build_/db_result.json
+	@ wrangler d1 execute ANROID_DECLARATIVE_BAN_BOT_DB --local --file=test_db.sql > bin/db_result.json
 
 prod_db:
-	@ wrangler d1 execute ANROID_DECLARATIVE_BAN_BOT_DB --file=test_db.sql > _build_/db_result.json
+	@ wrangler d1 execute ANROID_DECLARATIVE_BAN_BOT_DB --file=test_db.sql > bin/db_result.json
 
 migrate:
 	@ wrangler d1 execute ANROID_DECLARATIVE_BAN_BOT_DB --local --file=schema.sql
 
 clean:
-	@ rm -rf _build_
+	@ rm -rf bin
 
 hook:
 	@NGROK_API="http://localhost:4040/api/tunnels" ; \
