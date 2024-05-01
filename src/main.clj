@@ -27,7 +27,8 @@
              reply_from_id reply_from?.id
              reply_message_id update?.message?.reply_to_message?.message_id
              message_date update?.message?.reply_to_message?.date
-             _ (or (= "/spam" update?.message?.text) (= "/report" update?.message?.text))]
+             command_text update?.message?.text
+             _ (or (.startsWith command_text "/spam") (.startsWith command_text "/report"))]
       (let [is_spam (m/check_is_spam reply_text)]
         (e/batch
          (concat
@@ -107,10 +108,6 @@
       (let [cofx (or env.cofx {:now (Date.now)})
             w (->
                (e/attach_empty_effect_handler {})
-              ;;  (e/attach_eff
-              ;;   :next (fn [[fx f] w]x
-              ;;           (.then (fx w)
-              ;;                  (fn [r] ((f r) w)))))
                (e/attach_eff
                 :batch (fn [args w]
                          (-> (.map args.children (fn [f] (f w))) (Promise.all))))
