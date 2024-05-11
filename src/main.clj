@@ -91,7 +91,7 @@
   ;; (println (JSON.stringify {:cofx cofx :key key :data data} null 2))
   (case key
     :telegram (handle_message cofx data)
-    :find_user_completed (handle_find_result (spread data))
+    :find_user_completed (handle_find_result (first data) (second data))
     (e/pure null)))
 
 ;; Infrastructure
