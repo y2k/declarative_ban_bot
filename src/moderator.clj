@@ -1,4 +1,4 @@
-(def LIMIT_SPAM_OLD_SEC 600)
+(def LIMIT_SPAM_OLD_SEC 900)
 
 (defn is_too_old [now message_date]
   (> (- (/ now 1000) message_date) LIMIT_SPAM_OLD_SEC))
