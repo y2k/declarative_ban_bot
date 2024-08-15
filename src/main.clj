@@ -55,7 +55,7 @@
                                  {:chat_id chat_id
                                   :text (str "Сообщение не определено как спам. Администратор уведомлен.")})]))))
       (if-let [chat_id update?.message?.chat?.id
-               _ (= "/healthcheck" update?.message?.text)]
+               _ (= "/start" update?.message?.text)]
         (send_message "sendMessage" {:chat_id chat_id :text "Bot is working"})
         (if-let [chat_id update?.message?.chat?.id
                  text update?.message?.text

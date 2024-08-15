@@ -21,7 +21,7 @@
         "type": "private"
       },
       "date": 1711294996,
-      "text": "/healthcheck",
+      "text": "/start",
       "entities": [
         {
           "offset": 0,
