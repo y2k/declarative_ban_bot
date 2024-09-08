@@ -42,10 +42,10 @@
                           :disable_notification is_spam
                           :text (str "Бот вызван [spam: " is_spam "] https://t.me/" chat_name "/" reply_message_id)})]
           (cond
-            (m/is_too_old cofx.now message_date)
+            (m/is_too_old cofx.now message_date message_id reply_message_id)
             [(send_message "sendMessage"
                            {:chat_id chat_id
-                            :text (str "Сообщение старше " m/LIMIT_SPAM_OLD_SEC " секунд. Администратор уведомлен.")})]
+                            :text (str "Репортить можно только " m/OLD_MESSAGE_ID_DIFF " последних сообщения. Администратор уведомлен.")})]
 
             is_spam
             [(send_message "deleteMessage" {:chat_id chat_id :message_id reply_message_id})

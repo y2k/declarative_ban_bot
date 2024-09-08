@@ -1,10 +1,10 @@
 PRELUDE_PATH := $(shell realpath ../vendor/prelude/js/src/prelude.clj)
 
-deploy: test
-	@ wrangler deploy
-
 run: hook
 	@ wrangler dev --port 8787
+
+deploy: test
+	@ wrangler deploy
 
 test: build
 	@ clear && OCAMLRUNPARAM=b clj2js js ../test/test_spam.clj $(PRELUDE_PATH) > bin/test/test_spam.js
