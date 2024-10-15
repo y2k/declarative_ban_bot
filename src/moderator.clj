@@ -17,12 +17,13 @@
                     (.replaceAll "x" "х"))]
     (or
      (.test (RegExp "[^\\wа-яа-щ\\s\\.,;:\\-?\\x22\\x27()]") message)
-     (.includes message "банкомат")
      (.includes message "арбитраж")
-     (.includes message "заработ")
-     (.includes message "онлайн")
+     (.includes message "банкомат")
      (.includes message "бесплатно")
-     (.includes message "крипт")
      (.includes message "доход")
+     (.includes message "заработ")
+     (.includes message "крипт")
+     (.includes message "онлайн")
+     (.includes message "оплата")
      (.includes message "прибыл")
-     (.includes message "оплата"))))
+     (.includes message "сотрудничеств"))))

@@ -4,7 +4,7 @@ compatibility_date = "2023-10-30"
 node_compat = true
 
 [build]
-command = "make build"
+command = "cd .. && make build"
 watch_dir = ["../src"]
 
 [[d1_databases]]
