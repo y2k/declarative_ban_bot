@@ -101,6 +101,7 @@
    (.json request)
    (.then
     (fn [json]
+      ;; (println (JSON.stringify json null 2))
       (if (not= (.get request.headers "x-telegram-bot-api-secret-token") env.TG_SECRET_TOKEN)
         (throw (Error. "Telegram secret token is not valid"))
         null)

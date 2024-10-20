@@ -27,11 +27,15 @@ build:
 
 .PHONY: db
 db:
-	@ cd $(WRANGLER_DIR) && mkdir -p && wrangler d1 execute ANROID_DECLARATIVE_BAN_BOT_DB --local --file=test_db.sql > bin/db_result.json
+	@ cd $(WRANGLER_DIR) && mkdir -p bin && wrangler d1 execute ANROID_DECLARATIVE_BAN_BOT_DB -y --command="SELECT content FROM log ORDER BY id DESC LIMIT 10" --json > bin/db_result.json
+	@ test/tools/get_last_messages.clj > $(BIN_DIR)/db_result.pretty.json
+	@ rm -f $(BIN_DIR)/db_result.json
 
 .PHONY: prod_db
 prod_db:
-	@ cd $(WRANGLER_DIR) && mkdir -p bin && wrangler d1 execute ANROID_DECLARATIVE_BAN_BOT_DB --file=test_db.sql > bin/db_result.json
+	@ cd $(WRANGLER_DIR) && mkdir -p bin && wrangler d1 execute ANROID_DECLARATIVE_BAN_BOT_DB -y --command="SELECT content FROM log ORDER BY id DESC LIMIT 10" --remote --json > bin/db_result.json
+	@ test/tools/get_last_messages.clj > $(BIN_DIR)/db_result.pretty.json
+	@ rm -f $(BIN_DIR)/db_result.json
 
 .PHONY: migrate
 migrate:

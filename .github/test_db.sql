@@ -1,1 +1,0 @@
-SELECT content FROM log ORDER BY id DESC LIMIT 5
