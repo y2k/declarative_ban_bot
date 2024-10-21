@@ -20,6 +20,7 @@
      (.includes message "арбитраж")
      (.includes message "банкомат")
      (.includes message "бесплатно")
+     (.includes message "деньги")
      (.includes message "доход")
      (.includes message "заработ")
      (.includes message "крипт")
