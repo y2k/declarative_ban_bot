@@ -25,20 +25,6 @@
   {
     "type": "fetch",
     "args": {
-      "url": "https://api.telegram.org/bot~TG_TOKEN~/sendMessage",
-      "decoder": "json",
-      "props": {
-        "method": "POST",
-        "headers": {
-          "Content-Type": "application/json"
-        },
-        "body": "{\"chat_id\":241854720,\"disable_notification\":true,\"text\":\"Бот вызван [spam: true] https://t.me/xofftop/484\"}"
-      }
-    }
-  },
-  {
-    "type": "fetch",
-    "args": {
       "url": "https://api.telegram.org/bot~TG_TOKEN~/deleteMessage",
       "decoder": "json",
       "props": {

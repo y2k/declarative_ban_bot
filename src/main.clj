@@ -29,21 +29,22 @@
              message_date update?.message?.reply_to_message?.date
              command_text update?.message?.text
              _ (or (.startsWith command_text "/spam") (.startsWith command_text "/report"))]
-      (let [is_spam (m/check_is_spam reply_text)]
+      (let [is_spam (m/check_is_spam reply_text)
+            notify_admin_fx (send_message "sendMessage"
+                                          {:chat_id 241854720
+                                           :disable_notification is_spam
+                                           :text (str "Бот вызван [spam: " is_spam "] https://t.me/" chat_name "/" reply_message_id)})]
         (e/batch
          (concat
           [(e/database
             "INSERT INTO log (content) VALUES (?)"
             [(JSON.stringify {:from from :reply_from reply_from :text (string_to_hex reply_text)})])
            (send_message "deleteMessage"
-                         {:chat_id chat_id :message_id message_id})
-           (send_message "sendMessage"
-                         {:chat_id 241854720
-                          :disable_notification is_spam
-                          :text (str "Бот вызван [spam: " is_spam "] https://t.me/" chat_name "/" reply_message_id)})]
+                         {:chat_id chat_id :message_id message_id})]
           (cond
             (m/is_too_old cofx.now message_date message_id reply_message_id)
-            [(send_message "sendMessage"
+            [notify_admin_fx
+             (send_message "sendMessage"
                            {:chat_id chat_id
                             :text (str "Репортить можно только " m/OLD_MESSAGE_ID_DIFF " последних сообщения. Администратор уведомлен.")})]
 
@@ -51,7 +52,8 @@
             [(send_message "deleteMessage" {:chat_id chat_id :message_id reply_message_id})
              (send_message "restrictChatMember" {:chat_id chat_id :user_id reply_from_id :permissions {}})]
 
-            :else [(send_message "sendMessage"
+            :else [notify_admin_fx
+                   (send_message "sendMessage"
                                  {:chat_id chat_id
                                   :text (str "Сообщение не определено как спам. Администратор уведомлен.")})]))))
       (if-let [chat_id update?.message?.chat?.id
