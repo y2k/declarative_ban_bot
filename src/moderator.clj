@@ -21,6 +21,7 @@
      (.includes message "банкомат")
      (.includes message "бесплатно")
      (.includes message "деньги")
+     (.includes message "долларов")
      (.includes message "доход")
      (.includes message "заработ")
      (.includes message "крипт")
