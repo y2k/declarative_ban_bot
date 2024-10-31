@@ -11,3 +11,7 @@ watch_dir = ["../src"]
 binding = "DB"
 database_name = "ANROID_DECLARATIVE_BAN_BOT_DB"
 database_id = "4b30e2e2-430e-4a9c-ac7b-acba5fd73a45"
+
+[observability]
+enabled = true
+head_sampling_rate = 1
