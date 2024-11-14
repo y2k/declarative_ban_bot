@@ -16,6 +16,22 @@
 (defn- string_to_hex [str]
   (-> (TextEncoder.) (.encode str) Buffer.from (.toString "base64")))
 
+(defn handle_unknown_command [update]
+  (if-let [reply_message_id update?.message?.reply_to_message?.message_id
+           chat_name (or update?.message?.chat?.username "_")]
+    (send_message "sendMessage"
+                  {:chat_id 241854720
+                   :disable_notification true
+                   :text (str "Неизвестный формат сообщения https://t.me/" chat_name "/" reply_message_id)})
+    (e/pure null)))
+
+(defn handle_new_user_message [update]
+  (if-let [_ update?.message?.new_chat_member
+           chat_id update?.message?.chat?.id
+           message_id update?.message?.message_id]
+    (send_message "deleteMessage" {:chat_id chat_id :message_id message_id})
+    (e/pure null)))
+
 (defn- handle_message [cofx update]
   (if-let [_ (.startsWith (or update?.message?.text "") "/")]
     (if-let [reply_text (or update?.message?.reply_to_message?.text update?.message?.reply_to_message?.caption)
@@ -68,14 +84,8 @@
             "SELECT content->>'reply_from' AS 'banned user', content->>'from' AS 'reporter', content->>'text' AS 'base64 msg' FROM log WHERE json_extract(content, '$.reply_from.username') = ? ORDER BY id DESC LIMIT 2;"
             [find_user])
            (e/next :find_user_completed (fn [r] [chat_id r])))
-          (if-let [reply_message_id update?.message?.reply_to_message?.message_id
-                   chat_name (or update?.message?.chat?.username "_")]
-            (send_message "sendMessage"
-                          {:chat_id 241854720
-                           :disable_notification true
-                           :text (str "Неизвестный формат сообщения https://t.me/" chat_name "/" reply_message_id)})
-            (e/pure null)))))
-    (e/pure null)))
+          (handle_unknown_command update))))
+    (handle_new_user_message update)))
 
 (defn- handle_find_result [chat_id r]
   (send_message

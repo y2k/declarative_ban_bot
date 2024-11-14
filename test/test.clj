@@ -33,8 +33,8 @@
              (.then (fn []
                       (if (= output_json null)
                         (fs/writeFile (.replace path "/input/" "/output/") (JSON.stringify (rec_parse actual_log) null 4))
-                        (let [expected (JSON.stringify (rec_parse output_log))
-                              actual (JSON.stringify (rec_parse actual_log))]
+                        (let [expected (JSON.stringify (rec_parse output_log) null 2)
+                              actual (JSON.stringify (rec_parse actual_log) null 2)]
                           (if (= expected actual)
                             null
                             (FIXME "Log: " (.replace path "/input/" "/output/") "\n" expected "\n<>\n" actual "\n")))))))))))))))
