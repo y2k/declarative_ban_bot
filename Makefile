@@ -2,6 +2,13 @@ PRELUDE_PATH := $(shell realpath vendor/prelude/js/src/prelude.clj)
 WRANGLER_DIR := .github
 BIN_DIR := .github/bin
 
+.PHONY: test
+test: build
+	@ clear && OCAMLRUNPARAM=b clj2js js test/test_spam.clj $(PRELUDE_PATH) > $(BIN_DIR)/test/test_spam.js
+	@ clear && OCAMLRUNPARAM=b clj2js js test/test.clj $(PRELUDE_PATH) > $(BIN_DIR)/test/test.js
+	@ clear && cd $(WRANGLER_DIR) && node --env-file=.dev.vars bin/test/test_spam.js
+	@ clear && cd $(WRANGLER_DIR) && node --env-file=.dev.vars bin/test/test.js
+
 .PHONY: run
 run: hook
 	@ cd $(WRANGLER_DIR) && wrangler dev --port 8787
@@ -9,13 +16,6 @@ run: hook
 .PHONY: deploy
 deploy: test
 	@ cd $(WRANGLER_DIR) && wrangler deploy
-
-.PHONY: test
-test: build
-	@ clear && OCAMLRUNPARAM=b clj2js js test/test_spam.clj $(PRELUDE_PATH) > $(BIN_DIR)/test/test_spam.js
-	@ clear && OCAMLRUNPARAM=b clj2js js test/test.clj $(PRELUDE_PATH) > $(BIN_DIR)/test/test.js
-	@ clear && cd $(WRANGLER_DIR) && node --env-file=.dev.vars bin/test/test_spam.js
-	@ clear && cd $(WRANGLER_DIR) && node --env-file=.dev.vars bin/test/test.js
 
 .PHONY: build
 build:

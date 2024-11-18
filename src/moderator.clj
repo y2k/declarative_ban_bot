@@ -27,5 +27,6 @@
      (.includes message "крипт")
      (.includes message "онлайн")
      (.includes message "оплата")
+     (.includes message "партнер")
      (.includes message "прибыл")
      (.includes message "сотрудничеств"))))
