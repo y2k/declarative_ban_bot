@@ -29,4 +29,5 @@
      (.includes message "оплата")
      (.includes message "партнер")
      (.includes message "прибыл")
+     (.includes message "работе")
      (.includes message "сотрудничеств"))))
