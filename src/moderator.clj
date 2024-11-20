@@ -28,6 +28,7 @@
      (.includes message "онлайн")
      (.includes message "оплата")
      (.includes message "партнер")
+     (.includes message "предложени")
      (.includes message "прибыл")
      (.includes message "работе")
      (.includes message "сотрудничеств"))))
