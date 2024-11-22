@@ -1,6 +1,7 @@
 PRELUDE_PATH := $(shell realpath vendor/prelude/js/src/prelude.clj)
 WRANGLER_DIR := .github
 BIN_DIR := .github/bin
+SRC_DIRS := vendor/packages/effects src test
 
 .PHONY: test
 test: build
@@ -19,11 +20,11 @@ deploy: test
 
 .PHONY: build
 build:
-	@ mkdir -p $(BIN_DIR)/src && mkdir -p $(BIN_DIR)/test && mkdir -p $(BIN_DIR)/vendor/packages/effects && mkdir -p $(BIN_DIR)/vendor/prelude/js/src
-	@ echo '{"type": "module"}' > $(BIN_DIR)/package.json
-	@ clear && echo "effects.clj"   && OCAMLRUNPARAM=b clj2js js vendor/packages/effects/effects.clj $(PRELUDE_PATH) > $(BIN_DIR)/vendor/packages/effects/effects.js
-	@ clear && echo "moderator.clj" && OCAMLRUNPARAM=b clj2js js src/moderator.clj $(PRELUDE_PATH) > $(BIN_DIR)/src/moderator.js
-	@ clear && echo "main.clj"      && OCAMLRUNPARAM=b clj2js js src/main.clj $(PRELUDE_PATH) > $(BIN_DIR)/src/main.js
+	@ set -e; find $(SRC_DIRS) -name '*.clj' | while read clj_file; do \
+		out_file=$(BIN_DIR)/$$(echo $$clj_file | sed 's|\.clj$$|.js|'); \
+		mkdir -p $$(dirname $$out_file); \
+		clj2js js $$clj_file $(PRELUDE_PATH) > $$out_file; \
+	  done
 
 .PHONY: db
 db:

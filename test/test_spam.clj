@@ -1,4 +1,4 @@
-(ns test (:require ["../vendor/packages/effects/effects" :as p]
+(ns test (:require ["../vendor/packages/effects/0.1.0/main" :as p]
                    ["../src/main" :as app]
                    [js.fs.promises :as fs]))
 
@@ -33,11 +33,12 @@
           :json (fn [] (Promise.resolve message))}
          {:TG_SECRET_TOKEN "TG_SECRET_TOKEN"
           :cofx {:now 1704388914000}}
-         (->
-          (p/attach_empty_effect_handler {})
-          (p/attach_eff :batch (fn [args w] (.map args.children (fn [f] (f w)))))
-          (p/attach_eff :database (fn [args] (.push log {:type :database :args args})))
-          (p/attach_eff :fetch (fn [args] (.push log {:type :fetch :args args})))))
+         {:database (fn [args]
+                      (.push log {:type :database :args args})
+                      (Promise.resolve null))
+          :fetch (fn [args]
+                   (.push log {:type :fetch :args args})
+                   (Promise.resolve null))})
         (.then (fn []
                  (let [actual (JSON.stringify log null 2)]
                    (.then

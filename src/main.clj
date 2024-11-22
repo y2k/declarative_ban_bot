@@ -1,10 +1,11 @@
-(ns app (:require ["../vendor/packages/effects/effects" :as e]
+(ns app (:require ["../vendor/packages/effects/0.1.0/main" :as e]
+                  ["./effects" :as fx]
                   [moderator :as m]))
 
 ;; BEGIN - Infrastructure
 
 (defn- send_message [cmd args]
-  (e/fetch
+  (fx/fetch
    (str "https://api.telegram.org/bot~TG_TOKEN~/" cmd)
    :json
    {:method "POST"
@@ -52,7 +53,7 @@
                                            :text (str "Бот вызван [spam: " is_spam "] https://t.me/" chat_name "/" reply_message_id)})]
         (e/batch
          (concat
-          [(e/database
+          [(fx/database
             "INSERT INTO log (content) VALUES (?)"
             [(JSON.stringify {:from from :reply_from reply_from :text (string_to_hex reply_text)})])
            (send_message "deleteMessage"
@@ -80,10 +81,11 @@
                  _ (= "/find_ban" (get (.split text " ") 0))
                  find_user (get (.split text " ") 1)]
           (->
-           (e/database
+           (fx/database
             "SELECT content->>'reply_from' AS 'banned user', content->>'from' AS 'reporter', content->>'text' AS 'base64 msg' FROM log WHERE json_extract(content, '$.reply_from.username') = ? ORDER BY id DESC LIMIT 2;"
             [find_user])
-           (e/next :find_user_completed (fn [r] [chat_id r])))
+           (e/then (fn [r]
+                     (fx/dispatch :find_user_completed [chat_id r]))))
           (handle_unknown_command update))))
     (handle_new_user_message update)))
 
@@ -117,32 +119,22 @@
       (if (not= (.get request.headers "x-telegram-bot-api-secret-token") env.TG_SECRET_TOKEN)
         (throw (Error. "Telegram secret token is not valid"))
         null)
-
       (let [cofx (or env.cofx {:now (Date.now)})
-            w (->
-               (e/attach_empty_effect_handler {})
-               (e/attach_eff
-                :batch (fn [args w]
-                         (-> (.map args.children (fn [f] (f w))) (Promise.all))))
-               (e/attach_eff
-                :fetch (fn [{url :url decoder :decoder props :props}]
+            w (merge
+               {:fetch (fn [{url :url decoder :decoder props :props}]
                          (->
                           (.replace url "~TG_TOKEN~" env.TG_TOKEN)
                           (fetch props)
-                          (.then (fn [x] (if (= "json" decoder) (.json x) (.text x)))))))
-               (e/attach_eff
+                          (.then (fn [x] (if (= "json" decoder) (.json x) (.text x))))))
                 :database (fn [{sql :sql args :args}]
                             (->
                              (.prepare env.DB sql)
                              (.bind (spread args))
-                             (.run))))
-               (e/attach_eff
-                :dispatch
-                (fn [[key data]]
-                  (e/run_effect (handle_event cofx key data) w)))
-              ;;  (e/attach_log_handler)
-               (merge world))]
-        (e/run_io w (handle_event cofx :telegram json)))))
+                             (.run)))
+                :dispatch (fn [[key data]]
+                            ((handle_event cofx key data) w))}
+               world)]
+        ((handle_event cofx :telegram json) w))))
 
    (.catch console.error)
    (.then (fn [] (Response. "OK")))))

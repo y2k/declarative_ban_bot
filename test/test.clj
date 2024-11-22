@@ -1,4 +1,4 @@
-(ns _ (:require ["../vendor/packages/effects/effects" :as e]
+(ns _ (:require ["../vendor/packages/effects/0.1.0/main" :as e]
                 ["../src/main" :as app]
                 [js.fs.promises :as fs]))
 
@@ -28,8 +28,11 @@
               (.push actual_log {:key name :data args})
               (Promise.resolve [name args]))
             (->
-             (app/handle_event event.cofx event.key event.data)
-             (e/run_effect {:perform test_eff_handler})
+             ((app/handle_event event.cofx event.key event.data) (Proxy. {}
+                                                                         {:get (fn [target prop]
+                                                                                 (fn [args]
+                                                                                   (test_eff_handler prop args)))}))
+            ;;  (e/run_effect {:perform test_eff_handler})
              (.then (fn []
                       (if (= output_json null)
                         (fs/writeFile (.replace path "/input/" "/output/") (JSON.stringify (rec_parse actual_log) null 4))
