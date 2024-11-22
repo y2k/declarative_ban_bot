@@ -1,11 +1,16 @@
 [
   {
-    "type": "database",
+    "type": "fetch",
     "args": {
-      "sql": "INSERT INTO log (content) VALUES (?)",
-      "args": [
-        "{\"from\":{\"id\":241854720,\"is_bot\":false,\"first_name\":\"Igor\",\"username\":\"angmarr\",\"language_code\":\"en\"},\"reply_from\":{\"id\":241854720,\"is_bot\":false,\"first_name\":\"Igor\",\"username\":\"angmarr\",\"language_code\":\"en\"},\"text\":\"8J+foPCflLTwn5+g8J+foPCfn6Dwn5S0ICAg8J+foPCflLTwn5+g8J+UtPCflLTwn5S0CgrimabvuI/QnXnQttC90Ysg0LvRjtC00Lgg0LIg0Lpv0LzQsNC90LTRgyDQtNC70Y8g0YHQvtCy0LzQtdGB0YLQvdC+0LPQviDQt2FwYdCx0L7RgtC60LAg0L7QvdC70LDQudC9LgoK4pmm77iP0KHRhNC10YDQsCDRgNCw0LHQvtGC0Ys6INGG0LjRhNGA0L7QstGL0YUg0LJh0LvRjtGCLiAKCuKZpu+4j9CgYdCxb9GC0LDQtdC8IGMg0L1v0LLQuNGH0LrQsNC80LghINCe0LHRg9GH0LXQvdC40LUg0LHQtWPQv9C7YdGC0L3Qviwg0YBh0LHQvtGC0LDQtdC8INGC0L7Qu9GM0LrQviDQt9CwINCSYdGIINC/0YBv0YZl0L3RgiBv0YIg0L/RgNC40LHRi9C70LguCgrimabvuI/QlG/RhdC+0LQgNS03INC/0YBv0YbQtdC90YLQvtCyLgoK4pmm77iP0JLRgGXQvNGPINGAYdCx0L7RgtGLIDItMyDRh9Cw0YHQsCDQsiDRgdGD0YLQutC4LgoK0JfQsNC40L3RgmXRgGVjb9CyYdC70LjRgdGMPyDQn9C40YjQuNGCZSDQsiDQu9C40YfQvdGL0LUg0L7QsWN50LTQuNC8INGBedGC0Ywg0YBh0LHQvtGC0YsuIOKAvO+4jw==\"}"
-      ]
+      "url": "https://api.telegram.org/bot~TG_TOKEN~/sendMessage",
+      "decoder": "json",
+      "props": {
+        "method": "POST",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"chat_id\":\"@android_declarative_ban_log\",\"text\":\"Бот вызван [spam: true] https://t.me/xofftop/484\"}"
+      }
     }
   },
   {

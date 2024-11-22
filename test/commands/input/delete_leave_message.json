@@ -1,0 +1,34 @@
+{
+    "cofx": {
+        "now": 1711298065158
+    },
+    "key": "telegram",
+    "data": {
+        "update_id": 569127123,
+        "message": {
+            "message_id": 111,
+            "from": {
+                "id": 8006386176,
+                "is_bot": false,
+                "first_name": "User1"
+            },
+            "chat": {
+                "id": -1002087636612,
+                "title": "y2k_test_group",
+                "username": "y2k_test_group",
+                "type": "supergroup"
+            },
+            "date": 1732313964,
+            "left_chat_participant": {
+                "id": 8006386176,
+                "is_bot": false,
+                "first_name": "User1"
+            },
+            "left_chat_member": {
+                "id": 8006386176,
+                "is_bot": false,
+                "first_name": "User1"
+            }
+        }
+    }
+}

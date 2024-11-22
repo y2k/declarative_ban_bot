@@ -1,0 +1,19 @@
+[
+    {
+        "key": "fetch",
+        "data": {
+            "url": "https://api.telegram.org/bot~TG_TOKEN~/deleteMessage",
+            "decoder": "json",
+            "props": {
+                "method": "POST",
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "body": {
+                    "chat_id": -1002087636612,
+                    "message_id": 111
+                }
+            }
+        }
+    }
+]

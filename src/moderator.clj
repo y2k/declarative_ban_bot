@@ -31,4 +31,5 @@
      (.includes message "предложени")
      (.includes message "прибыл")
      (.includes message "работе")
-     (.includes message "сотрудничеств"))))
+     (.includes message "сотрудничеств")
+     (.includes message "финанс"))))

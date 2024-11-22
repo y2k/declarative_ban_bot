@@ -1,11 +1,16 @@
 [
   {
-    "type": "database",
+    "type": "fetch",
     "args": {
-      "sql": "INSERT INTO log (content) VALUES (?)",
-      "args": [
-        "{\"from\":{\"id\":241854720,\"is_bot\":false,\"first_name\":\"Igor\",\"username\":\"angmarr\",\"language_code\":\"en\"},\"reply_from\":{\"id\":241854720,\"is_bot\":false,\"first_name\":\"Igor\",\"username\":\"angmarr\",\"language_code\":\"en\"},\"text\":\"0Jpv0LNvINC4bnRlcGVjedC1dCBw0LDQscOz0YLQsCDQvdCwIHnQtGHQu9GR0L3QumUsINC/0LjRiNC40YJlIMKrK8K7INCyINC70LjRh9C90Ytl4pi677iP\"}"
-      ]
+      "url": "https://api.telegram.org/bot~TG_TOKEN~/sendMessage",
+      "decoder": "json",
+      "props": {
+        "method": "POST",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"chat_id\":\"@android_declarative_ban_log\",\"text\":\"Бот вызван [spam: true] https://t.me/xofftop/484\"}"
+      }
     }
   },
   {

@@ -1,11 +1,16 @@
 [
   {
-    "type": "database",
+    "type": "fetch",
     "args": {
-      "sql": "INSERT INTO log (content) VALUES (?)",
-      "args": [
-        "{\"from\":{\"id\":241854720,\"is_bot\":false,\"first_name\":\"Igor\",\"username\":\"angmarr\",\"language_code\":\"en\"},\"reply_from\":{\"id\":241854720,\"is_bot\":false,\"first_name\":\"Igor\",\"username\":\"angmarr\",\"language_code\":\"en\"},\"text\":\"0JfQtNGA0LDQstGC0YHQstGD0LnRgtC1LCDQstC10LTRgyDQv9C+ddGB0Log0L/QsNGA0YLQvdC10YDQvtCyINC00LvRjyDQtHXRgdGC0LDQvdGGddC+0L3QvdC+0Lkg0LTQtdGP0YLQtdC70YzQvdC+0YHRgnUsINGBINGF0L7RgNC+0Yh10Lwg0L/RgNC+0YbQtdC90YLQvtC8INC+0YIgMTDQuiB1INGD0LTQvtCx0L3Ri9C8INCz0YDQsNGEddC60L7QvC4g0JXRgdC7dSDRhdC+0YfQtdGC0LUg0YDQsNCx0L7RgtCw0YLRjCDRgSDQvdCw0Lx1LCDQv3XRiHUg0LzQvdC1INCyINC7ddGH0L110LUg0YHQvtC+0LHRidC10L110Y8u\"}"
-      ]
+      "url": "https://api.telegram.org/bot~TG_TOKEN~/sendMessage",
+      "decoder": "json",
+      "props": {
+        "method": "POST",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"chat_id\":\"@android_declarative_ban_log\",\"text\":\"Бот вызван [spam: true] https://t.me/xofftop/484\"}"
+      }
     }
   },
   {
