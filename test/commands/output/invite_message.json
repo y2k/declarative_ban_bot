@@ -1,0 +1,55 @@
+[
+    {
+        "key": "fetch",
+        "data": {
+            "url": "https://api.telegram.org/bot~TG_TOKEN~/sendMessage",
+            "decoder": "json",
+            "props": {
+                "method": "POST",
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "body": {
+                    "parse_mode": "MarkdownV2",
+                    "chat_id": 8006386176,
+                    "text": "Что бы остаться в @android\\_declarative, *решите капчу*:\n\n```clojure\n(+ 2 2)```\n\nУ вас 5 минут\\."
+                }
+            }
+        }
+    },
+    {
+        "key": "fetch",
+        "data": {
+            "url": "https://api.telegram.org/bot~TG_TOKEN~/sendMessage",
+            "decoder": "json",
+            "props": {
+                "method": "POST",
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "body": {
+                    "parse_mode": "MarkdownV2",
+                    "chat_id": "@android_declarative_ban_log",
+                    "text": "[Новый запрос на вступление](tg://user?id=8006386176)"
+                }
+            }
+        }
+    },
+    {
+        "key": "fetch",
+        "data": {
+            "url": "https://api.telegram.org/bot~TG_TOKEN~/approveChatJoinRequest",
+            "decoder": "json",
+            "props": {
+                "method": "POST",
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "body": {
+                    "chat_id": -1002087636612,
+                    "user_id": 8006386176
+                }
+            }
+        }
+    }
+]

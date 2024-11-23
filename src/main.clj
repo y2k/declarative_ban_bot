@@ -17,20 +17,52 @@
 (defn- string_to_hex [str]
   (-> (TextEncoder.) (.encode str) Buffer.from (.toString "base64")))
 
-(defn handle_unknown_command [update]
+;; Message handler
+
+(defn- handle_captcha_response [update]
+  (if-let [chat_id update?.message?.chat?.id
+           user_id update?.message?.from?.id
+           _ (= chat_id user_id)]
+    (do
+      (println "CAPTCHA:" update?.message?.text)
+      (send_message "sendMessage"
+                    {:chat_id user_id
+                     :text "Вы прошли капчу."}))
+    (e/pure null)))
+
+(defn- handle_join_request [update]
+  (if-let [chat_id update?.chat_join_request?.chat?.id
+           user_id update?.chat_join_request?.from?.id]
+    (e/batch
+     [(send_message "sendMessage"
+                    {:parse_mode :MarkdownV2
+                     :chat_id user_id
+                     :text "Что бы остаться в @android\\_declarative, *решите капчу*:\n\n```clojure\n(+ 2 2)```\n\nУ вас 5 минут\\."})
+      (send_message "sendMessage"
+                    {:parse_mode :MarkdownV2
+                     :chat_id "@android_declarative_ban_log"
+                     :text (str "[Новый запрос на вступление](tg://user?id=" user_id ")")})
+      (send_message "approveChatJoinRequest"
+                    {:chat_id chat_id
+                     :user_id user_id})])
+    (handle_captcha_response update)))
+
+(defn- handle_service_message [update]
+  (if-let [_ (or update?.message?.new_chat_member update?.message?.left_chat_member)
+           chat_id update?.message?.chat?.id
+           message_id update?.message?.message_id]
+    (send_message "deleteMessage" {:chat_id chat_id :message_id message_id})
+    (handle_join_request update)))
+
+;; Command handler
+
+(defn- handle_unknown_command [update]
   (if-let [reply_message_id update?.message?.reply_to_message?.message_id
            chat_name (or update?.message?.chat?.username "_")]
     (send_message "sendMessage"
                   {:chat_id 241854720
                    :disable_notification true
                    :text (str "Неизвестный формат сообщения https://t.me/" chat_name "/" reply_message_id)})
-    (e/pure null)))
-
-(defn handle_service_message [update]
-  (if-let [_ (or update?.message?.new_chat_member update?.message?.left_chat_member)
-           chat_id update?.message?.chat?.id
-           message_id update?.message?.message_id]
-    (send_message "deleteMessage" {:chat_id chat_id :message_id message_id})
     (e/pure null)))
 
 (defn- handle_start_command [update]
@@ -94,7 +126,7 @@
    (.json request)
    (.then
     (fn [json]
-      ;; (println (JSON.stringify json null 2))
+      (println (JSON.stringify json null 2))
       (if (not= (.get request.headers "x-telegram-bot-api-secret-token") env.TG_SECRET_TOKEN)
         (throw (Error. "Telegram secret token is not valid"))
         null)
@@ -114,7 +146,6 @@
                             ((handle_event cofx key data) w))}
                world)]
         ((handle_event cofx :telegram json) w))))
-
    (.catch console.error)
    (.then (fn [] (Response. "OK")))))
 

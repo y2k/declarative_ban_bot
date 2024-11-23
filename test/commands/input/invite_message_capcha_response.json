@@ -1,0 +1,25 @@
+{
+    "cofx": {
+        "now": 1711298065158
+    },
+    "key": "telegram",
+    "data": {
+        "update_id": 569127175,
+        "message": {
+            "message_id": 6643,
+            "from": {
+                "id": 8006386176,
+                "is_bot": false,
+                "first_name": "User1",
+                "language_code": "en"
+            },
+            "chat": {
+                "id": 8006386176,
+                "first_name": "User1",
+                "type": "private"
+            },
+            "date": 1732323449,
+            "text": "4"
+        }
+    }
+}
