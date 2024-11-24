@@ -41,7 +41,7 @@
       (send_message "sendMessage"
                     {:parse_mode :MarkdownV2
                      :chat_id "@android_declarative_ban_log"
-                     :text (str "[Новый запрос на вступление](tg://user?id=" user_id ")")})
+                     :text (str "[Новый запрос на вступление " user_id "](tg://user?id=" user_id ")")})
       (send_message "approveChatJoinRequest"
                     {:chat_id chat_id
                      :user_id user_id})])
@@ -75,11 +75,9 @@
   (if-let [_ (.startsWith (or update?.message?.text "") "/")]
     (if-let [reply_text (or update?.message?.reply_to_message?.text update?.message?.reply_to_message?.caption)
              message_id update?.message?.message_id
-             from update?.message?.from
              chat_id update?.message?.chat?.id
              chat_name update?.message?.chat?.username
-             reply_from update?.message?.reply_to_message?.from
-             reply_from_id reply_from?.id
+             reply_from_id update?.message?.reply_to_message?.from?.id
              reply_message_id update?.message?.reply_to_message?.message_id
              message_date update?.message?.reply_to_message?.date
              command_text update?.message?.text
@@ -88,7 +86,7 @@
             notify_admin_fx (send_message "sendMessage"
                                           {:chat_id 241854720
                                            :disable_notification is_spam
-                                           :text (str "Бот вызван [spam: " is_spam "] https://t.me/" chat_name "/" reply_message_id)})]
+                                           :text (str "Бот вызван, user: " reply_from_id ", spam: " is_spam ", url: https://t.me/" chat_name "/" reply_message_id)})]
         (e/batch
          (concat
           [(send_message "sendMessage"

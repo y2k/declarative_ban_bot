@@ -30,7 +30,7 @@
                 "body": {
                     "parse_mode": "MarkdownV2",
                     "chat_id": "@android_declarative_ban_log",
-                    "text": "[Новый запрос на вступление](tg://user?id=8006386176)"
+                    "text": "[Новый запрос на вступление 8006386176](tg://user?id=8006386176)"
                 }
             }
         }

@@ -46,7 +46,7 @@
                 "body": {
                     "chat_id": 241854720,
                     "disable_notification": false,
-                    "text": "Бот вызван [spam: false] https://t.me/xofftop/1273"
+                    "text": "Бот вызван, user: 241854720, spam: false, url: https://t.me/xofftop/1273"
                 }
             }
         }
