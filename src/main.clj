@@ -32,7 +32,8 @@
 
 (defn- handle_join_request [update]
   (if-let [chat_id update?.chat_join_request?.chat?.id
-           user_id update?.chat_join_request?.from?.id]
+           user_id update?.chat_join_request?.from?.id
+           user_name (or update?.chat_join_request?.from?.username "_")]
     (e/batch
      [(send_message "sendMessage"
                     {:parse_mode :MarkdownV2
@@ -41,7 +42,7 @@
       (send_message "sendMessage"
                     {:parse_mode :MarkdownV2
                      :chat_id "@android_declarative_ban_log"
-                     :text (str "[Новый запрос на вступление " user_id "](tg://user?id=" user_id ")")})
+                     :text (str "[Запрос на вступление от " user_name " " user_id "](tg://user?id=" user_id ")")})
       (send_message "approveChatJoinRequest"
                     {:chat_id chat_id
                      :user_id user_id})])

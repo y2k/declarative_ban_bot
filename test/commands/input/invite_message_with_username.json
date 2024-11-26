@@ -1,0 +1,26 @@
+{
+    "cofx": {
+        "now": 1711298065158
+    },
+    "key": "telegram",
+    "data": {
+        "update_id": 569127139,
+        "chat_join_request": {
+            "chat": {
+                "id": -1002087636612,
+                "title": "y2k_test_group",
+                "username": "y2k_test_group",
+                "type": "supergroup"
+            },
+            "from": {
+                "id": 8006386176,
+                "is_bot": false,
+                "first_name": "User1",
+                "username": "angmarr",
+                "language_code": "en"
+            },
+            "user_chat_id": 8006386176,
+            "date": 1732321354
+        }
+    }
+}
