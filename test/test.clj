@@ -1,10 +1,10 @@
-(ns _ (:require ["../vendor/packages/effects/0.1.0/main" :as e]
+(ns _ (:require ["../vendor/effects/0.1.0/main" :as e]
                 ["../src/main" :as app]
                 [js.fs.promises :as fs]))
 
 (defn- rec_parse [x]
   (cond
-    (= null x) x
+    (= nil x) x
     (Array.isArray x) (.map x rec_parse)
     (= (type x) "object") (and x (-> (Object.entries x)
                                      (.reduce (fn [a x] (assoc a (get x 0) (rec_parse (get x 1)))) {})))
@@ -14,7 +14,7 @@
 (defn- assert [path]
   (->
    (fs/readFile (.replace path "/input/" "/output/") "utf-8")
-   (.catch (fn [] null))
+   (.catch (fn [] nil))
    (.then
     (fn [output_json]
       (->
@@ -34,12 +34,12 @@
                                                                                    (test_eff_handler prop args)))}))
             ;;  (e/run_effect {:perform test_eff_handler})
              (.then (fn []
-                      (if (= output_json null)
-                        (fs/writeFile (.replace path "/input/" "/output/") (JSON.stringify (rec_parse actual_log) null 4))
-                        (let [expected (JSON.stringify (rec_parse output_log) null 2)
-                              actual (JSON.stringify (rec_parse actual_log) null 2)]
+                      (if (= output_json nil)
+                        (fs/writeFile (.replace path "/input/" "/output/") (JSON.stringify (rec_parse actual_log) nil 4))
+                        (let [expected (JSON.stringify (rec_parse output_log) nil 2)
+                              actual (JSON.stringify (rec_parse actual_log) nil 2)]
                           (if (= expected actual)
-                            null
+                            nil
                             (FIXME "Log: " (.replace path "/input/" "/output/") "\n" expected "\n<>\n" actual "\n")))))))))))))))
 
 (let [path "../test/commands/input/"]

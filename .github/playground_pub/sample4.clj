@@ -21,7 +21,7 @@
               {:chat_id chat_id
                :link_preview_options {:url preview_url}
                :text url})})
-    (pure null)))
+    (pure nil)))
 
 (defn runtime_create_world []
   {:perform (fn [name args] (console/error "Effect not handled:" (str "[" name "]") args))})

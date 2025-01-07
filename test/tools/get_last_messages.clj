@@ -4,7 +4,7 @@
 
 (defn- rec_parse [x]
   (cond
-    (= null x) x
+    (= nil x) x
     (Array.isArray x) (.map x rec_parse)
     (= (type x) "string") (if (or (.startsWith x "[") (.startsWith x "{")) (rec_parse (JSON.parse x)) x)
     (= (type x) "object") (and x (-> (Object.entries x)
@@ -14,4 +14,4 @@
 (->
  (fs/readFile ".github/bin/db_result.json" "utf-8")
  (.then (fn [data]
-          (println (JSON.stringify (rec_parse data) null 2)))))
+          (println (JSON.stringify (rec_parse data) nil 2)))))

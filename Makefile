@@ -1,12 +1,11 @@
-PRELUDE_PATH := $(shell realpath vendor/prelude/js/src/prelude.clj)
 WRANGLER_DIR := .github
 BIN_DIR := .github/bin
-SRC_DIRS := vendor/packages/effects src test
+SRC_DIRS := vendor/effects src test
 
 .PHONY: test
 test: build
-	@ clear && OCAMLRUNPARAM=b clj2js js test/test_spam.clj $(PRELUDE_PATH) > $(BIN_DIR)/test/test_spam.js
-	@ clear && OCAMLRUNPARAM=b clj2js js test/test.clj $(PRELUDE_PATH) > $(BIN_DIR)/test/test.js
+	@ clear && OCAMLRUNPARAM=b clj2js js test/test_spam.clj > $(BIN_DIR)/test/test_spam.js
+	@ clear && OCAMLRUNPARAM=b clj2js js test/test.clj > $(BIN_DIR)/test/test.js
 	@ clear && cd $(WRANGLER_DIR) && node --env-file=.dev.vars bin/test/test_spam.js
 	@ clear && cd $(WRANGLER_DIR) && node --env-file=.dev.vars bin/test/test.js
 
@@ -23,7 +22,7 @@ build:
 	@ set -e; find $(SRC_DIRS) -name '*.clj' | while read clj_file; do \
 		out_file=$(BIN_DIR)/$$(echo $$clj_file | sed 's|\.clj$$|.js|'); \
 		mkdir -p $$(dirname $$out_file); \
-		clj2js js $$clj_file $(PRELUDE_PATH) > $$out_file; \
+		clj2js js $$clj_file > $$out_file; \
 	  done
 
 .PHONY: db

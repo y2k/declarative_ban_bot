@@ -1,4 +1,4 @@
-(ns app (:require ["../vendor/packages/effects/0.1.0/main" :as e]
+(ns app (:require ["../vendor/effects/0.1.0/main" :as e]
                   ["./effects" :as fx]
                   [moderator :as m]))
 
@@ -28,7 +28,7 @@
       (send_message "sendMessage"
                     {:chat_id user_id
                      :text "Вы прошли капчу."}))
-    (e/pure null)))
+    (e/pure nil)))
 
 (defn- handle_join_request [update]
   (if-let [chat_id update?.chat_join_request?.chat?.id
@@ -64,7 +64,7 @@
                   {:chat_id 241854720
                    :disable_notification true
                    :text (str "Неизвестный формат сообщения https://t.me/" chat_name "/" reply_message_id)})
-    (e/pure null)))
+    (e/pure nil)))
 
 (defn- handle_start_command [update]
   (if-let [chat_id update?.message?.chat?.id
@@ -113,10 +113,10 @@
     (handle_service_message update)))
 
 (defn handle_event [cofx key data]
-  ;; (println (JSON.stringify {:cofx cofx :key key :data data} null 2))
+  ;; (println (JSON.stringify {:cofx cofx :key key :data data} nil 2))
   (case key
     :telegram (handle_message cofx data)
-    (e/pure null)))
+    (e/pure nil)))
 
 ;; Infrastructure
 
@@ -125,10 +125,10 @@
    (.json request)
    (.then
     (fn [json]
-      (println (JSON.stringify json null 2))
+      (println (JSON.stringify json nil 2))
       (if (not= (.get request.headers "x-telegram-bot-api-secret-token") env.TG_SECRET_TOKEN)
         (throw (Error. "Telegram secret token is not valid"))
-        null)
+        nil)
       (let [cofx (or env.cofx {:now (Date.now)})
             w (merge
                {:fetch (fn [{url :url decoder :decoder props :props}]

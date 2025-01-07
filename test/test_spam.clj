@@ -1,4 +1,4 @@
-(ns test (:require ["../vendor/packages/effects/0.1.0/main" :as p]
+(ns test (:require ["../vendor/effects/0.1.0/main" :as p]
                    ["../src/main" :as app]
                    [js.fs.promises :as fs]))
 
@@ -35,18 +35,18 @@
           :cofx {:now 1704388914000}}
          {:database (fn [args]
                       (.push log {:type :database :args args})
-                      (Promise.resolve null))
+                      (Promise.resolve nil))
           :fetch (fn [args]
                    (.push log {:type :fetch :args args})
-                   (Promise.resolve null))})
+                   (Promise.resolve nil))})
         (.then (fn []
-                 (let [actual (JSON.stringify log null 2)]
+                 (let [actual (JSON.stringify log nil 2)]
                    (.then
                     (fs/readFile expected_path "utf-8")
                     (fn [expected]
                       (if (not= actual expected)
                         (throw (Error. (str "Actual <> Expected: " expected_path)))
-                        null))
+                        nil))
                     (fn [e]
                       (fs/writeFile expected_path actual)))))))))))
 
@@ -60,4 +60,4 @@
            (.reduce
             (fn [promise ban_text]
               (.then promise (test_item template ban_text)))
-            (Promise.resolve null))))))
+            (Promise.resolve nil))))))
