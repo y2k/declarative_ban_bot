@@ -1,6 +1,0 @@
-[submodule "vendor/prelude"]
-	path = vendor/prelude
-	url = git@github.com:y2k/prelude.git
-[submodule "vendor/packages"]
-	path = vendor/packages
-	url = git@github.com:y2k/packages.git
