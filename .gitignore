@@ -6,3 +6,4 @@ node_modules/
 playground/
 .vscode/
 .DS_Store
+.github/Makefile

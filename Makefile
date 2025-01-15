@@ -4,10 +4,13 @@ SRC_DIRS := vendor/effects src test
 
 .PHONY: test
 test: build
-	@ clear && OCAMLRUNPARAM=b clj2js js test/test_spam.clj > $(BIN_DIR)/test/test_spam.js
-	@ clear && OCAMLRUNPARAM=b clj2js js test/test.clj > $(BIN_DIR)/test/test.js
-	@ clear && cd $(WRANGLER_DIR) && node --env-file=.dev.vars bin/test/test_spam.js
-	@ clear && cd $(WRANGLER_DIR) && node --env-file=.dev.vars bin/test/test.js
+	@ cd $(WRANGLER_DIR) && node --env-file=.dev.vars bin/test/test_spam.js
+	@ cd $(WRANGLER_DIR) && node --env-file=.dev.vars bin/test/test.js
+
+.PHONY: build
+build:
+	@ export OCAMLRUNPARAM=b && clj2js compile -target repl -src build.clj > .github/Makefile
+	@ $(MAKE) -f .github/Makefile
 
 .PHONY: run
 run: hook
@@ -16,14 +19,6 @@ run: hook
 .PHONY: deploy
 deploy: test
 	@ cd $(WRANGLER_DIR) && wrangler deploy
-
-.PHONY: build
-build:
-	@ set -e; find $(SRC_DIRS) -name '*.clj' | while read clj_file; do \
-		out_file=$(BIN_DIR)/$$(echo $$clj_file | sed 's|\.clj$$|.js|'); \
-		mkdir -p $$(dirname $$out_file); \
-		clj2js js $$clj_file > $$out_file; \
-	  done
 
 .PHONY: db
 db:

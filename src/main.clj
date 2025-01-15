@@ -1,4 +1,4 @@
-(ns app (:require ["../vendor/effects/0.1.0/main" :as e]
+(ns app (:require ["../vendor/effects/main" :as e]
                   ["./effects" :as fx]
                   [moderator :as m]))
 
@@ -125,7 +125,7 @@
    (.json request)
    (.then
     (fn [json]
-      (println (JSON.stringify json nil 2))
+      (println (JSON.stringify json))
       (if (not= (.get request.headers "x-telegram-bot-api-secret-token") env.TG_SECRET_TOKEN)
         (throw (Error. "Telegram secret token is not valid"))
         nil)
