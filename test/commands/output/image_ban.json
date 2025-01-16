@@ -11,7 +11,8 @@
                 },
                 "body": {
                     "chat_id": "@android_declarative_ban_log",
-                    "text": "Бот вызван [spam: true] https://t.me/xofftop/1180"
+                    "parse_mode": "MarkdownV2",
+                    "text": "Bot invoked\nSpam: `true`\nURL: `https://t.me/xofftop/1180`"
                 }
             }
         }

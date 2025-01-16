@@ -13,7 +13,7 @@ build:
 	@ $(MAKE) -f .github/Makefile
 
 .PHONY: run
-run: hook
+run: build hook
 	@ cd $(WRANGLER_DIR) && wrangler dev --port 8787
 
 .PHONY: deploy

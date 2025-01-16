@@ -87,12 +87,13 @@
             notify_admin_fx (send_message "sendMessage"
                                           {:chat_id 241854720
                                            :disable_notification is_spam
-                                           :text (str "Бот вызван, user: " reply_from_id ", spam: " is_spam ", url: https://t.me/" chat_name "/" reply_message_id)})]
+                                           :text (str "Bot invoked\nUser: " reply_from_id "\nSpam: " is_spam "\nURL: https://t.me/" chat_name "/" reply_message_id)})]
         (e/batch
          (concat
           [(send_message "sendMessage"
                          {:chat_id "@android_declarative_ban_log"
-                          :text (str "Бот вызван [spam: " is_spam "] https://t.me/" chat_name "/" reply_message_id)})
+                          :parse_mode :MarkdownV2
+                          :text (str "Bot invoked\nSpam: `" is_spam "`\nURL: `https://t.me/" chat_name "/" reply_message_id "`")})
            (send_message "deleteMessage" {:chat_id chat_id :message_id message_id})]
           (cond
             (m/is_too_old cofx.now message_date message_id reply_message_id)

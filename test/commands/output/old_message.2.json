@@ -11,7 +11,8 @@
                 },
                 "body": {
                     "chat_id": "@android_declarative_ban_log",
-                    "text": "Бот вызван [spam: false] https://t.me/xofftop/1000"
+                    "parse_mode": "MarkdownV2",
+                    "text": "Bot invoked\nSpam: `false`\nURL: `https://t.me/xofftop/1000`"
                 }
             }
         }
@@ -46,7 +47,7 @@
                 "body": {
                     "chat_id": 241854720,
                     "disable_notification": false,
-                    "text": "Бот вызван, user: 241854720, spam: false, url: https://t.me/xofftop/1000"
+                    "text": "Bot invoked\nUser: 241854720\nSpam: false\nURL: https://t.me/xofftop/1000"
                 }
             }
         }
