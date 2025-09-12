@@ -8,9 +8,18 @@ test: build
 	@ cd $(WRANGLER_DIR) && node --env-file=.dev.vars bin/test/test.js
 
 .PHONY: build
-build:
-	@ export OCAMLRUNPARAM=b && clj2js compile -target repl -src build.clj > .github/Makefile
-	@ $(MAKE) -f .github/Makefile
+build: generate_makefile
+	@ $(MAKE) -f $(BIN_DIR)/Makefile
+
+.PHONY: restore
+restore: generate_makefile
+	@ $(MAKE) -f $(BIN_DIR)/Makefile restore
+
+.PHONY: generate_makefile
+generate_makefile:
+	@ mkdir -p $(BIN_DIR)
+# 	@ export OCAMLRUNPARAM=b && clj2js compile -target repl -src build.clj > .github/Makefile
+	@ ly2k compile -target eval -src build.clj > $(BIN_DIR)/Makefile
 
 .PHONY: run
 run: build hook

@@ -1,6 +1,6 @@
-(ns app (:require ["../vendor/effects/main" :as e]
+(ns app (:require ["./vendor/effects/main" :as e]
                   ["./effects" :as fx]
-                  [moderator :as m]))
+                  ["./moderator" :as m]))
 
 ;; BEGIN - Infrastructure
 
@@ -128,7 +128,7 @@
     (fn [json]
       (println (JSON.stringify json))
       (if (not= (.get request.headers "x-telegram-bot-api-secret-token") env.TG_SECRET_TOKEN)
-        (throw (Error. "Telegram secret token is not valid"))
+        (FIXME "Telegram secret token is not valid")
         nil)
       (let [cofx (or env.cofx {:now (Date.now)})
             w (merge

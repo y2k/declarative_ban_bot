@@ -1,6 +1,5 @@
-(ns test (:require ["../vendor/effects/main" :as p]
-                   ["../src/main" :as app]
-                   [js.fs.promises :as fs]))
+(ns test (:require ["../src/main" :as app]
+                   ["fs/promises" :as fs]))
 
 (defn- get_sha256_hash [str]
   (let [encoder (TextEncoder.)
@@ -45,7 +44,7 @@
                     (fs/readFile expected_path "utf-8")
                     (fn [expected]
                       (if (not= actual expected)
-                        (throw (Error. (str "Actual <> Expected: " expected_path)))
+                        (FIXME "Actual <> Expected: " expected_path)
                         nil))
                     (fn [e]
                       (fs/writeFile expected_path actual)))))))))))
