@@ -1,7 +1,8 @@
 _build_/
 bin/
-/.github/vendor/
+/.github/vendor
 /src/vendor/
+vendor
 .dev.vars
 .wrangler/
 node_modules/
