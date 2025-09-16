@@ -18,6 +18,9 @@
     (or
      (.test (RegExp "[^\\wа-яа-щ\\s\\.,;:\\-?\\x22\\x27()]") message)
      (.includes message "арбитраж")
+     (.includes message "руб")
+     (.includes message "такси")
+     (.includes message "график")
      (.includes message "банкомат")
      (.includes message "бесплатно")
      (.includes message "деньги")
