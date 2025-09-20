@@ -1,7 +1,7 @@
 _build_/
 bin/
 /.github/vendor
-/src/vendor/
+/src/vendor
 vendor
 .dev.vars
 .wrangler/

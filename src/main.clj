@@ -109,7 +109,7 @@
             :else [notify_admin_fx
                    (send_message "sendMessage"
                                  {:chat_id chat_id
-                                  :text (str "Сообщение не определено как спам. Администратор уведомлен.")})]))))
+                                  :text (str "Ваша жалоба принята, администратор оповещен.")})]))))
       (handle_start_command update))
     (handle_service_message update)))
 
