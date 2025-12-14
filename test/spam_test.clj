@@ -1,5 +1,6 @@
-(ns test (:require ["../src/main" :as app]
-                   ["fs/promises" :as fs]))
+(ns spam-test
+  (:require [main :as app]
+            [js.fs.promises :as fs]))
 
 (defn- get_sha256_hash [str]
   (let [encoder (TextEncoder.)

@@ -4,30 +4,44 @@ SRC_DIRS := vendor/effects src test
 
 .PHONY: test
 test: build
-	@ cd $(WRANGLER_DIR) && node --env-file=.dev.vars bin/test/test_spam.js
-	@ cd $(WRANGLER_DIR) && node --env-file=.dev.vars bin/test/test.js
+	@ cd $(WRANGLER_DIR) && node --env-file=.dev.vars bin/test/main_repl.js
+# 	@ cd $(WRANGLER_DIR) && node --env-file=.dev.vars bin/test/main_test.js
+# 	@ cd $(WRANGLER_DIR) && node --env-file=.dev.vars bin/test/spam_test.js
 
 .PHONY: build
-build: generate_makefile
-	@ $(MAKE) -f $(BIN_DIR)/Makefile
-
-.PHONY: restore
-restore: generate_makefile
-	@ $(MAKE) -f $(BIN_DIR)/Makefile restore
-
-.PHONY: generate_makefile
-generate_makefile:
+build:
 	@ mkdir -p $(BIN_DIR)
-# 	@ export OCAMLRUNPARAM=b && clj2js compile -target repl -src build.clj > .github/Makefile
 	@ ly2k compile -target eval -src build.clj > $(BIN_DIR)/Makefile
+	@ $(MAKE) -f $(BIN_DIR)/Makefile
+	@ ly2k generate -target js > $(BIN_DIR)/src/prelude.js
+	@ ly2k generate -target js > $(BIN_DIR)/test/prelude.js
 
-.PHONY: run
-run: build hook
-	@ cd $(WRANGLER_DIR) && wrangler dev --port 8787
+# .PHONY: build
+# build: generate_makefile
+# 	@ $(MAKE) -f $(BIN_DIR)/Makefile
 
-.PHONY: deploy
-deploy: test
-	@ cd $(WRANGLER_DIR) && wrangler deploy
+# .PHONY: restore
+# restore: generate_makefile
+# 	@ $(MAKE) -f $(BIN_DIR)/Makefile restore
+
+# .PHONY: generate_makefile
+# generate_makefile:
+# 	@ mkdir -p $(BIN_DIR)
+# 	@ ly2k compile -target eval -src build.clj > $(BIN_DIR)/Makefile
+
+# .PHONY: run
+# run: build hook
+# 	@ cd $(WRANGLER_DIR) && wrangler dev --port 8787
+
+# .PHONY: deploy
+# deploy: test
+# 	@ cd $(WRANGLER_DIR) && wrangler deploy
+
+.PHONY: clean
+clean:
+	@ rm -rf $(BIN_DIR)
+
+# Tooling
 
 .PHONY: db
 db:
@@ -44,10 +58,6 @@ prod_db:
 .PHONY: migrate
 migrate:
 	@ cd $(WRANGLER_DIR) && wrangler d1 execute ANROID_DECLARATIVE_BAN_BOT_DB --local --file=schema.sql
-
-.PHONY: clean
-clean:
-	@ rm -rf $(BIN_DIR)
 
 .PHONY: hook
 hook:

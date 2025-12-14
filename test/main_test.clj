@@ -1,5 +1,6 @@
-(ns _ (:require ["../src/main" :as app]
-                ["fs/promises" :as fs]))
+(ns main-test
+  (:require [main :as app]
+            [js.fs.promises :as fs]))
 
 (defn- rec_parse [x]
   (cond
@@ -10,7 +11,7 @@
     (= (type x) "string") (if (.startsWith x "{") (rec_parse (JSON.parse x)) x)
     :else x))
 
-(defn- assert [path]
+(defn- assert-path [path]
   (->
    (fs/readFile (.replace path "/input/" "/output/") "utf-8")
    (.catch (fn [] nil))
@@ -49,4 +50,4 @@
       (->
        files
        (.filter (fn [name] (.test (RegExp. "\\.json$") name)))
-       (.map (fn [name] (assert (str path name)))))))))
+       (.map (fn [name] (assert-path (str path name)))))))))

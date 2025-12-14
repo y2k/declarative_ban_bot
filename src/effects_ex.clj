@@ -1,3 +1,5 @@
+(ns effects-ex)
+
 (defn fetch [url decoder props]
   (fn [w] ((:fetch w) {:url url :decoder decoder :props props})))
 
