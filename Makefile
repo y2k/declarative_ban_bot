@@ -4,8 +4,7 @@ SRC_DIRS := vendor/effects src test
 
 .PHONY: test
 test: build
-	@ cd $(WRANGLER_DIR) && node --env-file=.dev.vars bin/test/main_repl.js
-# 	@ cd $(WRANGLER_DIR) && node --env-file=.dev.vars bin/test/main_test.js
+	@ cd $(WRANGLER_DIR) && node --env-file=.dev.vars bin/test/main_test.js
 # 	@ cd $(WRANGLER_DIR) && node --env-file=.dev.vars bin/test/spam_test.js
 
 .PHONY: build
