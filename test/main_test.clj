@@ -54,31 +54,30 @@
   (let [files (load-txt-files)
         results (atom {:passed 0 :failed 0 :missing 0})]
     (->
-     (map
-      (fn [f]
-        (fn [_]
-          (.then
-           (run-test f)
-           (fn [actual]
-             (let [expected (load-golden f)]
-               (cond
-                 (nil? expected)
-                 (do
-                   (swap! results (fn [r] (update r :missing (fn [x] (inc x)))))
-                   (println "⚠ MISSING golden:" f))
+     (fn [f]
+       (fn [_]
+         (.then
+          (run-test f)
+          (fn [actual]
+            (let [expected (load-golden f)]
+              (cond
+                (nil? expected)
+                (do
+                  (swap! results (fn [r] (update r :missing (fn [x] (inc x)))))
+                  (println "⚠ MISSING golden:" f))
 
-                 (compare-results expected actual)
-                 (do
-                   (swap! results (fn [r] (update r :passed (fn [x] (inc x)))))
-                   (println "✓ PASS:" f))
+                (compare-results expected actual)
+                (do
+                  (swap! results (fn [r] (update r :passed (fn [x] (inc x)))))
+                  (println "✓ PASS:" f))
 
-                 :else
-                 (do
-                   (swap! results (fn [r] (update r :failed (fn [x] (inc x)))))
-                   (println "✗ FAIL:" f)
-                   (println "  Expected:" (JSON/stringify expected))
-                   (println "  Actual:  " (JSON/stringify actual)))))))))
-      files)
+                :else
+                (do
+                  (swap! results (fn [r] (update r :failed (fn [x] (inc x)))))
+                  (println "✗ FAIL:" f)
+                  (println "  Expected:" (JSON/stringify expected))
+                  (println "  Actual:  " (JSON/stringify actual)))))))))
+     (map files)
      (e/batch)
      (e/then (fn [_]
                (let [{passed :passed failed :failed missing :missing}
