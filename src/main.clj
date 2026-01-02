@@ -2,11 +2,12 @@
   (:require [effects-ex :as fx]
             [effects-promise :as e]
             [handler.report :as report]
+            [handler.join :as join]
             [moderator :as m]))
 
 ;; Infrastructure
 
-(defn fetch_export [request env handlers]
+(defn main [cofx request env handlers]
   (->
    (.json request)
    (.then
@@ -15,8 +16,9 @@
       (if (not= (.get request.headers "x-telegram-bot-api-secret-token") env.TG_SECRET_TOKEN)
         (FIXME "Telegram secret token is not valid")
         nil)
-      (let [cofx {:now (Date.now)}]
-        ((report/handle cofx json) handlers))))
+      (let [io (e/batch [(report/handle cofx json)
+                         (join/handle json)])]
+        (io handlers))))
    (.catch console.error)
    (.then (fn [] (Response. "OK")))))
 
@@ -37,4 +39,4 @@
 
 (export-default
  {:fetch (fn [request env]
-           (fetch_export request env (create_effect_handlers)))})
+           (main {:now (Date.now)} request env (create_effect_handlers)))})

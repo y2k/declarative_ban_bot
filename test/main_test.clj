@@ -10,16 +10,18 @@
   (if (not (fs/existsSync expected-dir))
     (fs/mkdirSync expected-dir {:recursive true})))
 
-(defn- load-txt-files []
+(defn- load-sample-files []
   (let [dir "../test/resources/sample/in"
         files (fs/readdirSync dir)]
     (->> files
-         (filter (fn [f] (clojure.string/ends-with? f ".txt")))
+         (filter (fn [f] (or (clojure.string/ends-with? f ".txt")
+                             (clojure.string/ends-with? f ".json"))))
          (map (fn [f] (path/join dir f))))))
 
 (defn- expected-path [sample-file]
-  (let [basename (path/basename sample-file ".txt")]
-    (path/join expected-dir (str basename ".expected.json"))))
+  (let [ext (if (clojure.string/ends-with? sample-file ".json") ".json" ".txt")
+        basename (path/basename sample-file ext)]
+    (path/join expected-dir (str basename ".json"))))
 
 (defn- fill-template [file-path]
   (let [content-base64 (fs/readFileSync file-path "utf8")
@@ -28,16 +30,22 @@
         template (fs/readFileSync template-path "utf8")]
     (clojure.string/replace template "__SPAM_TEXT__" content)))
 
+(defn- load-input [sample-file]
+  (if (clojure.string/ends-with? sample-file ".json")
+    (JSON/parse (fs/readFileSync sample-file "utf8"))
+    (JSON/parse (fill-template sample-file))))
+
 (defn- run-test [sample-file]
   (let [log (atom [])
-        input (JSON/parse (fill-template sample-file))]
+        input (load-input sample-file)]
     (->
-     (m/fetch_export
-      {:json (fn [] (Promise/resolve input))
+     (m/main
+      input.cofx
+      {:json (fn [] (Promise/resolve input.data))
        :headers {:get (fn [] :TGST_1234567890)}}
       {:TG_SECRET_TOKEN :TGST_1234567890}
       {:fetch (fn [p]
-                (swap! log (fn [r] (conj r p)))
+                (swap! log (fn [r] (conj r {:key :fetch :data p})))
                 (Promise/resolve nil))})
      (.then (fn [_] (deref log))))))
 
@@ -51,7 +59,7 @@
   (= (JSON/stringify expected) (JSON/stringify actual)))
 
 (defn- run-all-tests []
-  (let [files (load-txt-files)
+  (let [files (load-sample-files)
         results (atom {:passed 0 :failed 0 :missing 0})]
     (->
      (fn [f]
@@ -75,8 +83,8 @@
                 (do
                   (swap! results (fn [r] (update r :failed (fn [x] (inc x)))))
                   (println "✗ FAIL:" f)
-                  (println "  Expected:" (JSON/stringify expected))
-                  (println "  Actual:  " (JSON/stringify actual)))))))))
+                  (println "  Expected:\n" (JSON/stringify expected nil 2))
+                  (println "  Actual:\n" (JSON/stringify actual nil 2)))))))))
      (map files)
      (e/batch)
      (e/then (fn [_]
@@ -95,13 +103,18 @@
     (println "Saved golden:" out-path)))
 
 (defn- update-golden []
-  (let [files (load-txt-files)]
-    (-> (Promise/all
-         (map (fn [f]
-                (-> (run-test f)
-                    (.then (fn [result] (save-golden! f result)))))
-              files))
-        (.then (fn [_] (println "All golden files saved"))))))
+  (let [files (load-sample-files)]
+    (->
+     (fn [f]
+       (fn [_]
+         (.then
+          (run-test f)
+          (fn [result] (save-golden! f result)))))
+     (map files)
+     (e/batch)
+     (e/then (fn [_]
+               (println "All golden files saved")
+               (e/pure nil))))))
 
-;; (update-golden)
-((run-all-tests) nil)
+;; ((update-golden) {})
+((run-all-tests) {})

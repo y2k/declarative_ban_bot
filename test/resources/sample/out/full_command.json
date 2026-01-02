@@ -1,0 +1,58 @@
+[
+  {
+    "key": "fetch",
+    "data": {
+      "url": "https://api.telegram.org/bot~TG_TOKEN~/sendMessage",
+      "decoder": "json",
+      "props": {
+        "method": "POST",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"chat_id\":\"@android_declarative_ban_log\",\"parse_mode\":\"MarkdownV2\",\"text\":\"Bot invoked\\nSpam: `false`\\nURL: `https://t.me/xofftop/1273`\"}"
+      }
+    }
+  },
+  {
+    "key": "fetch",
+    "data": {
+      "url": "https://api.telegram.org/bot~TG_TOKEN~/deleteMessage",
+      "decoder": "json",
+      "props": {
+        "method": "POST",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"chat_id\":-1002110559199,\"message_id\":1274}"
+      }
+    }
+  },
+  {
+    "key": "fetch",
+    "data": {
+      "url": "https://api.telegram.org/bot~TG_TOKEN~/sendMessage",
+      "decoder": "json",
+      "props": {
+        "method": "POST",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"chat_id\":241854720,\"parse_mode\":\"MarkdownV2\",\"text\":\"Bot invoked\\nUser: 241854720\\nURL: https://t.me/xofftop/1273\\nData:\\n```txt\\neHh4```\"}"
+      }
+    }
+  },
+  {
+    "key": "fetch",
+    "data": {
+      "url": "https://api.telegram.org/bot~TG_TOKEN~/sendMessage",
+      "decoder": "json",
+      "props": {
+        "method": "POST",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"chat_id\":-1002110559199,\"text\":\"Ваша жалоба принята, администратор оповещен.\"}"
+      }
+    }
+  }
+]
