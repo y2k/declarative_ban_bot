@@ -37,8 +37,4 @@
            message_id update?.message?.message_id]
     (tg/send_message :deleteMessage
                      {:chat_id chat_id :message_id message_id})
-    (handle_join_request update))
-  ;; (tg/send_message :deleteMessage
-  ;;                  {:chat_id "chat_id" :message_id "message_id"})
-  ;;
-  )
+    (handle_join_request update)))

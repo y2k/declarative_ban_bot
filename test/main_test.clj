@@ -39,14 +39,14 @@
   (let [log (atom [])
         input (load-input sample-file)]
     (->
-     (m/main
-      input.cofx
-      {:json (fn [] (Promise/resolve input.data))
-       :headers {:get (fn [] :TGST_1234567890)}}
-      {:TG_SECRET_TOKEN :TGST_1234567890}
-      {:fetch (fn [p]
-                (swap! log (fn [r] (conj r {:key :fetch :data p})))
-                (Promise/resolve nil))})
+     {:fetch (fn [p]
+               (swap! log (fn [r] (conj r {:key :fetch :data p})))
+               (Promise/resolve nil))}
+     ((m/main
+       input.cofx
+       {:json (fn [] (Promise/resolve input.data))
+        :headers {:get (fn [] :TGST_1234567890)}}
+       {:TG_SECRET_TOKEN :TGST_1234567890}))
      (.then (fn [_] (deref log))))))
 
 (defn- load-golden [sample-file]
@@ -116,5 +116,6 @@
                (println "All golden files saved")
                (e/pure nil))))))
 
-;; ((update-golden) {})
-((run-all-tests) {})
+(case (get process.argv 2)
+  "update" ((update-golden) {})
+  ((run-all-tests) {}))

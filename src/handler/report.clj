@@ -3,8 +3,8 @@
             [moderator :as m]
             [telegram :as tg]))
 
-(def ^:private admin-chat-id 241854720)
-(def ^:private log-channel "@android_declarative_ban_log")
+(def- log-channel-important "@android_declarative_events")
+(def- log-channel "@android_declarative_ban_log")
 
 (defn- report-command? [text]
   (and text
@@ -17,17 +17,17 @@
 
 (defn- notify-admin [reply-from-id is-spam chat-name reply-message-id reply-text]
   (tg/send_message :sendMessage
-                   {:chat_id admin-chat-id
-                    :parse_mode :MarkdownV2
-                    :text (str "Bot invoked\nUser: " reply-from-id
-                               "\nURL: " (build-url chat-name reply-message-id)
-                               "\nData:\n```txt\n" (.toString (Buffer/from reply-text) "base64") "```")}))
+                   {:chat_id log-channel-important
+                    :link_preview_options {:is_disabled true}
+                    :text (str "user: " reply-from-id
+                               "\nurl: " (build-url chat-name reply-message-id)
+                               "\ntext:\n" (.toString (Buffer/from reply-text) "base64"))}))
 
 (defn- log-to-channel [is-spam chat-name reply-message-id]
   (tg/send_message :sendMessage
                    {:chat_id log-channel
-                    :parse_mode :MarkdownV2
-                    :text (str "Bot invoked\nSpam: `" is-spam "`\nURL: `" (build-url chat-name reply-message-id) "`")}))
+                    :link_preview_options {:is_disabled true}
+                    :text (str "Bot invoked\nSpam: " is-spam "\nURL: " (build-url chat-name reply-message-id))}))
 
 (defn handle [cofx update]
   (if-let [_ (report-command? update?.message?.text)

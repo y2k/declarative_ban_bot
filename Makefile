@@ -4,8 +4,11 @@ SRC_DIRS := vendor/effects src test
 
 .PHONY: test
 test: build
-	@ cd $(WRANGLER_DIR) && node --env-file=.dev.vars bin/test/main_test.js
-# 	@ cd $(WRANGLER_DIR) && node --env-file=.dev.vars bin/test/spam_test.js
+	@ cd $(WRANGLER_DIR) && node --env-file=.dev.vars bin/test/main_test.js test
+
+.PHONY: update-golden
+update-golden: build
+	@ cd $(WRANGLER_DIR) && node --env-file=.dev.vars bin/test/main_test.js update
 
 .PHONY: build
 build:
@@ -15,48 +18,37 @@ build:
 	@ ly2k generate -target js > $(BIN_DIR)/src/prelude.js
 	@ ly2k generate -target js > $(BIN_DIR)/test/prelude.js
 
-# .PHONY: build
-# build: generate_makefile
-# 	@ $(MAKE) -f $(BIN_DIR)/Makefile
-
-# .PHONY: restore
-# restore: generate_makefile
-# 	@ $(MAKE) -f $(BIN_DIR)/Makefile restore
-
-# .PHONY: generate_makefile
-# generate_makefile:
-# 	@ mkdir -p $(BIN_DIR)
-# 	@ ly2k compile -target eval -src build.clj > $(BIN_DIR)/Makefile
-
-# .PHONY: run
-# run: build hook
-# 	@ cd $(WRANGLER_DIR) && wrangler dev --port 8787
-
-# .PHONY: deploy
-# deploy: test
-# 	@ cd $(WRANGLER_DIR) && wrangler deploy
-
 .PHONY: clean
 clean:
 	@ rm -rf $(BIN_DIR)
 
+# Run
+
+.PHONY: run
+run: build hook
+	@ cd $(WRANGLER_DIR) && wrangler dev --port 8787
+
+.PHONY: deploy
+deploy: test
+	@ cd $(WRANGLER_DIR) && wrangler deploy
+
 # Tooling
 
-.PHONY: db
-db:
-	@ cd $(WRANGLER_DIR) && mkdir -p bin && wrangler d1 execute ANROID_DECLARATIVE_BAN_BOT_DB -y --command="SELECT content FROM log ORDER BY id DESC LIMIT 10" --json > bin/db_result.json
-	@ test/tools/get_last_messages.clj > $(BIN_DIR)/db_result.pretty.json
-	@ rm -f $(BIN_DIR)/db_result.json
+# .PHONY: db
+# db:
+# 	@ cd $(WRANGLER_DIR) && mkdir -p bin && wrangler d1 execute ANROID_DECLARATIVE_BAN_BOT_DB -y --command="SELECT content FROM log ORDER BY id DESC LIMIT 10" --json > bin/db_result.json
+# 	@ test/tools/get_last_messages.clj > $(BIN_DIR)/db_result.pretty.json
+# 	@ rm -f $(BIN_DIR)/db_result.json
 
-.PHONY: prod_db
-prod_db:
-	@ cd $(WRANGLER_DIR) && mkdir -p bin && wrangler d1 execute ANROID_DECLARATIVE_BAN_BOT_DB -y --command="SELECT content FROM log ORDER BY id DESC LIMIT 10" --remote --json > bin/db_result.json
-	@ test/tools/get_last_messages.clj > $(BIN_DIR)/db_result.pretty.json
-	@ rm -f $(BIN_DIR)/db_result.json
+# .PHONY: prod_db
+# prod_db:
+# 	@ cd $(WRANGLER_DIR) && mkdir -p bin && wrangler d1 execute ANROID_DECLARATIVE_BAN_BOT_DB -y --command="SELECT content FROM log ORDER BY id DESC LIMIT 10" --remote --json > bin/db_result.json
+# 	@ test/tools/get_last_messages.clj > $(BIN_DIR)/db_result.pretty.json
+# 	@ rm -f $(BIN_DIR)/db_result.json
 
-.PHONY: migrate
-migrate:
-	@ cd $(WRANGLER_DIR) && wrangler d1 execute ANROID_DECLARATIVE_BAN_BOT_DB --local --file=schema.sql
+# .PHONY: migrate
+# migrate:
+# 	@ cd $(WRANGLER_DIR) && wrangler d1 execute ANROID_DECLARATIVE_BAN_BOT_DB --local --file=schema.sql
 
 .PHONY: hook
 hook:

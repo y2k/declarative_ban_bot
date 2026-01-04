@@ -6,6 +6,7 @@ _build_/
 .wrangler/
 /.claude
 /.github/vendor
+/AGENTS.md
 /CLAUDE.md
 /src/vendor
 bin/
