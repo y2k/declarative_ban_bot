@@ -62,8 +62,9 @@
   (let [files (load-sample-files)
         results (atom {:passed 0 :failed 0 :missing 0})]
     (->
-     (fn [f]
-       (fn [_]
+     (map
+      (fn [f]
+        (e/thunk
          (.then
           (run-test f)
           (fn [actual]
@@ -85,7 +86,7 @@
                   (println "✗ FAIL:" f)
                   (println "  Expected:\n" (JSON/stringify expected nil 2))
                   (println "  Actual:\n" (JSON/stringify actual nil 2)))))))))
-     (map files)
+      files)
      (e/batch)
      (e/then (fn [_]
                (let [{passed :passed failed :failed missing :missing}
