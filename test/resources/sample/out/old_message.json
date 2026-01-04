@@ -9,7 +9,7 @@
         "headers": {
           "Content-Type": "application/json"
         },
-        "body": "{\"chat_id\":\"@android_declarative_ban_log\",\"parse_mode\":\"MarkdownV2\",\"text\":\"Bot invoked\\nSpam: `false`\\nURL: `https://t.me/xofftop/1000`\"}"
+        "body": "{\"chat_id\":\"@android_declarative_ban_log\",\"link_preview_options\":{\"is_disabled\":true},\"text\":\"Bot invoked\\nSpam: false\\nURL: https://t.me/xofftop/1000\"}"
       }
     }
   },
@@ -37,7 +37,7 @@
         "headers": {
           "Content-Type": "application/json"
         },
-        "body": "{\"chat_id\":241854720,\"parse_mode\":\"MarkdownV2\",\"text\":\"Bot invoked\\nUser: 241854720\\nURL: https://t.me/xofftop/1000\\nData:\\n```txt\\neHh4```\"}"
+        "body": "{\"chat_id\":\"@android_declarative_events\",\"link_preview_options\":{\"is_disabled\":true},\"text\":\"user: 241854720\\nurl: https://t.me/xofftop/1000\\ntext:\\neHh4\"}"
       }
     }
   },

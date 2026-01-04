@@ -7,7 +7,7 @@
            user_id update?.message?.from?.id
            _ (= chat_id user_id)]
     (do
-      (println "CAPTCHA:" update?.message?.text)
+      (eprintln "CAPTCHA:" update?.message?.text)
       (tg/send_message :sendMessage
                        {:chat_id user_id
                         :text "Вы прошли капчу."}))
