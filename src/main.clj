@@ -15,9 +15,10 @@
         ;; (eprintln (JSON.stringify json))
         (if (not= (.get request.headers "x-telegram-bot-api-secret-token") env.TG_SECRET_TOKEN)
           (FIXME "Telegram secret token is not valid"))
-        (let [io (e/batch [(report/handle cofx json)
-                           (join/handle json)])]
-          (io handlers))))
+        ((e/batch
+          [(report/handle cofx json)
+           (join/handle json)])
+         handlers)))
      (.catch console.error)
      (.then (fn [] (Response. "OK"))))))
 
