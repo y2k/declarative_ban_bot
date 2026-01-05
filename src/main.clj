@@ -6,7 +6,7 @@
 
 ;; Infrastructure
 
-(defn main [cofx request env]
+(defn main [_ request env]
   (fn [handlers]
     (->
      (.json request)
@@ -16,7 +16,7 @@
         (if (not= (.get request.headers "x-telegram-bot-api-secret-token") env.TG_SECRET_TOKEN)
           (FIXME "Telegram secret token is not valid"))
         ((e/batch
-          [(report/handle cofx json)
+          [(report/handle json)
            (join/handle json)])
          handlers)))
      (.catch console.error)

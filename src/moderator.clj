@@ -3,7 +3,7 @@
 (def LIMIT_SPAM_OLD_SEC 900)
 (def OLD_MESSAGE_ID_DIFF 5)
 
-(defn is_too_old [now message_date message_id reply_message_id]
+(defn is_too_old [message_id reply_message_id]
   (> (- message_id reply_message_id) OLD_MESSAGE_ID_DIFF))
 
 (defn check_is_spam [message_in]

@@ -29,7 +29,7 @@
                     :link_preview_options {:is_disabled true}
                     :text (str "Bot invoked\nSpam: " is-spam "\nURL: " (build-url chat-name reply-message-id))}))
 
-(defn handle [cofx update]
+(defn handle [update]
   (if-let [_ (report-command? update?.message?.text)
            reply-text (or update?.message?.reply_to_message?.text update?.message?.reply_to_message?.caption)
            message-id update?.message?.message_id
@@ -41,7 +41,7 @@
     (let [is-spam (m/check_is_spam reply-text)
           notify-admin-fx (notify-admin reply-from-id is-spam chat-name reply-message-id reply-text)
           action-effects (cond
-                           (m/is_too_old cofx.now message-date message-id reply-message-id)
+                           (m/is_too_old message-id reply-message-id)
                            [notify-admin-fx
                             (tg/send_message :sendMessage
                                              {:chat_id chat-id
