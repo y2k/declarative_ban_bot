@@ -13,7 +13,12 @@
 
 (m/build
  {:rules
-  [;; Dependencies
+  [{:target "dep"
+    :name "prelude"
+    :version "1.0.0/js"
+    :compile_target "js"
+    :out-dir out-src}
+   ;; Dependencies
    (assoc effects-promise :out-dir out-src)
    (assoc effects-promise :out-dir out-test)
    ;; Sources

@@ -15,8 +15,6 @@ build:
 	@ mkdir -p $(BIN_DIR)
 	@ ly2k compile -target eval -src build.clj > $(BIN_DIR)/Makefile
 	@ $(MAKE) -f $(BIN_DIR)/Makefile
-	@ ly2k generate -target js > $(BIN_DIR)/src/prelude.js
-	@ ly2k generate -target js > $(BIN_DIR)/test/prelude.js
 
 .PHONY: clean
 clean:
