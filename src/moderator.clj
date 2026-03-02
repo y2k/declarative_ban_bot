@@ -30,7 +30,7 @@
      (.includes message "крипт")
      (.includes message "tеthеr")
      (.includes message "онлайн")
-     (.includes message "оплата")
+     (.includes message "оплат")
      (.includes message "партнер")
      (.includes message "предложени")
      (.includes message "прибыл")
