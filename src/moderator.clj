@@ -28,6 +28,7 @@
      (.includes message "доход")
      (.includes message "заработ")
      (.includes message "крипт")
+     (.includes message "tеthеr")
      (.includes message "онлайн")
      (.includes message "оплата")
      (.includes message "партнер")
