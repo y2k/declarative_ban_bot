@@ -4,24 +4,33 @@
             ["fs" :as fs]
             ["path" :as path]))
 
-(def- expected-dir "../test/resources/sample/out")
+(def- input-dir "../test/resources/sample/in")
+(def- output-dir "../test/resources/sample/out")
 
-(defn- ensure-expected-dir! []
-  (if (not (fs/existsSync expected-dir))
-    (fs/mkdirSync expected-dir {:recursive true})))
+(defn- ensure-expected-dir! [subdir]
+  (let [dir (path/join output-dir subdir)]
+    (if (not (fs/existsSync dir))
+      (fs/mkdirSync dir {:recursive true}))))
 
 (defn- load-sample-files []
-  (let [dir "../test/resources/sample/in"
-        files (fs/readdirSync dir)]
-    (->> files
-         (filter (fn [f] (or (clojure.string/ends-with? f ".txt")
-                             (clojure.string/ends-with? f ".json"))))
-         (map (fn [f] (path/join dir f))))))
+  (let [subdirs (fs/readdirSync input-dir)]
+    (-> (->> subdirs
+             (filter (fn [d] (let [stat (fs/statSync (path/join input-dir d))]
+                               (stat.isDirectory))))
+             (map (fn [subdir]
+                    (let [dir (path/join input-dir subdir)
+                          files (fs/readdirSync dir)]
+                      (->> files
+                           (filter (fn [f] (or (clojure.string/ends-with? f ".txt")
+                                               (clojure.string/ends-with? f ".json"))))
+                           (map (fn [f] (path/join dir f))))))))
+        (.flat))))
 
 (defn- expected-path [sample-file]
   (let [ext (if (clojure.string/ends-with? sample-file ".json") ".json" ".txt")
-        basename (path/basename sample-file ext)]
-    (path/join expected-dir (str basename ".json"))))
+        basename (path/basename sample-file ext)
+        subdir (path/basename (path/dirname sample-file))]
+    (path/join output-dir subdir (str basename ".json"))))
 
 (defn- fill-template [file-path]
   (let [content-base64 (fs/readFileSync file-path "utf8")
@@ -98,7 +107,8 @@
                    (e/pure nil))))))))
 
 (defn- save-golden! [sample-file result]
-  (ensure-expected-dir!)
+  (let [subdir (path/basename (path/dirname sample-file))]
+    (ensure-expected-dir! subdir))
   (let [out-path (expected-path sample-file)]
     (fs/writeFileSync out-path (JSON/stringify result nil 2) "utf8")
     (println "Saved golden:" out-path)))
