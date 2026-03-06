@@ -24,6 +24,7 @@
      (.includes message "бесплатно")
      (.includes message "график")
      (.includes message "деньги")
+     (.includes message "долг")
      (.includes message "долларов")
      (.includes message "доход")
      (.includes message "заработ")
