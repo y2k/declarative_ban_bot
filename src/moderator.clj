@@ -9,6 +9,7 @@
 (defn check_is_spam [message_in]
   (let [message (-> message_in
                     (.toLowerCase)
+                    (.replaceAll "6" "б")
                     (.replaceAll "a" "а")
                     (.replaceAll "c" "с")
                     (.replaceAll "e" "е")
@@ -22,6 +23,7 @@
      (.includes message "арбитраж")
      (.includes message "банкомат")
      (.includes message "бесплатно")
+     (.includes message "баб")
      (.includes message "график")
      (.includes message "деньги")
      (.includes message "долг")
@@ -40,5 +42,7 @@
      (.includes message "сотрудничеств")
      (.includes message "такси")
      (.includes message "темк")
+     (.includes message "тезер")
+     (.includes message "выхлоп")
      (.includes message "финанс")
      (.includes message "человек"))))
