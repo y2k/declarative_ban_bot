@@ -39,5 +39,6 @@
      (.includes message "руб")
      (.includes message "сотрудничеств")
      (.includes message "такси")
+     (.includes message "темк")
      (.includes message "финанс")
      (.includes message "человек"))))
