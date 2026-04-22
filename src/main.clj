@@ -17,7 +17,7 @@
           (FIXME "Telegram secret token is not valid"))
         ((e/batch
           [(report/handle json)
-           (join/handle json)])
+           (join/handle env json)])
          handlers)))
      (.catch console.error)
      (.then (fn [] (Response. "OK"))))))
@@ -29,7 +29,7 @@
              (fetch props)
              (.then (fn [x] (if (= "json" decoder) (.json x) (.text x))))
              (.catch (fn [err]
-                       (console.error "fetch error:" err)
+                       (eprintln "fetch error:" err)
                        (throw err)
                        nil))))})
 
