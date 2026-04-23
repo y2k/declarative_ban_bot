@@ -7,8 +7,6 @@ _build_/
 /.claude
 /.github/vendor
 /.opencode/
-/AGENTS.md
-/CLAUDE.md
 /src/vendor
 bin/
 node_modules/

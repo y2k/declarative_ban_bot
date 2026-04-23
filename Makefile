@@ -5,6 +5,7 @@ SRC_DIRS := vendor/effects src test
 .PHONY: test
 test: build
 	@ cd $(WRANGLER_DIR) && node --env-file=.dev.vars bin/test/main_test.js test
+	@ cd $(WRANGLER_DIR) && node --test bin/test/handler/join_node_test.js
 
 .PHONY: update-golden
 update-golden: build
