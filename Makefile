@@ -39,3 +39,11 @@ hook:
 	NGROK_URL=$$(curl -s $$NGROK_API | grep -o '"public_url":"[^"]*' | grep -o 'http[^"]*') ; \
 	source $(WRANGLER_DIR)/.dev.vars ; \
 	curl "https://api.telegram.org/bot$$TG_TOKEN/setWebhook?max_connections=1&drop_pending_updates=true&secret_token=$$TG_SECRET_TOKEN&url=$$NGROK_URL"
+
+.PHONY: hook-prod
+hook-prod:
+	@ curl --fail --show-error --request POST "https://api.telegram.org/bot$(TOKEN)/setWebhook" \
+		--form "max_connections=1" \
+		--form "drop_pending_updates=true" \
+		--form "secret_token=$(SECRET)" \
+		--form "url=https://declarativebanbot.y2kdev.workers.dev/telegram-bot"

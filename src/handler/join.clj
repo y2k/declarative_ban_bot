@@ -26,7 +26,7 @@
     (if (= "4" update?.message?.text)
       (e/batch [(tg/send_message :sendMessage
                                  {:chat_id user_id
-                                  :text "Вы прошли капчу."})
+                                  :text (str "Вы прошли капчу. Добро пожаловать в " env.TG_APPROVE_CHAT "!")})
                 (tg/send_message :approveChatJoinRequest
                                  {:chat_id env.TG_APPROVE_CHAT
                                   :user_id user_id})

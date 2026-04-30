@@ -6,21 +6,26 @@
 
 ;; Infrastructure
 
+(defn- telegram-bot-request? [request env]
+  (let [url (URL. request.url)]
+    (and (= "/telegram-bot" url.pathname)
+         (= (.get request.headers "x-telegram-bot-api-secret-token") env.TG_SECRET_TOKEN))))
+
 (defn main [_ request env]
   (fn [handlers]
-    (->
-     (.json request)
-     (.then
-      (fn [json]
-        ;; (eprintln (JSON.stringify json))
-        (if (not= (.get request.headers "x-telegram-bot-api-secret-token") env.TG_SECRET_TOKEN)
-          (FIXME "Telegram secret token is not valid"))
-        ((e/batch
-          [(report/handle json)
-           (join/handle env json)])
-         handlers)))
-     (.catch console.error)
-     (.then (fn [] (Response. "OK"))))))
+    (if (telegram-bot-request? request env)
+      (->
+       (.json request)
+       (.then
+        (fn [json]
+          ;; (eprintln (JSON.stringify json))
+          ((e/batch
+            [(report/handle json)
+             (join/handle env json)])
+           handlers)))
+       (.catch console.error)
+       (.then (fn [] (Response. "OK"))))
+      (Promise/resolve (Response. "Not found" {:status 404})))))
 
 (defn- create_effect_handlers [env]
   {:fetch (fn [{url :url decoder :decoder props :props}]

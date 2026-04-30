@@ -28,7 +28,7 @@
                  :decoder :json
                  :props {:method "POST"
                          :headers {"Content-Type" "application/json"}
-                         :body "{\"chat_id\":42,\"text\":\"Вы прошли капчу.\"}"}}
+                         :body "{\"chat_id\":42,\"text\":\"Вы прошли капчу. Добро пожаловать в -1001234567890!\"}"}}
                  {:url "https://api.telegram.org/bot~TG_TOKEN~/approveChatJoinRequest"
                   :decoder :json
                   :props {:method "POST"

@@ -54,6 +54,7 @@
      ((m/main
        input.cofx
        {:json (fn [] (Promise/resolve input.data))
+        :url "https://example.com/telegram-bot"
         :headers {:get (fn [] :TGST_1234567890)}}
        {:TG_SECRET_TOKEN :TGST_1234567890}))
      (.then (fn [_] (deref log))))))
