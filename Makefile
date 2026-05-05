@@ -4,12 +4,18 @@ SRC_DIRS := vendor/effects src test
 
 .PHONY: test
 test: build
-	@ cd $(WRANGLER_DIR) && node --env-file=.dev.vars bin/test/main_test.js test
-	@ cd $(WRANGLER_DIR) && node --test bin/test/handler/join_node_test.js
+	@ printf '{"type":"module","devDependencies":{"wrangler":"^4.0.0"}}' > $(BIN_DIR)/package.json && \
+		cd $(BIN_DIR) && yarn
+	@ cd $(BIN_DIR) && node --test test/main_test.js
+	@ cd $(BIN_DIR) && node --test test/other_samples_test.js
+	@ cd $(BIN_DIR) && node --test test/handler/join_node_test.js
 
 .PHONY: update-golden
 update-golden: build
-	@ cd $(WRANGLER_DIR) && node --env-file=.dev.vars bin/test/main_test.js update
+	@ printf '{"type":"module","devDependencies":{"wrangler":"^4.0.0"}}' > $(BIN_DIR)/package.json && \
+		cd $(BIN_DIR) && yarn
+	@ cd $(BIN_DIR) && node test/main_test.js update
+	@ cd $(BIN_DIR) && node test/other_samples_test.js update
 
 .PHONY: build
 build:

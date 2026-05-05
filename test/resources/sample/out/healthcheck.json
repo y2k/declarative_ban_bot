@@ -9,7 +9,21 @@
         "headers": {
           "Content-Type": "application/json"
         },
-        "body": "{\"chat_id\":241854720,\"text\":\"Вы прошли капчу.\"}"
+        "body": "{\"chat_id\":241854720,\"text\":\"Ответ неправильный. Можете написать поддержке в @xofftop\"}"
+      }
+    }
+  },
+  {
+    "key": "fetch",
+    "data": {
+      "url": "https://api.telegram.org/bot~TG_TOKEN~/sendMessage",
+      "decoder": "json",
+      "props": {
+        "method": "POST",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"chat_id\":\"@android_declarative_ban_log\",\"text\":\"Капча не пройдена: user 241854720\\ntext:\\nL3N0YXJ0\"}"
       }
     }
   }

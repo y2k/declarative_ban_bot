@@ -1,12 +1,10 @@
-(ns telegram)
+(ns telegram
+  (:require [effect-fetch :as f]))
 
-(defn- fetch [url decoder props]
-  (fn [w] ((:fetch w) {:url url :decoder decoder :props props})))
-
-(defn send_message [cmd args]
-  (fetch
-   (str "https://api.telegram.org/bot~TG_TOKEN~/" cmd)
-   :json
+(defn send_message [config cmd args]
+  (f/fetch
+   (str "https://api.telegram.org/bot" (:token config) "/" cmd)
    {:method "POST"
     :headers {"Content-Type" "application/json"}
+    :decoder :json
     :body (JSON.stringify args)}))

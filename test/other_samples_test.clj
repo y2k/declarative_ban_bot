@@ -1,4 +1,4 @@
-(ns main-repl
+(ns other-samples-test
   (:require [effect :as fx]
             [test-cloudflare-worker :as tu]
             ["fs" :as fs]
@@ -8,7 +8,6 @@
 
 (def- input-dir "../../test/resources/sample/in")
 (def- output-dir "../../test/resources/sample/out")
-(def- template-path "../../test/resources/sample/sample.template.json")
 
 (def- env-bindings
   {:TG_TOKEN {:type "plain_text" :value "test-token"}
@@ -21,48 +20,29 @@
       (fs/mkdirSync dir {:recursive true}))))
 
 (defn- sample-file? [file-path]
-  (or (clojure.string/ends-with? file-path ".txt")
-      (clojure.string/ends-with? file-path ".json")))
+  (clojure.string/ends-with? file-path ".json"))
 
-(defn- spam-sample? [sample-file]
+(defn- other-sample? [sample-file]
   (let [rel-path (path/relative input-dir sample-file)
         rel-dir (path/dirname rel-path)]
-    (or (= rel-dir "spam") (= rel-dir "not_spam"))))
+    (and (= rel-dir ".")
+         (sample-file? sample-file))))
 
 (defn- load-sample-files []
   (let [entries (fs/readdirSync input-dir)]
-    (-> (->> entries
-             (filter (fn [d]
-                       (let [stat (fs/statSync (path/join input-dir d))]
-                         (stat.isDirectory))))
-             (map (fn [subdir]
-                    (let [dir (path/join input-dir subdir)
-                          files (fs/readdirSync dir)]
-                      (->> files
-                           (filter (fn [f]
-                                     (let [file-path (path/join dir f)]
-                                       (and (sample-file? file-path)
-                                            (spam-sample? file-path)))))
-                           (map (fn [f] (path/join dir f))))))))
-        (.flat))))
+    (->> entries
+         (filter (fn [f]
+                   (let [file-path (path/join input-dir f)
+                         stat (fs/statSync file-path)]
+                     (and (stat.isFile) (other-sample? file-path)))))
+         (map (fn [f] (path/join input-dir f))))))
 
 (defn- expected-path [sample-file]
-  (let [ext (if (clojure.string/ends-with? sample-file ".json") ".json" ".txt")
-        rel-path (path/relative input-dir sample-file)
-        rel-dir (path/dirname rel-path)
-        basename (path/basename sample-file ext)]
-    (path/join output-dir rel-dir (str basename ".json"))))
-
-(defn- fill-template [file-path]
-  (let [content-base64 (fs/readFileSync file-path "utf8")
-        content (JSON/stringify (str (Buffer.from content-base64 "base64")))
-        template (fs/readFileSync template-path "utf8")]
-    (clojure.string/replace template "__SPAM_TEXT__" content)))
+  (let [basename (path/basename sample-file ".json")]
+    (path/join output-dir (str basename ".json"))))
 
 (defn- load-input [sample-file]
-  (if (clojure.string/ends-with? sample-file ".json")
-    (JSON/parse (fs/readFileSync sample-file "utf8"))
-    (JSON/parse (fill-template sample-file))))
+  (JSON/parse (fs/readFileSync sample-file "utf8")))
 
 (defn- telegram-request [update]
   (Request.
@@ -136,7 +116,7 @@
       (.finally (fn [] (tu/after)))))
 
 (defn- register-sample-test [sample-file]
-  (t/test (path/relative input-dir sample-file)
+  (t/test (path/basename sample-file)
           (fn [] (assert-sample sample-file))))
 
 (case (get process.argv 2)

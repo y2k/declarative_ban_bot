@@ -9,7 +9,35 @@
         "headers": {
           "Content-Type": "application/json"
         },
-        "body": "{\"chat_id\":8006386176,\"text\":\"Вы прошли капчу.\"}"
+        "body": "{\"chat_id\":8006386176,\"text\":\"Вы прошли капчу. Добро пожаловать в -1001234567890!\"}"
+      }
+    }
+  },
+  {
+    "key": "fetch",
+    "data": {
+      "url": "https://api.telegram.org/bot~TG_TOKEN~/approveChatJoinRequest",
+      "decoder": "json",
+      "props": {
+        "method": "POST",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"chat_id\":\"-1001234567890\",\"user_id\":8006386176}"
+      }
+    }
+  },
+  {
+    "key": "fetch",
+    "data": {
+      "url": "https://api.telegram.org/bot~TG_TOKEN~/sendMessage",
+      "decoder": "json",
+      "props": {
+        "method": "POST",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"parse_mode\":\"MarkdownV2\",\"chat_id\":\"@android_declarative_ban_log\",\"text\":\"Капча пройдена: [8006386176](tg://user?id=8006386176)\"}"
       }
     }
   }
