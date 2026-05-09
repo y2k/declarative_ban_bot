@@ -6,9 +6,7 @@ SRC_DIRS := vendor/effects src test
 test: build
 	@ printf '{"type":"module","devDependencies":{"wrangler":"^4.0.0"}}' > $(BIN_DIR)/package.json && \
 		cd $(BIN_DIR) && yarn
-	@ cd $(BIN_DIR) && node --test test/main_test.js
-	@ cd $(BIN_DIR) && node --test test/other_samples_test.js
-	@ cd $(BIN_DIR) && node --test test/handler/join_node_test.js
+	@ cd ${BIN_DIR} && node --test --test-concurrency=1 "test/**/*_test.js"
 
 .PHONY: update-golden
 update-golden: build
