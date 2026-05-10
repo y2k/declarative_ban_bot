@@ -1,58 +1,50 @@
 [
   {
-    "key": "fetch",
-    "data": {
-      "url": "https://api.telegram.org/bot~TG_TOKEN~/sendMessage",
+    "url": "https://api.telegram.org/bottest-token/sendMessage",
+    "props": {
+      "method": "POST",
+      "headers": {
+        "Content-Type": "application/json"
+      },
       "decoder": "json",
-      "props": {
-        "method": "POST",
-        "headers": {
-          "Content-Type": "application/json"
-        },
-        "body": "{\"chat_id\":\"@android_declarative_ban_log\",\"link_preview_options\":{\"is_disabled\":true},\"text\":\"user: 241854720\\nurl: https://t.me/xofftop/1000\\ntext:\\n\"}"
-      }
-    }
+      "body": "{\"chat_id\":\"@android_declarative_ban_log\",\"link_preview_options\":{\"is_disabled\":true},\"text\":\"user: 241854720\\nurl: https://t.me/xofftop/1000\\ntext:\\n\"}"
+    },
+    "type": "effects_promise.fetch:fetch"
   },
   {
-    "key": "fetch",
-    "data": {
-      "url": "https://api.telegram.org/bot~TG_TOKEN~/deleteMessage",
+    "url": "https://api.telegram.org/bottest-token/deleteMessage",
+    "props": {
+      "method": "POST",
+      "headers": {
+        "Content-Type": "application/json"
+      },
       "decoder": "json",
-      "props": {
-        "method": "POST",
-        "headers": {
-          "Content-Type": "application/json"
-        },
-        "body": "{\"chat_id\":-1002110559199,\"message_id\":1006}"
-      }
-    }
+      "body": "{\"chat_id\":-1002110559199,\"message_id\":1006}"
+    },
+    "type": "effects_promise.fetch:fetch"
   },
   {
-    "key": "fetch",
-    "data": {
-      "url": "https://api.telegram.org/bot~TG_TOKEN~/sendMessage",
+    "url": "https://api.telegram.org/bottest-token/sendMessage",
+    "props": {
+      "method": "POST",
+      "headers": {
+        "Content-Type": "application/json"
+      },
       "decoder": "json",
-      "props": {
-        "method": "POST",
-        "headers": {
-          "Content-Type": "application/json"
-        },
-        "body": "{\"chat_id\":\"@android_declarative_events\",\"link_preview_options\":{\"is_disabled\":true},\"text\":\"user: 241854720\\nurl: https://t.me/xofftop/1000\\ntext:\\neHh4\"}"
-      }
-    }
+      "body": "{\"chat_id\":\"@android_declarative_events\",\"link_preview_options\":{\"is_disabled\":true},\"text\":\"user: 241854720\\nurl: https://t.me/xofftop/1000\\ntext:\\neHh4\"}"
+    },
+    "type": "effects_promise.fetch:fetch"
   },
   {
-    "key": "fetch",
-    "data": {
-      "url": "https://api.telegram.org/bot~TG_TOKEN~/sendMessage",
+    "url": "https://api.telegram.org/bottest-token/sendMessage",
+    "props": {
+      "method": "POST",
+      "headers": {
+        "Content-Type": "application/json"
+      },
       "decoder": "json",
-      "props": {
-        "method": "POST",
-        "headers": {
-          "Content-Type": "application/json"
-        },
-        "body": "{\"chat_id\":-1002110559199,\"text\":\"Репортить можно только 5 последних сообщения. Администратор уведомлен.\"}"
-      }
-    }
+      "body": "{\"chat_id\":-1002110559199,\"text\":\"Репортить можно только 5 последних сообщения. Администратор уведомлен.\"}"
+    },
+    "type": "effects_promise.fetch:fetch"
   }
 ]

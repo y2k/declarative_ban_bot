@@ -36,6 +36,10 @@ comment out `((run-all-tests) {})`, then `make test`.
 
 ## Code Style
 
+- Prefer a small number of clear functions over many tiny helpers.
+- Keep comments rare: add them only when the code is not self-explanatory.
+- Be concise in code, commit messages, and user-facing explanations.
+
 ### Clojure (ly2k dialect)
 
 Supports: `defn`, `let`, `if`, `cond`, `->`, `->>`, JS interop via `.method`, optional

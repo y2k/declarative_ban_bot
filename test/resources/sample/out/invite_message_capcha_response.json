@@ -1,44 +1,38 @@
 [
   {
-    "key": "fetch",
-    "data": {
-      "url": "https://api.telegram.org/bot~TG_TOKEN~/sendMessage",
+    "url": "https://api.telegram.org/bottest-token/sendMessage",
+    "props": {
+      "method": "POST",
+      "headers": {
+        "Content-Type": "application/json"
+      },
       "decoder": "json",
-      "props": {
-        "method": "POST",
-        "headers": {
-          "Content-Type": "application/json"
-        },
-        "body": "{\"chat_id\":8006386176,\"text\":\"Вы прошли капчу. Добро пожаловать в -1001234567890!\"}"
-      }
-    }
+      "body": "{\"chat_id\":8006386176,\"text\":\"Вы прошли капчу. Добро пожаловать в -1001234567890!\"}"
+    },
+    "type": "effects_promise.fetch:fetch"
   },
   {
-    "key": "fetch",
-    "data": {
-      "url": "https://api.telegram.org/bot~TG_TOKEN~/approveChatJoinRequest",
+    "url": "https://api.telegram.org/bottest-token/approveChatJoinRequest",
+    "props": {
+      "method": "POST",
+      "headers": {
+        "Content-Type": "application/json"
+      },
       "decoder": "json",
-      "props": {
-        "method": "POST",
-        "headers": {
-          "Content-Type": "application/json"
-        },
-        "body": "{\"chat_id\":\"-1001234567890\",\"user_id\":8006386176}"
-      }
-    }
+      "body": "{\"chat_id\":\"-1001234567890\",\"user_id\":8006386176}"
+    },
+    "type": "effects_promise.fetch:fetch"
   },
   {
-    "key": "fetch",
-    "data": {
-      "url": "https://api.telegram.org/bot~TG_TOKEN~/sendMessage",
+    "url": "https://api.telegram.org/bottest-token/sendMessage",
+    "props": {
+      "method": "POST",
+      "headers": {
+        "Content-Type": "application/json"
+      },
       "decoder": "json",
-      "props": {
-        "method": "POST",
-        "headers": {
-          "Content-Type": "application/json"
-        },
-        "body": "{\"parse_mode\":\"MarkdownV2\",\"chat_id\":\"@android_declarative_ban_log\",\"text\":\"Капча пройдена: [8006386176](tg://user?id=8006386176)\"}"
-      }
-    }
+      "body": "{\"parse_mode\":\"MarkdownV2\",\"chat_id\":\"@android_declarative_ban_log\",\"text\":\"Капча пройдена: [8006386176](tg://user?id=8006386176)\"}"
+    },
+    "type": "effects_promise.fetch:fetch"
   }
 ]

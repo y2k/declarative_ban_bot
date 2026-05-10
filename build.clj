@@ -5,6 +5,6 @@
 (m/build-simple
  {:out ".github/bin"
   :target "js"
-  :deps [["effect_fetch" "0.1.0/js"]
+  :deps [["effect-fetch" "0.1.0/js"]
          ["effect" "0.1.0/js"]
          ["test-cloudflare-worker" "0.2.0/js"]]})

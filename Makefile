@@ -1,29 +1,23 @@
 WRANGLER_DIR := .github
-BIN_DIR := .github/bin
+OUT_DIR := .github/bin
 SRC_DIRS := vendor/effects src test
 
 .PHONY: test
 test: build
-	@ printf '{"type":"module","devDependencies":{"wrangler":"^4.0.0"}}' > $(BIN_DIR)/package.json && \
-		cd $(BIN_DIR) && yarn
-	@ cd ${BIN_DIR} && node --test --test-concurrency=1 "test/**/*_test.js"
-
-.PHONY: update-golden
-update-golden: build
-	@ printf '{"type":"module","devDependencies":{"wrangler":"^4.0.0"}}' > $(BIN_DIR)/package.json && \
-		cd $(BIN_DIR) && yarn
-	@ cd $(BIN_DIR) && node test/main_test.js update
-	@ cd $(BIN_DIR) && node test/other_samples_test.js update
+	@ printf '{"type":"module","devDependencies":{"wrangler":"^4.0.0"}}' > $(OUT_DIR)/package.json && \
+		cd $(OUT_DIR) && yarn
+	@ cd ${OUT_DIR} && node --test --test-concurrency=1 "test/**/*_test.js"
 
 .PHONY: build
 build:
-	@ mkdir -p $(BIN_DIR)
-	@ ly2k compile -target eval -src build.clj > $(BIN_DIR)/Makefile
-	@ $(MAKE) -f $(BIN_DIR)/Makefile
+	@ mkdir -p $(OUT_DIR)
+	@ ly2k compile -target eval -src build.clj > $(OUT_DIR)/Makefile
+	@ $(MAKE) -f $(OUT_DIR)/Makefile
 
 .PHONY: clean
 clean:
-	@ rm -rf $(BIN_DIR)
+	@ rm -rf $(OUT_DIR)/src
+	@ rm -rf $(OUT_DIR)/test
 
 # Run
 
